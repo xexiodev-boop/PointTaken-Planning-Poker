@@ -271,7 +271,7 @@ legend { margin-bottom: 6px; }
 .notfound-card p { margin: 14px 0 26px; color: var(--muted); font-size: 15px; line-height: 1.6; }
 .notfound-card a.primary-button { display: inline-block; }
 .notfound-card a.primary-button:hover { text-decoration: none; }
-.notfound-footer { margin-top: 30px; display: flex; justify-content: center; }
+.notfound-footer, .entry-footer { margin-top: 30px; display: flex; justify-content: center; }
 
 .home-footer {
   grid-column: 1 / -1;

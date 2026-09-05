@@ -19,7 +19,7 @@ msgid "{0, plural, one {# already estimated} other {# already estimated}}"
 msgstr "{0, plural, one {# ya estimado} other {# ya estimados}}"
 
 #. placeholder {0}: metrics.spread
-#: src/components/round/RoundStage.jsx:453
+#: src/components/round/RoundStage.jsx:458
 msgid "{0, plural, one {# deck step apart} other {# deck steps apart}}"
 msgstr "{0, plural, one {# posición de distancia en la baraja} other {# posiciones de distancia en la baraja}}"
 
@@ -43,7 +43,7 @@ msgstr "{0, plural, one {# voto} other {# votos}}"
 msgid "{0}% agreement"
 msgstr "{0}% de acuerdo"
 
-#: src/components/round/RoundStage.jsx:304
+#: src/components/round/RoundStage.jsx:301
 msgid "{confirmedVotes, plural, one {Clear # confirmed vote and restart the timer?} other {Clear # confirmed votes and restart the timer?}}"
 msgstr "{confirmedVotes, plural, one {¿Borrar # voto confirmado y reiniciar el temporizador?} other {¿Borrar # votos confirmados y reiniciar el temporizador?}}"
 
@@ -55,7 +55,7 @@ msgstr "{days, plural, one {Caduca en # día} other {Caduca en # días}}"
 msgid "{from} was away, so {to} is now the facilitator."
 msgstr "{from} estaba ausente, así que ahora {to} es el facilitador."
 
-#: src/components/round/RoundStage.jsx:225
+#: src/components/round/RoundStage.jsx:222
 msgid "{missing, plural, one {# person is still deciding. Their card will appear as missing.} other {# people are still deciding. Their card will appear as missing.}}"
 msgstr "{missing, plural, one {# persona sigue decidiendo. Su carta aparecerá como ausente.} other {# personas siguen decidiendo. Sus cartas aparecerán como ausentes.}}"
 
@@ -71,11 +71,11 @@ msgstr "{name} ha recuperado el rol de facilitador."
 msgid "{pendingCount, plural, one {# pending} other {# pending}}"
 msgstr "{pendingCount, plural, one {# pendiente} other {# pendientes}}"
 
-#: src/lib/export.js:55
+#: src/lib/export.js:60
 msgid "{roomName} estimates"
 msgstr "Estimaciones de {roomName}"
 
-#: src/components/round/RoundStage.jsx:252
+#: src/components/round/RoundStage.jsx:249
 msgid "{voted} of {eligibleCount}"
 msgstr "{voted} de {eligibleCount}"
 
@@ -103,7 +103,7 @@ msgstr "<0>En tu dispositivo:</0> borrar el almacenamiento de este sitio en tu n
 msgid "<0>One identity cookie per room</0> (<1>point_taken_identity</1>): a random token that binds your browser to your seat so your votes and role survive a refresh or reconnect. It is <2>HttpOnly</2>, <3>SameSite=Strict</3>, scoped to that room’s path, and expires within 7 days. It is not an advertising or analytics cookie."
 msgstr "<0>Una cookie de identidad por sala</0> (<1>point_taken_identity</1>): un token aleatorio que vincula tu navegador a tu asiento para que tus votos y tu rol sobrevivan a una recarga o reconexión. Es <2>HttpOnly</2>, <3>SameSite=Strict</3>, está limitada a la ruta de esa sala y caduca en un máximo de 7 días. No es una cookie de publicidad ni de analítica."
 
-#: src/components/room/Room.jsx:236
+#: src/components/room/Room.jsx:234
 msgid "<0>Only for you</0>, not for your team. Shown once."
 msgstr "<0>Solo para ti</0>, no para tu equipo. Se muestra una vez."
 
@@ -111,27 +111,27 @@ msgstr "<0>Solo para ti</0>, no para tu equipo. Se muestra una vez."
 msgid "<0>Session storage</0>: a facilitator recovery code is held briefly so it can be shown to you once after a room is created, then removed."
 msgstr "<0>Almacenamiento de sesión</0>: el código de recuperación de facilitador se guarda brevemente para poder mostrártelo una única vez tras crear la sala, y después se elimina."
 
-#: src/lib/labels.js:49
+#: src/lib/labels.js:51
 msgid "15 seconds"
 msgstr "15 segundos"
 
-#: src/lib/labels.js:50
+#: src/lib/labels.js:52
 msgid "30 seconds"
 msgstr "30 segundos"
 
-#: src/lib/labels.js:51
+#: src/lib/labels.js:53
 msgid "60 seconds"
 msgstr "60 segundos"
 
-#: src/lib/labels.js:52
+#: src/lib/labels.js:54
 msgid "90 seconds"
 msgstr "90 segundos"
 
-#: src/lib/serverMessages.js:37
+#: src/lib/serverMessages.js:35
 msgid "A deck can contain at most 16 cards."
 msgstr "Una baraja puede tener como máximo 16 cartas."
 
-#: src/lib/serverMessages.js:38
+#: src/lib/serverMessages.js:36
 msgid "A deck needs at least two cards."
 msgstr "Una baraja necesita al menos dos cartas."
 
@@ -139,7 +139,7 @@ msgstr "Una baraja necesita al menos dos cartas."
 msgid "A facilitator can delete a room and all of its data instantly, at any time."
 msgstr "El facilitador puede eliminar una sala y todos sus datos al instante, en cualquier momento."
 
-#: src/lib/labels.js:15
+#: src/lib/labels.js:16
 msgid "A focused sequence for relative complexity."
 msgstr "Una secuencia concisa para complejidad relativa."
 
@@ -151,11 +151,11 @@ msgstr "Una secuencia concisa para complejidad relativa."
 msgid "A one-way hash (SHA-256) of the facilitator recovery code. The code itself is shown to you once and is never stored — we keep only the hash so it can be checked, not recovered. Because it cannot be shown again, a facilitator can generate a replacement from room settings at any time. Doing so stores a new hash and stops the previous code working."
 msgstr "Un hash de un solo sentido (SHA-256) del código de recuperación de facilitador. El código en sí se te muestra una única vez y nunca se almacena: solo guardamos el hash para poder comprobarlo, no recuperarlo. Como no se puede volver a mostrar, el facilitador puede generar uno de repuesto desde los ajustes de la sala cuando quiera. Al hacerlo se guarda un hash nuevo y el código anterior deja de funcionar."
 
-#: src/lib/serverMessages.js:39
+#: src/lib/serverMessages.js:37
 msgid "A room can have at most 50 pending items."
 msgstr "Una sala puede tener como máximo 50 elementos pendientes."
 
-#: src/lib/serverMessages.js:40
+#: src/lib/serverMessages.js:38
 msgid "A round needs at least one voter."
 msgstr "Una ronda necesita al menos una persona que vote."
 
@@ -163,7 +163,7 @@ msgstr "Una ronda necesita al menos una persona que vote."
 msgid "Add a few items and they’ll appear here in voting order."
 msgstr "Añade algunos elementos y aparecerán aquí en orden de votación."
 
-#: src/lib/serverMessages.js:41
+#: src/lib/serverMessages.js:39
 msgid "Add at least one item."
 msgstr "Añade al menos un elemento."
 
@@ -175,11 +175,11 @@ msgstr "Añadir carta"
 msgid "Add items"
 msgstr "Añadir elementos"
 
-#: src/components/round/RoundStage.jsx:148
+#: src/components/round/RoundStage.jsx:145
 msgid "Add items to the estimation queue"
 msgstr "Añadir elementos a la cola de estimación"
 
-#: src/lib/serverMessages.js:42
+#: src/lib/serverMessages.js:40
 msgid "Add no more than 100 items at a time."
 msgstr "No añadas más de 100 elementos a la vez."
 
@@ -199,7 +199,7 @@ msgstr "Añade, elimina o reordena las cartas de esta sala."
 msgid "Add, review, and remove estimation items"
 msgstr "Añade, revisa y elimina elementos de estimación"
 
-#: src/lib/labels.js:21
+#: src/lib/labels.js:23
 msgid "Agree"
 msgstr "De acuerdo"
 
@@ -208,9 +208,9 @@ msgid "Agree and save"
 msgstr "Acordar y guardar"
 
 #: src/components/panels/History.jsx:104
-#: src/components/round/RoundStage.jsx:443
-#: src/lib/export.js:33
-#: src/lib/export.js:59
+#: src/components/round/RoundStage.jsx:448
+#: src/lib/export.js:38
+#: src/lib/export.js:64
 msgid "Agreement"
 msgstr "Acuerdo"
 
@@ -246,11 +246,11 @@ msgstr "En la mesa"
 msgid "Auto-reveal"
 msgstr "Revelado automático"
 
-#: src/lib/labels.js:42
+#: src/lib/labels.js:44
 msgid "Average numeric votes and round up to a card in the deck."
 msgstr "Promedia los votos numéricos y redondea hacia arriba a una carta de la baraja."
 
-#: src/lib/labels.js:33
+#: src/lib/labels.js:35
 msgid "Average, rounded up"
 msgstr "Media, redondeada hacia arriba"
 
@@ -267,42 +267,42 @@ msgstr "Atrás"
 msgid "Back to home"
 msgstr "Volver al inicio"
 
-#: src/lib/labels.js:25
+#: src/lib/labels.js:27
 msgid "Break"
 msgstr "Pausa"
 
 #: src/components/panels/ItemManager.jsx:246
 #: src/components/panels/RoomSettings.jsx:421
-#: src/components/round/RoundStage.jsx:349
+#: src/components/round/RoundStage.jsx:346
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/components/round/RoundStage.jsx:324
-#: src/components/round/RoundStage.jsx:361
+#: src/components/round/RoundStage.jsx:321
+#: src/components/round/RoundStage.jsx:358
 msgid "Cancel round"
 msgstr "Cancelar ronda"
 
-#: src/components/round/RoundStage.jsx:322
+#: src/components/round/RoundStage.jsx:319
 msgid "Cancel this round?"
 msgstr "¿Cancelar esta ronda?"
 
-#: src/components/round/RoundStage.jsx:320
+#: src/components/round/RoundStage.jsx:317
 msgid "Cancel this round? Its votes and ad-hoc item will be discarded."
 msgstr "¿Cancelar esta ronda? Sus votos y su elemento improvisado se descartarán."
 
-#: src/components/round/RoundStage.jsx:319
+#: src/components/round/RoundStage.jsx:316
 msgid "Cancel this round? Its votes will be discarded and the item will remain pending."
 msgstr "¿Cancelar esta ronda? Sus votos se descartarán y el elemento seguirá pendiente."
 
-#: src/components/round/RoundStage.jsx:463
+#: src/components/round/RoundStage.jsx:468
 msgid "Cards counted"
 msgstr "Cartas contadas"
 
-#: src/lib/serverMessages.js:43
+#: src/lib/serverMessages.js:41
 msgid "Cards must be provided as a list."
 msgstr "Las cartas deben proporcionarse como una lista."
 
-#: src/components/round/RoundStage.jsx:387
+#: src/components/round/RoundStage.jsx:392
 msgid "Cards on the table"
 msgstr "Cartas sobre la mesa"
 
@@ -310,11 +310,11 @@ msgstr "Cartas sobre la mesa"
 msgid "Changes to this statement"
 msgstr "Cambios en esta declaración"
 
-#: src/components/round/RoundStage.jsx:277
+#: src/components/round/RoundStage.jsx:274
 msgid "Choose a card"
 msgstr "Elige una carta"
 
-#: src/lib/serverMessages.js:44
+#: src/lib/serverMessages.js:42
 msgid "Choose a card before confirming."
 msgstr "Elige una carta antes de confirmar."
 
@@ -322,7 +322,7 @@ msgstr "Elige una carta antes de confirmar."
 msgid "Choose a deck now. You can invite everyone once you’re inside."
 msgstr "Elige una baraja ahora. Podrás invitar a todos una vez dentro."
 
-#: src/components/round/RoundStage.jsx:183
+#: src/components/round/RoundStage.jsx:180
 msgid "Choose a pending item"
 msgstr "Elegir un elemento pendiente"
 
@@ -330,7 +330,7 @@ msgstr "Elegir un elemento pendiente"
 msgid "Choose a reaction"
 msgstr "Elige una reacción"
 
-#: src/lib/serverMessages.js:45
+#: src/lib/serverMessages.js:43
 msgid "Choose another person to become facilitator."
 msgstr "Elige a otra persona para ser el facilitador."
 
@@ -338,7 +338,7 @@ msgstr "Elige a otra persona para ser el facilitador."
 msgid "Choose how the app turns the revealed votes into a starting point."
 msgstr "Elige cómo convierte la app los votos revelados en un punto de partida."
 
-#: src/lib/serverMessages.js:46
+#: src/lib/serverMessages.js:44
 msgid "Choose or enter a final estimate."
 msgstr "Elige o introduce una estimación final."
 
@@ -346,11 +346,11 @@ msgstr "Elige o introduce una estimación final."
 msgid "Choose who votes, observes, or facilitates the room."
 msgstr "Elige quién vota, observa o administra la sala."
 
-#: src/components/round/RoundStage.jsx:270
+#: src/components/round/RoundStage.jsx:267
 msgid "Choose your card below."
 msgstr "Elige tu carta abajo."
 
-#: src/components/round/RoundStage.jsx:302
+#: src/components/round/RoundStage.jsx:299
 msgid "Clear every card and ask the team to vote again?"
 msgstr "¿Borrar todas las cartas y pedir al equipo que vote de nuevo?"
 
@@ -358,12 +358,12 @@ msgstr "¿Borrar todas las cartas y pedir al equipo que vote de nuevo?"
 msgid "Clear reactions"
 msgstr "Borrar reacciones"
 
-#: src/components/round/RoundStage.jsx:310
+#: src/components/round/RoundStage.jsx:307
 msgid "Clear the current votes?"
 msgstr "¿Borrar los votos actuales?"
 
-#: src/components/round/RoundStage.jsx:312
-#: src/components/round/RoundStage.jsx:358
+#: src/components/round/RoundStage.jsx:309
+#: src/components/round/RoundStage.jsx:355
 msgid "Clear votes"
 msgstr "Borrar votos"
 
@@ -401,11 +401,11 @@ msgstr "Cerrar ajustes"
 msgid "Close this room?"
 msgstr "¿Cerrar esta sala?"
 
-#: src/components/room/Room.jsx:153
+#: src/components/room/Room.jsx:151
 msgid "Closed"
 msgstr "Cerrada"
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Completed"
 msgstr "Completado"
 
@@ -417,11 +417,11 @@ msgstr "Estimación completada"
 msgid "Confirm {selected}"
 msgstr "Confirmar {selected}"
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Confirmed"
 msgstr "Confirmado"
 
-#: src/components/round/RoundStage.jsx:465
+#: src/components/round/RoundStage.jsx:470
 msgid "Confirmed votes"
 msgstr "Votos confirmados"
 
@@ -429,7 +429,7 @@ msgstr "Votos confirmados"
 msgid "Connected"
 msgstr "Conectado"
 
-#: src/lib/serverMessages.js:47
+#: src/lib/serverMessages.js:45
 msgid "Content-Type must be application/json."
 msgstr "El Content-Type debe ser application/json."
 
@@ -438,13 +438,13 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: src/components/panels/RoomSettings.jsx:392
-#: src/components/room/Room.jsx:217
-#: src/components/room/Room.jsx:248
+#: src/components/room/Room.jsx:215
+#: src/components/room/Room.jsx:246
 msgid "Copied"
 msgstr "Copiado"
 
-#: src/components/room/Room.jsx:217
-#: src/components/round/RoundStage.jsx:111
+#: src/components/room/Room.jsx:215
+#: src/components/round/RoundStage.jsx:108
 msgid "Copy invite link"
 msgstr "Copiar enlace de invitación"
 
@@ -457,12 +457,12 @@ msgstr "Cópialo ahora. Reemplaza cualquier enlace que hayas guardado antes y no
 #~ msgstr "Copiar enlace"
 
 #: src/components/panels/RoomSettings.jsx:392
-#: src/components/room/Room.jsx:248
+#: src/components/room/Room.jsx:246
 msgid "Copy recovery link"
 msgstr "Copiar enlace de recuperación"
 
 #: src/components/panels/RoomSettings.jsx:110
-#: src/components/room/Room.jsx:244
+#: src/components/room/Room.jsx:242
 msgid "Couldn’t copy automatically. Select and copy the link manually."
 msgstr "No se pudo copiar automáticamente. Selecciona y copia el enlace a mano."
 
@@ -470,7 +470,7 @@ msgstr "No se pudo copiar automáticamente. Selecciona y copia el enlace a mano.
 msgid "Count the facilitator as a voter. Turn this off if you run the session without estimating."
 msgstr "Cuenta al facilitador como votante. Desactívalo si diriges la sesión sin estimar."
 
-#: src/components/NotFoundPage.jsx:70
+#: src/components/NotFoundPage.jsx:65
 msgid "Create a new room"
 msgstr "Crear una sala nueva"
 
@@ -486,7 +486,7 @@ msgstr "Crear sala de planificación"
 msgid "Custom decks"
 msgstr "Barajas personalizadas"
 
-#: src/lib/serverMessages.js:48
+#: src/lib/serverMessages.js:46
 msgid "Deck cards must be unique."
 msgstr "Las cartas de la baraja deben ser únicas."
 
@@ -500,7 +500,7 @@ msgstr "Eliminar sala"
 msgid "Delete this room permanently?"
 msgstr "¿Eliminar esta sala permanentemente?"
 
-#: src/components/round/RoundStage.jsx:170
+#: src/components/round/RoundStage.jsx:167
 msgid "Describe the item to estimate"
 msgstr "Describe el elemento a estimar"
 
@@ -516,8 +516,8 @@ msgstr "Comenta las cartas reveladas con el equipo, elige la estimación final y
 msgid "Dismiss for a week"
 msgstr "Descartar durante una semana"
 
-#: src/components/room/Room.jsx:264
-#: src/components/room/Room.jsx:270
+#: src/components/room/Room.jsx:262
+#: src/components/room/Room.jsx:268
 msgid "Dismiss message"
 msgstr "Descartar mensaje"
 
@@ -525,11 +525,11 @@ msgstr "Descartar mensaje"
 msgid "Dismiss room reminder"
 msgstr "Descartar recordatorio de sala"
 
-#: src/components/room/Room.jsx:220
+#: src/components/room/Room.jsx:218
 msgid "Dismiss the invite reminder"
 msgstr "Descartar el recordatorio de invitación"
 
-#: src/components/room/Room.jsx:251
+#: src/components/room/Room.jsx:249
 msgid "Dismiss the recovery link"
 msgstr "Descartar el enlace de recuperación"
 
@@ -558,6 +558,10 @@ msgstr "Arrastra para reordenar {card}"
 msgid "During a round you can remove people, but roles and facilitator ownership stay fixed."
 msgstr "Durante una ronda puedes quitar personas, pero los roles y el facilitador no cambian."
 
+#: src/lib/labels.js:18
+msgid "Each card doubles, for work that scales steeply."
+msgstr "Cada carta duplica la anterior, para trabajo que escala rápido."
+
 #: src/components/PrivacyPage.jsx:58
 msgid "Each room keeps only what it needs to run the session on the server that hosts it:"
 msgstr "Cada sala guarda solo lo necesario para ejecutar la sesión en el servidor que la aloja:"
@@ -571,7 +575,7 @@ msgstr "Editar"
 msgid "Edit {0}"
 msgstr "Editar {0}"
 
-#: src/components/round/RoundStage.jsx:355
+#: src/components/round/RoundStage.jsx:352
 msgid "Edit title"
 msgstr "Editar título"
 
@@ -579,19 +583,19 @@ msgstr "Editar título"
 msgid "Enjoying Point Taken? If you find it useful, please consider <0>buying me a coffee</0>."
 msgstr "¿Te gusta Point Taken? Si te resulta útil, considera <0>invitarme a un café</0>."
 
-#: src/components/round/RoundStage.jsx:183
+#: src/components/round/RoundStage.jsx:180
 msgid "Enter a new item instead"
 msgstr "Introducir un elemento nuevo"
 
-#: src/lib/serverMessages.js:49
+#: src/lib/serverMessages.js:47
 msgid "Enter a task title."
 msgstr "Introduce un título para la tarea."
 
-#: src/components/round/RoundStage.jsx:422
+#: src/components/round/RoundStage.jsx:427
 msgid "Enter a value"
 msgstr "Introduce un valor"
 
-#: src/lib/serverMessages.js:50
+#: src/lib/serverMessages.js:48
 msgid "Enter an item title."
 msgstr "Introduce un título para el elemento."
 
@@ -629,15 +633,15 @@ msgstr "Exportar"
 
 #: src/components/panels/PeopleList.jsx:13
 #: src/components/panels/PeopleList.jsx:135
-#: src/components/room/Room.jsx:195
+#: src/components/room/Room.jsx:193
 msgid "Facilitator"
 msgstr "Facilitador"
 
-#: src/App.jsx:176
+#: src/App.jsx:167
 msgid "Facilitator access recovered."
 msgstr "Acceso de facilitador recuperado."
 
-#: src/App.jsx:122
+#: src/App.jsx:115
 msgid "Facilitator access was recovered in another browser, so this session was signed out. Join again to keep taking part."
 msgstr "Se recuperó el acceso de facilitador en otro navegador, así que esta sesión se cerró. Vuelve a unirte para seguir participando."
 
@@ -646,11 +650,11 @@ msgstr "Se recuperó el acceso de facilitador en otro navegador, así que esta s
 msgid "Facilitator controls"
 msgstr "Controles de facilitador"
 
-#: src/lib/serverMessages.js:51
+#: src/lib/serverMessages.js:49
 msgid "Facilitator ownership can only transfer between rounds."
 msgstr "El rol de facilitador solo se puede traspasar entre rondas."
 
-#: src/components/EntryScreens.jsx:73
+#: src/components/EntryScreens.jsx:77
 #: src/components/panels/RoomSettings.jsx:375
 msgid "Facilitator recovery link"
 msgstr "Enlace de recuperación de facilitador"
@@ -668,9 +672,9 @@ msgid "Fibonacci"
 msgstr "Fibonacci"
 
 #: src/components/panels/History.jsx:96
-#: src/components/round/RoundStage.jsx:418
-#: src/lib/export.js:33
-#: src/lib/export.js:57
+#: src/components/round/RoundStage.jsx:423
+#: src/lib/export.js:38
+#: src/lib/export.js:62
 msgid "Final estimate"
 msgstr "Estimación final"
 
@@ -678,7 +682,7 @@ msgstr "Estimación final"
 msgid "Find the estimate your team can stand behind."
 msgstr "Encuentra la estimación que tu equipo pueda respaldar."
 
-#: src/components/EntryScreens.jsx:105
+#: src/components/EntryScreens.jsx:112
 msgid "Finding the room again…"
 msgstr "Buscando la sala de nuevo…"
 
@@ -690,11 +694,11 @@ msgstr "Terminar"
 msgid "Finish the current round before changing its deck or suggestion rules."
 msgstr "Termina la ronda actual antes de cambiar la baraja o las reglas de sugerencia."
 
-#: src/lib/serverMessages.js:52
+#: src/lib/serverMessages.js:50
 msgid "Finish the current round before closing the room."
 msgstr "Termina la ronda actual antes de cerrar la sala."
 
-#: src/lib/serverMessages.js:53
+#: src/lib/serverMessages.js:51
 msgid "Finish the current round first."
 msgstr "Termina primero la ronda actual."
 
@@ -702,11 +706,11 @@ msgstr "Termina primero la ronda actual."
 msgid "Finished tasks will collect here."
 msgstr "Las tareas terminadas se irán acumulando aquí."
 
-#: src/components/round/RoundStage.jsx:155
+#: src/components/round/RoundStage.jsx:152
 msgid "First estimate"
 msgstr "Primera estimación"
 
-#: src/lib/labels.js:40
+#: src/lib/labels.js:42
 msgid "For tied leaders, choose the card nearest their midpoint."
 msgstr "Si hay empate en cabeza, elige la carta más cercana a su punto medio."
 
@@ -718,7 +722,7 @@ msgstr "Gratis · privacidad ante todo · sin cuentas"
 msgid "Free, and provided “as is”"
 msgstr "Gratis, y ofrecido «tal cual»"
 
-#: src/components/round/RoundStage.jsx:445
+#: src/components/round/RoundStage.jsx:450
 msgid "Full consensus"
 msgstr "Consenso total"
 
@@ -734,11 +738,11 @@ msgstr "¿Generar un enlace de recuperación nuevo?"
 msgid "Generate new link"
 msgstr "Generar enlace nuevo"
 
-#: src/lib/serverMessages.js:54
+#: src/lib/serverMessages.js:52
 msgid "Give reactions a moment to breathe."
 msgstr "Dale un respiro a las reacciones."
 
-#: src/components/NotFoundPage.jsx:71
+#: src/components/NotFoundPage.jsx:66
 msgid "Go to the home page"
 msgstr "Ir al inicio"
 
@@ -746,7 +750,7 @@ msgstr "Ir al inicio"
 #~ msgid "Hide these steps"
 #~ msgstr "Ocultar estos pasos"
 
-#: src/lib/labels.js:34
+#: src/lib/labels.js:36
 msgid "Highest vote"
 msgstr "Voto más alto"
 
@@ -770,15 +774,15 @@ msgstr "Si esta declaración cambia, la fecha de «última actualización» de a
 msgid "Immediately erase the room and all of its data."
 msgstr "Borra de inmediato la sala y todos sus datos."
 
-#: src/lib/serverMessages.js:55
+#: src/lib/serverMessages.js:53
 msgid "Invalid room identity."
 msgstr "Identidad de sala no válida."
 
-#: src/components/round/RoundStage.jsx:111
+#: src/components/round/RoundStage.jsx:108
 msgid "Invite link copied"
 msgstr "Enlace de invitación copiado"
 
-#: src/components/room/Room.jsx:169
+#: src/components/room/Room.jsx:167
 msgid "Invite people"
 msgstr "Invitar personas"
 
@@ -787,15 +791,15 @@ msgid "Invite someone with the room link and they’ll appear here."
 msgstr "Invita a alguien con el enlace de la sala y aparecerá aquí."
 
 #: src/components/room/FacilitatorGuide.jsx:14
-#: src/components/room/Room.jsx:206
+#: src/components/room/Room.jsx:204
 msgid "Invite your team"
 msgstr "Invita a tu equipo"
 
-#: src/components/round/RoundStage.jsx:105
+#: src/components/round/RoundStage.jsx:102
 msgid "Invite your team, or wait for them to join. You can also turn the facilitator back into a voter in room settings."
 msgstr "Invita a tu equipo o espera a que se una. También puedes volver a contar al facilitador como votante en los ajustes de la sala."
 
-#: src/components/EntryScreens.jsx:76
+#: src/components/EntryScreens.jsx:80
 msgid "It is the recovery key for {roomName}. Using it makes you the facilitator and signs out whoever is running the room right now. If someone sent it to invite you, join as a participant instead."
 msgstr "Es la clave de recuperación de {roomName}. Si lo usas, pasarás a ser el facilitador y quien dirige la sala ahora dejará de serlo. Si alguien te lo envió para invitarte, únete como participante."
 
@@ -803,19 +807,19 @@ msgstr "Es la clave de recuperación de {roomName}. Si lo usas, pasarás a ser e
 #~ msgid "It’s the only way to reclaim this room if you lose this browser or switch devices. We won’t show it again."
 #~ msgstr "Es la única forma de recuperar esta sala si pierdes este navegador o cambias de dispositivo. No lo mostraremos de nuevo."
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Item"
 msgstr "Elemento"
 
-#: src/lib/serverMessages.js:56
+#: src/lib/serverMessages.js:54
 msgid "Items can only be changed between rounds."
 msgstr "Los elementos solo se pueden cambiar entre rondas."
 
-#: src/lib/serverMessages.js:57
+#: src/lib/serverMessages.js:55
 msgid "Items can only be reordered between rounds."
 msgstr "Los elementos solo se pueden reordenar entre rondas."
 
-#: src/lib/serverMessages.js:58
+#: src/lib/serverMessages.js:56
 msgid "Items must be provided as a list."
 msgstr "Los elementos deben proporcionarse como una lista."
 
@@ -828,23 +832,23 @@ msgstr "Elementos a estimar"
 msgid "Its estimates remain available here until the room expires."
 msgstr "Sus estimaciones seguirán disponibles aquí hasta que la sala caduque."
 
-#: src/components/EntryScreens.jsx:84
+#: src/components/EntryScreens.jsx:88
 msgid "Join as a participant"
 msgstr "Unirse como participante"
 
-#: src/components/EntryScreens.jsx:47
+#: src/components/EntryScreens.jsx:48
 msgid "Join room"
 msgstr "Unirse a la sala"
 
-#: src/components/EntryScreens.jsx:34
+#: src/components/EntryScreens.jsx:35
 msgid "Join the planning room"
 msgstr "Únete a la sala de planificación"
 
-#: src/components/room/Room.jsx:281
+#: src/components/room/Room.jsx:279
 msgid "joined the room"
 msgstr "se unió a la sala"
 
-#: src/lib/serverMessages.js:59
+#: src/lib/serverMessages.js:57
 msgid "Keep at least one reaction available."
 msgstr "Mantén al menos una reacción disponible."
 
@@ -857,7 +861,7 @@ msgstr "Seguir editando"
 msgid "Language"
 msgstr "Idioma"
 
-#: src/components/round/RoundStage.jsx:445
+#: src/components/round/RoundStage.jsx:450
 msgid "Largest voting group"
 msgstr "Grupo de voto mayoritario"
 
@@ -865,7 +869,11 @@ msgstr "Grupo de voto mayoritario"
 msgid "Last updated: 5 July 2026"
 msgstr "Última actualización: 5 de julio de 2026"
 
-#: src/components/room/Room.jsx:281
+#: src/components/room/Room.jsx:131
+msgid "Leave it"
+msgstr "Dejarlo así"
+
+#: src/components/room/Room.jsx:279
 msgid "left the room"
 msgstr "salió de la sala"
 
@@ -873,7 +881,7 @@ msgstr "salió de la sala"
 msgid "Let people signal agreement, uncertainty, breaks, or a wish to speak."
 msgstr "Permite señalar acuerdo, dudas, pausas o ganas de hablar."
 
-#: src/components/room/Room.jsx:169
+#: src/components/room/Room.jsx:167
 msgid "Link copied"
 msgstr "Enlace copiado"
 
@@ -885,7 +893,7 @@ msgstr "Votación en vivo"
 msgid "Lock room"
 msgstr "Bloquear sala"
 
-#: src/components/room/Room.jsx:153
+#: src/components/room/Room.jsx:151
 msgid "Locked"
 msgstr "Bloqueada"
 
@@ -934,11 +942,11 @@ msgstr "Gestionar"
 msgid "Manage people"
 msgstr "Gestionar personas"
 
-#: src/lib/labels.js:32
+#: src/lib/labels.js:34
 msgid "Median"
 msgstr "Mediana"
 
-#: src/lib/labels.js:31
+#: src/lib/labels.js:33
 msgid "Middle ground"
 msgstr "Punto medio"
 
@@ -946,15 +954,15 @@ msgstr "Punto medio"
 msgid "Modified Fibonacci"
 msgstr "Fibonacci modificada"
 
-#: src/lib/labels.js:16
+#: src/lib/labels.js:17
 msgid "More range for larger or less certain work."
 msgstr "Más rango para trabajo mayor o menos certero."
 
-#: src/lib/labels.js:30
+#: src/lib/labels.js:32
 msgid "Most votes"
 msgstr "Más votos"
 
-#: src/lib/labels.js:26
+#: src/lib/labels.js:28
 msgid "Need to speak"
 msgstr "Necesito hablar"
 
@@ -962,7 +970,7 @@ msgstr "Necesito hablar"
 msgid "New card"
 msgstr "Nueva carta"
 
-#: src/components/round/RoundStage.jsx:165
+#: src/components/round/RoundStage.jsx:162
 msgid "New item"
 msgstr "Nuevo elemento"
 
@@ -974,15 +982,15 @@ msgstr "No pueden unirse nuevos participantes. Los actuales pueden reconectarse.
 msgid "Next"
 msgstr "Siguiente"
 
-#: src/lib/labels.js:24
+#: src/lib/labels.js:26
 msgid "Nice"
 msgstr "Genial"
 
-#: src/lib/export.js:42
+#: src/lib/export.js:47
 msgid "No"
 msgstr "No"
 
-#: src/components/EntryScreens.jsx:51
+#: src/components/EntryScreens.jsx:52
 msgid "No account needed. <0>How your data is handled</0>."
 msgstr "No hace falta cuenta. <0>Cómo se tratan tus datos</0>."
 
@@ -998,7 +1006,7 @@ msgstr "Sin analítica ni seguimiento de uso, y sin perfiles publicitarios ni de
 msgid "No analytics, no advertising, no third-party trackers, and nothing is sold or shared."
 msgstr "Sin analítica, sin publicidad, sin rastreadores de terceros, y nada se vende ni se comparte."
 
-#: src/components/round/RoundStage.jsx:145
+#: src/components/round/RoundStage.jsx:142
 msgid "No items are waiting to be estimated."
 msgstr "No hay elementos esperando estimación."
 
@@ -1006,11 +1014,11 @@ msgstr "No hay elementos esperando estimación."
 msgid "No location data, contacts, or device fingerprinting."
 msgstr "Sin datos de ubicación, contactos ni huella digital del dispositivo."
 
-#: src/components/round/RoundStage.jsx:459
+#: src/components/round/RoundStage.jsx:464
 msgid "No numeric spread"
 msgstr "Sin dispersión numérica"
 
-#: src/components/round/RoundStage.jsx:438
+#: src/components/round/RoundStage.jsx:443
 msgid "No range"
 msgstr "Sin rango"
 
@@ -1018,11 +1026,11 @@ msgstr "Sin rango"
 msgid "No sign-up. No email, password, or profile is ever required."
 msgstr "Sin registro. Nunca se pide correo, contraseña ni perfil."
 
-#: src/components/round/RoundStage.jsx:401
+#: src/components/round/RoundStage.jsx:406
 msgid "No signal"
 msgstr "Sin señal"
 
-#: src/lib/labels.js:35
+#: src/lib/labels.js:37
 msgid "No suggestion"
 msgstr "Sin sugerencia"
 
@@ -1031,24 +1039,24 @@ msgid "No third-party scripts, embeds, or trackers load in the app."
 msgstr "En la app no se cargan scripts, incrustaciones ni rastreadores de terceros."
 
 #: src/components/panels/History.jsx:134
-#: src/lib/export.js:61
+#: src/lib/export.js:66
 msgid "No vote"
 msgstr "Sin voto"
 
-#: src/components/round/RoundStage.jsx:102
+#: src/components/round/RoundStage.jsx:99
 msgid "Nobody to vote"
 msgstr "Nadie para votar"
 
 #: src/components/panels/History.jsx:101
-#: src/lib/export.js:58
+#: src/lib/export.js:63
 msgid "None"
 msgstr "Ninguna"
 
-#: src/lib/serverMessages.js:60
+#: src/lib/serverMessages.js:58
 msgid "Not found"
 msgstr "No encontrado"
 
-#: src/components/round/RoundStage.jsx:247
+#: src/components/round/RoundStage.jsx:244
 msgid "Now estimating"
 msgstr "Estimando ahora"
 
@@ -1065,7 +1073,7 @@ msgstr "Observador · Ausente"
 msgid "Observer · Here"
 msgstr "Observador · Presente"
 
-#: src/lib/labels.js:48
+#: src/lib/labels.js:50
 msgid "Off"
 msgstr "Apagado"
 
@@ -1077,91 +1085,91 @@ msgstr "Apagado"
 #~ msgid "Only for you, not for your team. Shown once."
 #~ msgstr "Solo para ti, no para tu equipo. Se muestra una vez."
 
-#: src/lib/serverMessages.js:61
+#: src/lib/serverMessages.js:59
 msgid "Only the facilitator can add estimation items."
 msgstr "Solo el facilitador puede añadir elementos para estimar."
 
-#: src/lib/serverMessages.js:62
+#: src/lib/serverMessages.js:60
 msgid "Only the facilitator can cancel a round."
 msgstr "Solo el facilitador puede cancelar una ronda."
 
-#: src/lib/serverMessages.js:63
+#: src/lib/serverMessages.js:61
 msgid "Only the facilitator can change participant roles."
 msgstr "Solo el facilitador puede cambiar los roles de los participantes."
 
-#: src/lib/serverMessages.js:64
+#: src/lib/serverMessages.js:62
 msgid "Only the facilitator can change room settings."
 msgstr "Solo el facilitador puede cambiar los ajustes de la sala."
 
-#: src/lib/serverMessages.js:65
+#: src/lib/serverMessages.js:63
 msgid "Only the facilitator can clear reactions."
 msgstr "Solo el facilitador puede borrar las reacciones."
 
-#: src/lib/serverMessages.js:66
+#: src/lib/serverMessages.js:64
 msgid "Only the facilitator can close the room."
 msgstr "Solo el facilitador puede cerrar la sala."
 
-#: src/lib/serverMessages.js:67
+#: src/lib/serverMessages.js:65
 msgid "Only the facilitator can create a new recovery link."
 msgstr "Solo el facilitador puede crear un enlace de recuperación nuevo."
 
-#: src/lib/serverMessages.js:68
+#: src/lib/serverMessages.js:66
 msgid "Only the facilitator can delete the room."
 msgstr "Solo el facilitador puede eliminar la sala."
 
-#: src/lib/serverMessages.js:69
+#: src/lib/serverMessages.js:67
 msgid "Only the facilitator can edit estimation items."
 msgstr "Solo el facilitador puede editar los elementos para estimar."
 
-#: src/lib/serverMessages.js:70
+#: src/lib/serverMessages.js:68
 msgid "Only the facilitator can edit the item title."
 msgstr "Solo el facilitador puede editar el título del elemento."
 
-#: src/lib/serverMessages.js:71
+#: src/lib/serverMessages.js:69
 msgid "Only the facilitator can finalize an estimate."
 msgstr "Solo el facilitador puede guardar la estimación final."
 
-#: src/lib/serverMessages.js:72
+#: src/lib/serverMessages.js:70
 msgid "Only the facilitator can lock the room."
 msgstr "Solo el facilitador puede bloquear la sala."
 
-#: src/lib/serverMessages.js:73
+#: src/lib/serverMessages.js:71
 msgid "Only the facilitator can pause reactions."
 msgstr "Solo el facilitador puede pausar las reacciones."
 
-#: src/lib/serverMessages.js:74
+#: src/lib/serverMessages.js:72
 msgid "Only the facilitator can remove estimation items."
 msgstr "Solo el facilitador puede quitar elementos para estimar."
 
-#: src/lib/serverMessages.js:75
+#: src/lib/serverMessages.js:73
 msgid "Only the facilitator can remove participants."
 msgstr "Solo el facilitador puede quitar participantes."
 
-#: src/lib/serverMessages.js:76
+#: src/lib/serverMessages.js:74
 msgid "Only the facilitator can reorder estimation items."
 msgstr "Solo el facilitador puede reordenar los elementos para estimar."
 
-#: src/lib/serverMessages.js:77
+#: src/lib/serverMessages.js:75
 msgid "Only the facilitator can restart voting."
 msgstr "Solo el facilitador puede reiniciar la votación."
 
-#: src/lib/serverMessages.js:78
+#: src/lib/serverMessages.js:76
 msgid "Only the facilitator can reveal cards."
 msgstr "Solo el facilitador puede revelar las cartas."
 
-#: src/lib/serverMessages.js:79
+#: src/lib/serverMessages.js:77
 msgid "Only the facilitator can start a round."
 msgstr "Solo el facilitador puede iniciar una ronda."
 
-#: src/lib/serverMessages.js:80
+#: src/lib/serverMessages.js:78
 msgid "Only the facilitator can transfer ownership."
 msgstr "Solo el facilitador puede traspasar el rol de facilitador."
 
-#: src/lib/serverMessages.js:81
+#: src/lib/serverMessages.js:79
 msgid "Only the person who created this room can take facilitation back."
 msgstr "Solo quien creó esta sala puede recuperar el rol de facilitador."
 
-#: src/components/EntryScreens.jsx:91
+#: src/components/EntryScreens.jsx:95
 msgid "Only use the second option if this is your own room and you saved this link."
 msgstr "Usa la segunda opción solo si esta es tu sala y guardaste este enlace."
 
@@ -1195,8 +1203,8 @@ msgid "Opening the room…"
 msgstr "Abriendo la sala…"
 
 #: src/components/panels/PeopleList.jsx:157
-#: src/components/room/Room.jsx:195
-#: src/lib/export.js:60
+#: src/components/room/Room.jsx:193
+#: src/lib/export.js:65
 msgid "Participant"
 msgstr "Participante"
 
@@ -1212,7 +1220,7 @@ msgstr "Pega una lista de tu backlog o escribe aquí el trabajo."
 msgid "Pause reactions"
 msgstr "Pausar reacciones"
 
-#: src/components/round/RoundStage.jsx:122
+#: src/components/round/RoundStage.jsx:119
 msgid "Pending items"
 msgstr "Elementos pendientes"
 
@@ -1228,11 +1236,11 @@ msgstr "Elige una para empezar. Podrás ajustar la baraja después en los ajuste
 msgid "Pick the closest fit"
 msgstr "Elige la que mejor encaje"
 
-#: src/lib/labels.js:41
+#: src/lib/labels.js:43
 msgid "Pick the middle submitted card, reducing the effect of extremes."
 msgstr "Elige la carta central de las enviadas, reduciendo el efecto de los extremos."
 
-#: src/lib/labels.js:39
+#: src/lib/labels.js:41
 msgid "Pick the most popular card; ties lean higher."
 msgstr "Elige la carta más popular; los empates tienden al alza."
 
@@ -1265,6 +1273,10 @@ msgstr "Point Taken está hecho por <0>xexio.dev</0>, un desarrollador independi
 msgid "Point Taken uses a small amount of browser storage purely to keep a session working and to save you re-typing. None of it is used for tracking, and it never leaves your device except the identity cookie, which is sent only to this site."
 msgstr "Point Taken usa una pequeña cantidad de almacenamiento del navegador solo para que la sesión funcione y ahorrarte teclear de nuevo. Nada de ello se usa para rastrear, y nunca sale de tu dispositivo salvo la cookie de identidad, que solo se envía a este sitio."
 
+#: src/lib/labels.js:11
+msgid "Powers of two"
+msgstr "Potencias de dos"
+
 #: src/components/panels/RoomSettings.jsx:159
 msgid "Prepare and maintain the work this room will estimate."
 msgstr "Prepara y mantén el trabajo que esta sala estimará."
@@ -1281,15 +1293,15 @@ msgstr "Prepara la sesión antes de que empiece la votación. Añade un elemento
 msgid "Product highlights"
 msgstr "Puntos fuertes del producto"
 
-#: src/components/EntryScreens.jsx:106
+#: src/components/EntryScreens.jsx:113
 msgid "Pulling up a chair…"
 msgstr "Acercando una silla…"
 
-#: src/components/room/Room.jsx:180
+#: src/components/room/Room.jsx:178
 msgid "Quick guide"
 msgstr "Guía rápida"
 
-#: src/lib/labels.js:17
+#: src/lib/labels.js:19
 msgid "Quick, conversational sizing without numbers."
 msgstr "Tallaje rápido y conversacional, sin números."
 
@@ -1301,11 +1313,11 @@ msgstr "Levantar la mano"
 msgid "React"
 msgstr "Reaccionar"
 
-#: src/lib/serverMessages.js:82
+#: src/lib/serverMessages.js:80
 msgid "Reaction palette must be a list."
 msgstr "La paleta de reacciones debe ser una lista."
 
-#: src/lib/serverMessages.js:83
+#: src/lib/serverMessages.js:81
 msgid "Reactions are currently paused."
 msgstr "Las reacciones están pausadas."
 
@@ -1313,7 +1325,7 @@ msgstr "Las reacciones están pausadas."
 msgid "Reactions paused"
 msgstr "Reacciones pausadas"
 
-#: src/components/round/RoundStage.jsx:155
+#: src/components/round/RoundStage.jsx:152
 msgid "Ready for another?"
 msgstr "¿Listos para otra?"
 
@@ -1321,7 +1333,7 @@ msgstr "¿Listos para otra?"
 msgid "Ready to lock it in?"
 msgstr "¿Lo dejamos fijado?"
 
-#: src/components/round/RoundStage.jsx:259
+#: src/components/round/RoundStage.jsx:256
 msgid "Ready to reveal"
 msgstr "Listo para revelar"
 
@@ -1363,15 +1375,15 @@ msgstr "Quitar persona"
 msgid "Removing your data"
 msgstr "Eliminar tus datos"
 
-#: src/lib/serverMessages.js:84
+#: src/lib/serverMessages.js:82
 msgid "Request body must be valid JSON."
 msgstr "El cuerpo de la petición debe ser JSON válido."
 
-#: src/lib/serverMessages.js:85
+#: src/lib/serverMessages.js:83
 msgid "Request is too large."
 msgstr "La petición es demasiado grande."
 
-#: src/lib/serverMessages.js:86
+#: src/lib/serverMessages.js:84
 msgid "Request origin is not allowed."
 msgstr "El origen de la petición no está permitido."
 
@@ -1379,7 +1391,7 @@ msgstr "El origen de la petición no está permitido."
 msgid "Reset deck"
 msgstr "Restablecer baraja"
 
-#: src/components/round/RoundStage.jsx:308
+#: src/components/round/RoundStage.jsx:305
 msgid "Restart this round and its reveal timer?"
 msgstr "¿Reiniciar esta ronda y su temporizador de revelado?"
 
@@ -1387,12 +1399,12 @@ msgstr "¿Reiniciar esta ronda y su temporizador de revelado?"
 msgid "Resume reactions"
 msgstr "Reanudar reacciones"
 
-#: src/components/round/RoundStage.jsx:229
-#: src/components/round/RoundStage.jsx:263
+#: src/components/round/RoundStage.jsx:226
+#: src/components/round/RoundStage.jsx:260
 msgid "Reveal cards"
 msgstr "Revelar cartas"
 
-#: src/components/round/RoundStage.jsx:224
+#: src/components/round/RoundStage.jsx:221
 msgid "Reveal cards early?"
 msgstr "¿Revelar las cartas antes de tiempo?"
 
@@ -1400,15 +1412,15 @@ msgstr "¿Revelar las cartas antes de tiempo?"
 msgid "Reveal reminder"
 msgstr "Recordatorio de revelado"
 
-#: src/components/round/RoundStage.jsx:258
+#: src/components/round/RoundStage.jsx:255
 msgid "Reveal suggested in {remaining}s"
 msgstr "Revelado sugerido en {remaining}s"
 
-#: src/lib/serverMessages.js:87
+#: src/lib/serverMessages.js:85
 msgid "Reveal the cards first."
 msgstr "Revela las cartas primero."
 
-#: src/lib/labels.js:23
+#: src/lib/labels.js:25
 msgid "Reviewing"
 msgstr "Revisando"
 
@@ -1417,7 +1429,7 @@ msgstr "Revisando"
 msgid "Role for {0}"
 msgstr "Rol de {0}"
 
-#: src/lib/serverMessages.js:88
+#: src/lib/serverMessages.js:86
 msgid "Roles can only change between rounds."
 msgstr "Los roles solo se pueden cambiar entre rondas."
 
@@ -1425,7 +1437,7 @@ msgstr "Los roles solo se pueden cambiar entre rondas."
 msgid "Room access"
 msgstr "Acceso a la sala"
 
-#: src/lib/serverMessages.js:89
+#: src/lib/serverMessages.js:87
 msgid "Room already exists."
 msgstr "La sala ya existe."
 
@@ -1437,20 +1449,20 @@ msgstr "Sala cerrada"
 msgid "Room is ready"
 msgstr "La sala está lista"
 
-#: src/lib/serverMessages.js:90
+#: src/lib/serverMessages.js:88
 msgid "Room message is too large."
 msgstr "El mensaje de la sala es demasiado grande."
 
 #: src/components/panels/RoomSettings.jsx:140
-#: src/components/room/Room.jsx:184
+#: src/components/room/Room.jsx:182
 msgid "Room settings"
 msgstr "Ajustes de la sala"
 
-#: src/lib/serverMessages.js:91
+#: src/lib/serverMessages.js:89
 msgid "Room settings can only change between rounds."
 msgstr "Los ajustes de la sala solo se pueden cambiar entre rondas."
 
-#: src/components/NotFoundPage.jsx:16
+#: src/components/NotFoundPage.jsx:11
 msgid "Rooms and everything in them are deleted 7 days after the last activity. Start a new one and share the fresh invite link with your team."
 msgstr "Las salas y todo su contenido se eliminan 7 días después de la última actividad. Crea una nueva y comparte el nuevo enlace de invitación con tu equipo."
 
@@ -1458,7 +1470,7 @@ msgstr "Las salas y todo su contenido se eliminan 7 días después de la última
 msgid "Rooms and everything in them are deleted automatically 7 days after the last activity."
 msgstr "Las salas y todo su contenido se eliminan automáticamente 7 días después de la última actividad."
 
-#: src/components/room/Room.jsx:156
+#: src/components/room/Room.jsx:154
 msgid "Rooms expire after 7 days of inactivity. Any activity keeps them alive."
 msgstr "Las salas caducan tras 7 días de inactividad. Cualquier actividad las mantiene vivas."
 
@@ -1471,11 +1483,11 @@ msgid "Run your first planning session"
 msgstr "Dirige tu primera sesión de planificación"
 
 #: src/components/panels/ItemManager.jsx:238
-#: src/components/round/RoundStage.jsx:340
+#: src/components/round/RoundStage.jsx:337
 msgid "Save"
 msgstr "Guardar"
 
-#: src/components/round/RoundStage.jsx:426
+#: src/components/round/RoundStage.jsx:431
 msgid "Save estimate"
 msgstr "Guardar estimación"
 
@@ -1503,7 +1515,7 @@ msgstr "Selecciona un elemento de la cola de estimación, o introduce uno nuevo,
 msgid "Select one card to continue"
 msgstr "Selecciona una carta para continuar"
 
-#: src/components/round/RoundStage.jsx:159
+#: src/components/round/RoundStage.jsx:156
 msgid "Selected from the item list"
 msgstr "Seleccionado de la lista de elementos"
 
@@ -1527,7 +1539,7 @@ msgstr "Salas de siete días"
 msgid "Short-lived reactions and raised hands, which clear on their own within seconds."
 msgstr "Reacciones efímeras y manos levantadas, que desaparecen solas en segundos."
 
-#: src/lib/labels.js:44
+#: src/lib/labels.js:46
 msgid "Show the votes and leave the decision entirely to the team."
 msgstr "Muestra los votos y deja la decisión por completo al equipo."
 
@@ -1539,15 +1551,15 @@ msgstr "Avisa cuando pueda ser el momento de dar la vuelta a las cartas."
 msgid "Something went wrong."
 msgstr "Algo ha ido mal."
 
-#: src/lib/serverMessages.js:92
+#: src/lib/serverMessages.js:90
 msgid "Something went wrong. Please try again."
 msgstr "Algo ha ido mal. Inténtalo de nuevo."
 
-#: src/components/round/RoundStage.jsx:402
+#: src/components/round/RoundStage.jsx:407
 msgid "Split vote · higher tied value shown"
 msgstr "Voto dividido · se muestra el valor empatado más alto"
 
-#: src/components/round/RoundStage.jsx:310
+#: src/components/round/RoundStage.jsx:307
 msgid "Start another ballot?"
 msgstr "¿Empezar otra votación?"
 
@@ -1555,7 +1567,7 @@ msgstr "¿Empezar otra votación?"
 msgid "Start the vote"
 msgstr "Empieza la votación"
 
-#: src/components/round/RoundStage.jsx:186
+#: src/components/round/RoundStage.jsx:183
 msgid "Start voting"
 msgstr "Empezar votación"
 
@@ -1564,9 +1576,9 @@ msgid "Step {stepNumber} of {stepCount}"
 msgstr "Paso {stepNumber} de {stepCount}"
 
 #: src/components/panels/RoomSettings.jsx:218
-#: src/components/round/RoundStage.jsx:400
-#: src/lib/export.js:33
-#: src/lib/export.js:58
+#: src/components/round/RoundStage.jsx:405
+#: src/lib/export.js:38
+#: src/lib/export.js:63
 msgid "Suggested estimate"
 msgstr "Estimación sugerida"
 
@@ -1574,23 +1586,23 @@ msgstr "Estimación sugerida"
 msgid "Supporting the project"
 msgstr "Apoyar el proyecto"
 
-#: src/lib/labels.js:11
+#: src/lib/labels.js:12
 msgid "T-shirt sizes"
 msgstr "Tallas de camiseta"
 
-#: src/components/room/Room.jsx:173
+#: src/components/room/Room.jsx:171
 msgid "Take facilitation back"
 msgstr "Recuperar el rol"
 
-#: src/components/room/Room.jsx:131
+#: src/components/room/Room.jsx:128
 msgid "Take facilitation back?"
 msgstr "¿Recuperar el rol de facilitador?"
 
-#: src/components/room/Room.jsx:133
+#: src/components/room/Room.jsx:130
 msgid "Take it back"
 msgstr "Recuperarlo"
 
-#: src/components/EntryScreens.jsx:87
+#: src/components/EntryScreens.jsx:91
 msgid "Take over as facilitator"
 msgstr "Tomar el rol de facilitador"
 
@@ -1602,43 +1614,43 @@ msgstr "Reacciones del equipo"
 msgid "Tell the room what to call you."
 msgstr "Dile a la sala cómo llamarte."
 
-#: src/lib/serverMessages.js:93
+#: src/lib/serverMessages.js:91
 msgid "That action could not be completed."
 msgstr "Esa acción no se pudo completar."
 
-#: src/lib/serverMessages.js:94
+#: src/lib/serverMessages.js:92
 msgid "That card is not in this deck."
 msgstr "Esa carta no está en esta baraja."
 
-#: src/lib/serverMessages.js:95
+#: src/lib/serverMessages.js:93
 msgid "That item is already in the estimation queue."
 msgstr "Ese elemento ya está en la cola de estimación."
 
-#: src/lib/serverMessages.js:96
+#: src/lib/serverMessages.js:94
 msgid "That item is no longer pending."
 msgstr "Ese elemento ya no está pendiente."
 
-#: src/lib/serverMessages.js:97
+#: src/lib/serverMessages.js:95
 msgid "That participant cannot be changed."
 msgstr "Ese participante no se puede cambiar."
 
-#: src/lib/serverMessages.js:98
+#: src/lib/serverMessages.js:96
 msgid "That participant cannot be removed."
 msgstr "Ese participante no se puede quitar."
 
-#: src/lib/serverMessages.js:99
+#: src/lib/serverMessages.js:97
 msgid "That pending item was not found."
 msgstr "Ese elemento pendiente no se encontró."
 
-#: src/lib/serverMessages.js:100
+#: src/lib/serverMessages.js:98
 msgid "That reaction is not available."
 msgstr "Esa reacción no está disponible."
 
-#: src/lib/serverMessages.js:101
+#: src/lib/serverMessages.js:99
 msgid "That recovery code is not valid for this room."
 msgstr "Ese código de recuperación no es válido para esta sala."
 
-#: src/components/NotFoundPage.jsx:32
+#: src/components/NotFoundPage.jsx:27
 msgid "That room link isn’t valid"
 msgstr "Ese enlace de sala no es válido"
 
@@ -1646,13 +1658,13 @@ msgstr "Ese enlace de sala no es válido"
 msgid "The app runs on Cloudflare’s network (Workers and Durable Objects). To deliver the service and protect it from abuse, Cloudflare processes connection details — including your IP address — transiently for connectivity, security, and rate-limiting. The app uses your IP only as a short-lived counter to limit how many rooms can be created or joined in a short window; it is not linked to your name or votes. This processing is covered by Cloudflare’s own privacy practices."
 msgstr "La app funciona en la red de Cloudflare (Workers y Durable Objects). Para prestar el servicio y protegerlo de abusos, Cloudflare procesa datos de conexión —incluida tu dirección IP— de forma transitoria para conectividad, seguridad y limitación de peticiones. La app usa tu IP solo como contador efímero para limitar cuántas salas pueden crearse o unirse en un intervalo corto; no se vincula a tu nombre ni a tus votos. Este tratamiento está cubierto por las prácticas de privacidad de Cloudflare."
 
-#: src/components/NotFoundPage.jsx:25
+#: src/components/NotFoundPage.jsx:20
 msgid "The facilitator deleted this room, along with its votes and history. Start a new one and share the fresh invite link with your team."
 msgstr "El facilitador eliminó esta sala, junto con sus votos y su historial. Crea una nueva y comparte el nuevo enlace de invitación con tu equipo."
 
-#: src/components/room/Room.jsx:165
-#: src/components/room/Room.jsx:213
-#: src/components/room/Room.jsx:331
+#: src/components/room/Room.jsx:163
+#: src/components/room/Room.jsx:211
+#: src/components/room/Room.jsx:329
 msgid "The invite link could not be copied. Copy it from the address bar instead."
 msgstr "No se pudo copiar el enlace de invitación. Cópialo desde la barra de direcciones."
 
@@ -1660,11 +1672,11 @@ msgstr "No se pudo copiar el enlace de invitación. Cópialo desde la barra de d
 msgid "The item list is read-only while a round is active."
 msgstr "La lista de elementos es de solo lectura mientras hay una ronda activa."
 
-#: src/components/NotFoundPage.jsx:34
+#: src/components/NotFoundPage.jsx:29
 msgid "The link may be incomplete or mistyped. Ask whoever invited you to send it again, or start a room of your own."
 msgstr "Puede que el enlace esté incompleto o mal escrito. Pide a quien te invitó que te lo envíe de nuevo, o crea tu propia sala."
 
-#: src/components/NotFoundPage.jsx:42
+#: src/components/NotFoundPage.jsx:37
 msgid "The link may be out of date or mistyped. Nothing to estimate here."
 msgstr "Puede que el enlace esté desactualizado o mal escrito. Aquí no hay nada que estimar."
 
@@ -1676,7 +1688,7 @@ msgstr "La siguiente tarea aparecerá aquí."
 msgid "The only personal detail we handle is the display name you choose — a nickname is fine."
 msgstr "El único dato personal que manejamos es el nombre que eliges mostrar; un apodo vale."
 
-#: src/lib/serverMessages.js:102
+#: src/lib/serverMessages.js:100
 msgid "The pending item order is no longer current."
 msgstr "El orden de elementos pendientes ya no está actualizado."
 
@@ -1684,7 +1696,7 @@ msgstr "El orden de elementos pendientes ya no está actualizado."
 msgid "The People list shows who has voted. When the team is ready, click Reveal cards."
 msgstr "La lista de personas muestra quién ha votado. Cuando el equipo esté listo, pulsa «Revelar cartas»."
 
-#: src/App.jsx:218
+#: src/App.jsx:207
 msgid "The room is reconnecting. Try that again in a moment."
 msgstr "La sala se está reconectando. Inténtalo de nuevo en un momento."
 
@@ -1692,7 +1704,7 @@ msgstr "La sala se está reconectando. Inténtalo de nuevo en un momento."
 msgid "The room name, the planning deck, and the room settings."
 msgstr "El nombre de la sala, la baraja de planificación y los ajustes de la sala."
 
-#: src/App.jsx:105
+#: src/App.jsx:102
 msgid "The room sent an unreadable update. Reconnecting may help."
 msgstr "La sala envió una actualización ilegible. Reconectar puede ayudar."
 
@@ -1700,23 +1712,23 @@ msgstr "La sala envió una actualización ilegible. Reconectar puede ayudar."
 msgid "The short version"
 msgstr "La versión corta"
 
-#: src/components/round/RoundStage.jsx:103
+#: src/components/round/RoundStage.jsx:100
 msgid "There are no voters yet"
 msgstr "Todavía no hay nadie que pueda votar"
 
-#: src/lib/serverMessages.js:103
+#: src/lib/serverMessages.js:101
 msgid "There is no active round to cancel."
 msgstr "No hay ninguna ronda activa que cancelar."
 
-#: src/lib/serverMessages.js:104
+#: src/lib/serverMessages.js:102
 msgid "There is no active round to edit."
 msgstr "No hay ninguna ronda activa que editar."
 
-#: src/lib/serverMessages.js:105
+#: src/lib/serverMessages.js:103
 msgid "There is no active round to restart."
 msgstr "No hay ninguna ronda activa que reiniciar."
 
-#: src/lib/serverMessages.js:106
+#: src/lib/serverMessages.js:104
 msgid "There is no voting round to reveal."
 msgstr "No hay ninguna ronda de votación que revelar."
 
@@ -1736,7 +1748,7 @@ msgstr "Traerá la primera tarea a la mesa."
 msgid "They’ll leave immediately and their current vote will be discarded."
 msgstr "Saldrá de inmediato y su voto actual se descartará."
 
-#: src/components/EntryScreens.jsx:74
+#: src/components/EntryScreens.jsx:78
 msgid "This link is not an invitation"
 msgstr "Este enlace no es una invitación"
 
@@ -1744,23 +1756,23 @@ msgstr "Este enlace no es una invitación"
 #~ msgid "This one is only for you. It reclaims the room if you lose this browser or switch devices, so do not send it to your team. We won’t show it again."
 #~ msgstr "Este es solo para ti. Sirve para recuperar la sala si pierdes este navegador o cambias de dispositivo, así que no se lo envíes a tu equipo. No lo mostraremos de nuevo."
 
-#: src/components/NotFoundPage.jsx:41
+#: src/components/NotFoundPage.jsx:36
 msgid "This page doesn’t exist"
 msgstr "Esta página no existe"
 
-#: src/lib/serverMessages.js:107
+#: src/lib/serverMessages.js:105
 msgid "This room has been closed."
 msgstr "Esta sala se ha cerrado."
 
-#: src/components/NotFoundPage.jsx:14
+#: src/components/NotFoundPage.jsx:9
 msgid "This room has expired"
 msgstr "Esta sala ha caducado"
 
-#: src/lib/serverMessages.js:108
+#: src/lib/serverMessages.js:106
 msgid "This room has expired or does not exist."
 msgstr "Esta sala ha caducado o no existe."
 
-#: src/lib/serverMessages.js:109
+#: src/lib/serverMessages.js:107
 msgid "This room has reached its 20-person limit."
 msgstr "Esta sala ha alcanzado su límite de 20 personas."
 
@@ -1768,7 +1780,7 @@ msgstr "Esta sala ha alcanzado su límite de 20 personas."
 msgid "This room is closed"
 msgstr "Esta sala está cerrada"
 
-#: src/lib/serverMessages.js:110
+#: src/lib/serverMessages.js:108
 msgid "This room is closed and can only be viewed."
 msgstr "Esta sala está cerrada y solo puede verse."
 
@@ -1776,11 +1788,11 @@ msgstr "Esta sala está cerrada y solo puede verse."
 msgid "This room is closed and read-only. Settings can’t be changed, but you can still delete it below."
 msgstr "Esta sala está cerrada y en solo lectura. Los ajustes no pueden cambiarse, pero aún puedes eliminarla abajo."
 
-#: src/lib/serverMessages.js:111
+#: src/lib/serverMessages.js:109
 msgid "This room is not accepting new participants."
 msgstr "Esta sala no acepta nuevos participantes."
 
-#: src/components/NotFoundPage.jsx:23
+#: src/components/NotFoundPage.jsx:18
 msgid "This room was deleted"
 msgstr "Esta sala fue eliminada"
 
@@ -1788,15 +1800,15 @@ msgstr "Esta sala fue eliminada"
 msgid "Timestamps for when the room was created, last used, and is due to expire."
 msgstr "Marcas de tiempo de cuándo se creó la sala, cuándo se usó por última vez y cuándo caducará."
 
-#: src/lib/serverMessages.js:112
+#: src/lib/serverMessages.js:110
 msgid "Too many attempts. Try again shortly."
 msgstr "Demasiados intentos. Inténtalo de nuevo en breve."
 
-#: src/lib/serverMessages.js:113
+#: src/lib/serverMessages.js:111
 msgid "Too many room actions. Slow down and try again."
 msgstr "Demasiadas acciones en la sala. Ve más despacio e inténtalo de nuevo."
 
-#: src/lib/serverMessages.js:114
+#: src/lib/serverMessages.js:112
 msgid "Too many rooms created. Try again shortly."
 msgstr "Se han creado demasiadas salas. Inténtalo de nuevo en breve."
 
@@ -1812,15 +1824,15 @@ msgstr "Transferir el rol de facilitador"
 msgid "Turn the cards over automatically once everyone has voted."
 msgstr "Da la vuelta a las cartas automáticamente cuando todos hayan votado."
 
-#: src/lib/serverMessages.js:115
+#: src/lib/serverMessages.js:113
 msgid "Unknown participant role."
 msgstr "Rol de participante desconocido."
 
-#: src/lib/serverMessages.js:116
+#: src/lib/serverMessages.js:114
 msgid "Unknown room action."
 msgstr "Acción de sala desconocida."
 
-#: src/lib/serverMessages.js:117
+#: src/lib/serverMessages.js:115
 msgid "Unknown suggestion algorithm."
 msgstr "Algoritmo de sugerencia desconocido."
 
@@ -1828,11 +1840,11 @@ msgstr "Algoritmo de sugerencia desconocido."
 msgid "Unlock room"
 msgstr "Desbloquear sala"
 
-#: src/lib/serverMessages.js:118
+#: src/lib/serverMessages.js:116
 msgid "Unsupported reveal timer."
 msgstr "Temporizador de revelado no admitido."
 
-#: src/lib/labels.js:22
+#: src/lib/labels.js:24
 msgid "Unsure"
 msgstr "No lo veo claro"
 
@@ -1841,17 +1853,17 @@ msgstr "No lo veo claro"
 msgid "Usage & privacy"
 msgstr "Uso y privacidad"
 
-#: src/lib/labels.js:43
+#: src/lib/labels.js:45
 msgid "Use the most cautious submitted estimate."
 msgstr "Usa la estimación enviada más prudente."
 
-#: src/lib/export.js:33
-#: src/lib/export.js:60
+#: src/lib/export.js:38
+#: src/lib/export.js:65
 msgid "Vote"
 msgstr "Voto"
 
-#: src/components/round/RoundStage.jsx:312
-#: src/components/round/RoundStage.jsx:358
+#: src/components/round/RoundStage.jsx:309
+#: src/components/round/RoundStage.jsx:355
 msgid "Vote again"
 msgstr "Votar de nuevo"
 
@@ -1864,11 +1876,11 @@ msgid "Vote locked"
 msgstr "Voto fijado"
 
 #: src/components/panels/History.jsx:108
-#: src/components/round/RoundStage.jsx:448
+#: src/components/round/RoundStage.jsx:453
 msgid "Vote range"
 msgstr "Rango de votos"
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Voter"
 msgstr "Votante"
 
@@ -1876,7 +1888,7 @@ msgstr "Votante"
 msgid "Votes during a round and the finalized estimates in the room’s history."
 msgstr "Los votos durante una ronda y las estimaciones finalizadas en el historial de la sala."
 
-#: src/components/round/RoundStage.jsx:253
+#: src/components/round/RoundStage.jsx:250
 msgid "votes locked"
 msgstr "votos fijados"
 
@@ -1884,7 +1896,7 @@ msgstr "votos fijados"
 msgid "Votes stay hidden from other participants until the facilitator reveals them (or everyone has voted, if auto-reveal is on). We do not store IP addresses alongside your activity."
 msgstr "Los votos permanecen ocultos para el resto de participantes hasta que el facilitador los revela (o hasta que todos hayan votado, si el revelado automático está activado). No guardamos direcciones IP junto a tu actividad."
 
-#: src/lib/serverMessages.js:119
+#: src/lib/serverMessages.js:117
 msgid "Voting is not open."
 msgstr "La votación no está abierta."
 
@@ -1900,7 +1912,7 @@ msgstr "Esperando al facilitador"
 #~ msgid "We’ll add a short suffix to your name so everyone stays distinct."
 #~ msgstr "Añadiremos un pequeño sufijo a tu nombre para que nadie se confunda."
 
-#: src/components/round/RoundStage.jsx:156
+#: src/components/round/RoundStage.jsx:153
 msgid "What are we sizing?"
 msgstr "¿Qué vamos a estimar?"
 
@@ -1924,7 +1936,7 @@ msgstr "Qué no recopilamos"
 msgid "Who runs this & how to reach out"
 msgstr "Quién está detrás y cómo contactar"
 
-#: src/lib/export.js:42
+#: src/lib/export.js:47
 msgid "Yes"
 msgstr "Sí"
 
@@ -1936,7 +1948,7 @@ msgstr "Tú"
 msgid "You · Facilitator"
 msgstr "Tú · Facilitador"
 
-#: src/lib/serverMessages.js:120
+#: src/lib/serverMessages.js:118
 msgid "You are already the facilitator."
 msgstr "Ya eres el facilitador."
 
@@ -1948,11 +1960,11 @@ msgstr "Puedes borrar todo esto en cualquier momento desde los ajustes de datos 
 msgid "You created this room."
 msgstr "Creaste esta sala."
 
-#: src/components/room/Room.jsx:132
+#: src/components/room/Room.jsx:129
 msgid "You created this room. {currentFacilitatorName} stops being the facilitator, and everyone in the room is told."
 msgstr "Tú creaste esta sala. {currentFacilitatorName} dejará de ser el facilitador y se avisará a toda la sala."
 
-#: src/lib/serverMessages.js:121
+#: src/lib/serverMessages.js:119
 msgid "You joined after this round started and can vote in the next one."
 msgstr "Te uniste después de empezar esta ronda; podrás votar en la siguiente."
 
@@ -1964,7 +1976,7 @@ msgstr "Te uniste durante esta ronda. Tu mano se abrirá en la siguiente tarea."
 msgid "You joined this room."
 msgstr "Te uniste a esta sala."
 
-#: src/App.jsx:123
+#: src/App.jsx:116
 msgid "You were removed from this room."
 msgstr "Te han quitado de esta sala."
 
@@ -1976,7 +1988,7 @@ msgstr "Tú serás el facilitador."
 msgid "You’ll become a regular participant and they’ll receive all facilitator controls."
 msgstr "Pasarás a ser un participante normal y esa persona recibirá todos los controles de facilitador."
 
-#: src/components/EntryScreens.jsx:49
+#: src/components/EntryScreens.jsx:50
 msgid "You’re joining {roomName}"
 msgstr "Te estás uniendo a {roomName}"
 
@@ -1984,7 +1996,7 @@ msgstr "Te estás uniendo a {roomName}"
 msgid "You’re observing this session. Observers can follow the discussion without voting."
 msgstr "Estás observando esta sesión. Los observadores pueden seguir la conversación sin votar."
 
-#: src/components/EntryScreens.jsx:33
+#: src/components/EntryScreens.jsx:34
 msgid "You’ve been invited"
 msgstr "Te han invitado"
 
@@ -1996,8 +2008,8 @@ msgstr "Tus datos nunca se venden, alquilan ni comparten con nadie."
 msgid "Your hand"
 msgstr "Tu mano"
 
-#: src/components/EntryScreens.jsx:37
-#: src/components/EntryScreens.jsx:42
+#: src/components/EntryScreens.jsx:38
+#: src/components/EntryScreens.jsx:43
 #: src/components/HomePage.jsx:102
 #: src/components/HomePage.jsx:107
 msgid "Your name"
@@ -2011,14 +2023,14 @@ msgstr "Tu sala de planificación sigue activa"
 msgid "Your queue is empty"
 msgstr "Tu cola está vacía"
 
-#: src/components/room/Room.jsx:233
+#: src/components/room/Room.jsx:231
 msgid "Your recovery link"
 msgstr "Tu enlace de recuperación"
 
-#: src/lib/serverMessages.js:122
+#: src/lib/serverMessages.js:120
 msgid "Your room identity is no longer valid."
 msgstr "Tu identidad en la sala ya no es válida."
 
-#: src/components/round/RoundStage.jsx:269
+#: src/components/round/RoundStage.jsx:266
 msgid "Your vote is locked. You can still choose another card."
 msgstr "Tu voto está fijado. Aún puedes elegir otra carta."

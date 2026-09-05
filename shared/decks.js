@@ -11,6 +11,12 @@ export const DECKS = {
     description: "More range for larger or less certain work.",
     cards: ["0", "½", "1", "2", "3", "5", "8", "13", "20", "40", "100", "?", "☕"],
   },
+  powers: {
+    id: "powers",
+    name: "Powers of two",
+    description: "Each card doubles, for work that scales steeply.",
+    cards: ["0", "1", "2", "4", "8", "16", "32", "64", "?", "☕"],
+  },
   tshirt: {
     id: "tshirt",
     name: "T-shirt sizes",

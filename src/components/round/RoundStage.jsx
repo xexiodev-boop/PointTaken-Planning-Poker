@@ -368,7 +368,15 @@ function ResultsStage({ room, send }) {
   const { t } = useLingui();
   const round = room.currentRound;
   const isFacilitator = room.viewer.role === "facilitator";
-  const [finalValue, setFinalValue] = useState(round.suggestion?.value ?? "");
+  const suggested = round.suggestion?.value ?? "";
+  const [finalValue, setFinalValue] = useState(suggested);
+  const [seededFrom, setSeededFrom] = useState(suggested);
+  // Removing a voter after reveal recomputes the suggestion. Re-seed the field
+  // to match, unless the facilitator has typed a value of their own.
+  if (suggested !== seededFrom) {
+    setSeededFrom(suggested);
+    if (finalValue === seededFrom) setFinalValue(suggested);
+  }
   const tally = useMemo(() => {
     const counts = new Map();
     room.participants.forEach((participant) => {

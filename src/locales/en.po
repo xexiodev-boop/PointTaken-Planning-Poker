@@ -19,7 +19,7 @@ msgid "{0, plural, one {# already estimated} other {# already estimated}}"
 msgstr "{0, plural, one {# already estimated} other {# already estimated}}"
 
 #. placeholder {0}: metrics.spread
-#: src/components/round/RoundStage.jsx:453
+#: src/components/round/RoundStage.jsx:458
 msgid "{0, plural, one {# deck step apart} other {# deck steps apart}}"
 msgstr "{0, plural, one {# deck step apart} other {# deck steps apart}}"
 
@@ -43,7 +43,7 @@ msgstr "{0, plural, one {# vote} other {# votes}}"
 msgid "{0}% agreement"
 msgstr "{0}% agreement"
 
-#: src/components/round/RoundStage.jsx:304
+#: src/components/round/RoundStage.jsx:301
 msgid "{confirmedVotes, plural, one {Clear # confirmed vote and restart the timer?} other {Clear # confirmed votes and restart the timer?}}"
 msgstr "{confirmedVotes, plural, one {Clear # confirmed vote and restart the timer?} other {Clear # confirmed votes and restart the timer?}}"
 
@@ -55,7 +55,7 @@ msgstr "{days, plural, one {Expires in # day} other {Expires in # days}}"
 msgid "{from} was away, so {to} is now the facilitator."
 msgstr "{from} was away, so {to} is now the facilitator."
 
-#: src/components/round/RoundStage.jsx:225
+#: src/components/round/RoundStage.jsx:222
 msgid "{missing, plural, one {# person is still deciding. Their card will appear as missing.} other {# people are still deciding. Their card will appear as missing.}}"
 msgstr "{missing, plural, one {# person is still deciding. Their card will appear as missing.} other {# people are still deciding. Their card will appear as missing.}}"
 
@@ -71,11 +71,11 @@ msgstr "{name} took facilitation back."
 msgid "{pendingCount, plural, one {# pending} other {# pending}}"
 msgstr "{pendingCount, plural, one {# pending} other {# pending}}"
 
-#: src/lib/export.js:55
+#: src/lib/export.js:60
 msgid "{roomName} estimates"
 msgstr "{roomName} estimates"
 
-#: src/components/round/RoundStage.jsx:252
+#: src/components/round/RoundStage.jsx:249
 msgid "{voted} of {eligibleCount}"
 msgstr "{voted} of {eligibleCount}"
 
@@ -103,7 +103,7 @@ msgstr "<0>On your device:</0> clearing this site’s browser storage removes th
 msgid "<0>One identity cookie per room</0> (<1>point_taken_identity</1>): a random token that binds your browser to your seat so your votes and role survive a refresh or reconnect. It is <2>HttpOnly</2>, <3>SameSite=Strict</3>, scoped to that room’s path, and expires within 7 days. It is not an advertising or analytics cookie."
 msgstr "<0>One identity cookie per room</0> (<1>point_taken_identity</1>): a random token that binds your browser to your seat so your votes and role survive a refresh or reconnect. It is <2>HttpOnly</2>, <3>SameSite=Strict</3>, scoped to that room’s path, and expires within 7 days. It is not an advertising or analytics cookie."
 
-#: src/components/room/Room.jsx:236
+#: src/components/room/Room.jsx:234
 msgid "<0>Only for you</0>, not for your team. Shown once."
 msgstr "<0>Only for you</0>, not for your team. Shown once."
 
@@ -111,27 +111,27 @@ msgstr "<0>Only for you</0>, not for your team. Shown once."
 msgid "<0>Session storage</0>: a facilitator recovery code is held briefly so it can be shown to you once after a room is created, then removed."
 msgstr "<0>Session storage</0>: a facilitator recovery code is held briefly so it can be shown to you once after a room is created, then removed."
 
-#: src/lib/labels.js:49
+#: src/lib/labels.js:51
 msgid "15 seconds"
 msgstr "15 seconds"
 
-#: src/lib/labels.js:50
+#: src/lib/labels.js:52
 msgid "30 seconds"
 msgstr "30 seconds"
 
-#: src/lib/labels.js:51
+#: src/lib/labels.js:53
 msgid "60 seconds"
 msgstr "60 seconds"
 
-#: src/lib/labels.js:52
+#: src/lib/labels.js:54
 msgid "90 seconds"
 msgstr "90 seconds"
 
-#: src/lib/serverMessages.js:37
+#: src/lib/serverMessages.js:35
 msgid "A deck can contain at most 16 cards."
 msgstr "A deck can contain at most 16 cards."
 
-#: src/lib/serverMessages.js:38
+#: src/lib/serverMessages.js:36
 msgid "A deck needs at least two cards."
 msgstr "A deck needs at least two cards."
 
@@ -139,7 +139,7 @@ msgstr "A deck needs at least two cards."
 msgid "A facilitator can delete a room and all of its data instantly, at any time."
 msgstr "A facilitator can delete a room and all of its data instantly, at any time."
 
-#: src/lib/labels.js:15
+#: src/lib/labels.js:16
 msgid "A focused sequence for relative complexity."
 msgstr "A focused sequence for relative complexity."
 
@@ -151,11 +151,11 @@ msgstr "A focused sequence for relative complexity."
 msgid "A one-way hash (SHA-256) of the facilitator recovery code. The code itself is shown to you once and is never stored — we keep only the hash so it can be checked, not recovered. Because it cannot be shown again, a facilitator can generate a replacement from room settings at any time. Doing so stores a new hash and stops the previous code working."
 msgstr "A one-way hash (SHA-256) of the facilitator recovery code. The code itself is shown to you once and is never stored — we keep only the hash so it can be checked, not recovered. Because it cannot be shown again, a facilitator can generate a replacement from room settings at any time. Doing so stores a new hash and stops the previous code working."
 
-#: src/lib/serverMessages.js:39
+#: src/lib/serverMessages.js:37
 msgid "A room can have at most 50 pending items."
 msgstr "A room can have at most 50 pending items."
 
-#: src/lib/serverMessages.js:40
+#: src/lib/serverMessages.js:38
 msgid "A round needs at least one voter."
 msgstr "A round needs at least one voter."
 
@@ -163,7 +163,7 @@ msgstr "A round needs at least one voter."
 msgid "Add a few items and they’ll appear here in voting order."
 msgstr "Add a few items and they’ll appear here in voting order."
 
-#: src/lib/serverMessages.js:41
+#: src/lib/serverMessages.js:39
 msgid "Add at least one item."
 msgstr "Add at least one item."
 
@@ -175,11 +175,11 @@ msgstr "Add card"
 msgid "Add items"
 msgstr "Add items"
 
-#: src/components/round/RoundStage.jsx:148
+#: src/components/round/RoundStage.jsx:145
 msgid "Add items to the estimation queue"
 msgstr "Add items to the estimation queue"
 
-#: src/lib/serverMessages.js:42
+#: src/lib/serverMessages.js:40
 msgid "Add no more than 100 items at a time."
 msgstr "Add no more than 100 items at a time."
 
@@ -199,7 +199,7 @@ msgstr "Add, remove, or reorder the cards used in this room."
 msgid "Add, review, and remove estimation items"
 msgstr "Add, review, and remove estimation items"
 
-#: src/lib/labels.js:21
+#: src/lib/labels.js:23
 msgid "Agree"
 msgstr "Agree"
 
@@ -208,9 +208,9 @@ msgid "Agree and save"
 msgstr "Agree and save"
 
 #: src/components/panels/History.jsx:104
-#: src/components/round/RoundStage.jsx:443
-#: src/lib/export.js:33
-#: src/lib/export.js:59
+#: src/components/round/RoundStage.jsx:448
+#: src/lib/export.js:38
+#: src/lib/export.js:64
 msgid "Agreement"
 msgstr "Agreement"
 
@@ -246,11 +246,11 @@ msgstr "At the table"
 msgid "Auto-reveal"
 msgstr "Auto-reveal"
 
-#: src/lib/labels.js:42
+#: src/lib/labels.js:44
 msgid "Average numeric votes and round up to a card in the deck."
 msgstr "Average numeric votes and round up to a card in the deck."
 
-#: src/lib/labels.js:33
+#: src/lib/labels.js:35
 msgid "Average, rounded up"
 msgstr "Average, rounded up"
 
@@ -267,42 +267,42 @@ msgstr "Back"
 msgid "Back to home"
 msgstr "Back to home"
 
-#: src/lib/labels.js:25
+#: src/lib/labels.js:27
 msgid "Break"
 msgstr "Break"
 
 #: src/components/panels/ItemManager.jsx:246
 #: src/components/panels/RoomSettings.jsx:421
-#: src/components/round/RoundStage.jsx:349
+#: src/components/round/RoundStage.jsx:346
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/components/round/RoundStage.jsx:324
-#: src/components/round/RoundStage.jsx:361
+#: src/components/round/RoundStage.jsx:321
+#: src/components/round/RoundStage.jsx:358
 msgid "Cancel round"
 msgstr "Cancel round"
 
-#: src/components/round/RoundStage.jsx:322
+#: src/components/round/RoundStage.jsx:319
 msgid "Cancel this round?"
 msgstr "Cancel this round?"
 
-#: src/components/round/RoundStage.jsx:320
+#: src/components/round/RoundStage.jsx:317
 msgid "Cancel this round? Its votes and ad-hoc item will be discarded."
 msgstr "Cancel this round? Its votes and ad-hoc item will be discarded."
 
-#: src/components/round/RoundStage.jsx:319
+#: src/components/round/RoundStage.jsx:316
 msgid "Cancel this round? Its votes will be discarded and the item will remain pending."
 msgstr "Cancel this round? Its votes will be discarded and the item will remain pending."
 
-#: src/components/round/RoundStage.jsx:463
+#: src/components/round/RoundStage.jsx:468
 msgid "Cards counted"
 msgstr "Cards counted"
 
-#: src/lib/serverMessages.js:43
+#: src/lib/serverMessages.js:41
 msgid "Cards must be provided as a list."
 msgstr "Cards must be provided as a list."
 
-#: src/components/round/RoundStage.jsx:387
+#: src/components/round/RoundStage.jsx:392
 msgid "Cards on the table"
 msgstr "Cards on the table"
 
@@ -310,11 +310,11 @@ msgstr "Cards on the table"
 msgid "Changes to this statement"
 msgstr "Changes to this statement"
 
-#: src/components/round/RoundStage.jsx:277
+#: src/components/round/RoundStage.jsx:274
 msgid "Choose a card"
 msgstr "Choose a card"
 
-#: src/lib/serverMessages.js:44
+#: src/lib/serverMessages.js:42
 msgid "Choose a card before confirming."
 msgstr "Choose a card before confirming."
 
@@ -322,7 +322,7 @@ msgstr "Choose a card before confirming."
 msgid "Choose a deck now. You can invite everyone once you’re inside."
 msgstr "Choose a deck now. You can invite everyone once you’re inside."
 
-#: src/components/round/RoundStage.jsx:183
+#: src/components/round/RoundStage.jsx:180
 msgid "Choose a pending item"
 msgstr "Choose a pending item"
 
@@ -330,7 +330,7 @@ msgstr "Choose a pending item"
 msgid "Choose a reaction"
 msgstr "Choose a reaction"
 
-#: src/lib/serverMessages.js:45
+#: src/lib/serverMessages.js:43
 msgid "Choose another person to become facilitator."
 msgstr "Choose another person to become facilitator."
 
@@ -338,7 +338,7 @@ msgstr "Choose another person to become facilitator."
 msgid "Choose how the app turns the revealed votes into a starting point."
 msgstr "Choose how the app turns the revealed votes into a starting point."
 
-#: src/lib/serverMessages.js:46
+#: src/lib/serverMessages.js:44
 msgid "Choose or enter a final estimate."
 msgstr "Choose or enter a final estimate."
 
@@ -346,11 +346,11 @@ msgstr "Choose or enter a final estimate."
 msgid "Choose who votes, observes, or facilitates the room."
 msgstr "Choose who votes, observes, or facilitates the room."
 
-#: src/components/round/RoundStage.jsx:270
+#: src/components/round/RoundStage.jsx:267
 msgid "Choose your card below."
 msgstr "Choose your card below."
 
-#: src/components/round/RoundStage.jsx:302
+#: src/components/round/RoundStage.jsx:299
 msgid "Clear every card and ask the team to vote again?"
 msgstr "Clear every card and ask the team to vote again?"
 
@@ -358,12 +358,12 @@ msgstr "Clear every card and ask the team to vote again?"
 msgid "Clear reactions"
 msgstr "Clear reactions"
 
-#: src/components/round/RoundStage.jsx:310
+#: src/components/round/RoundStage.jsx:307
 msgid "Clear the current votes?"
 msgstr "Clear the current votes?"
 
-#: src/components/round/RoundStage.jsx:312
-#: src/components/round/RoundStage.jsx:358
+#: src/components/round/RoundStage.jsx:309
+#: src/components/round/RoundStage.jsx:355
 msgid "Clear votes"
 msgstr "Clear votes"
 
@@ -401,11 +401,11 @@ msgstr "Close settings"
 msgid "Close this room?"
 msgstr "Close this room?"
 
-#: src/components/room/Room.jsx:153
+#: src/components/room/Room.jsx:151
 msgid "Closed"
 msgstr "Closed"
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Completed"
 msgstr "Completed"
 
@@ -417,11 +417,11 @@ msgstr "Completed estimate"
 msgid "Confirm {selected}"
 msgstr "Confirm {selected}"
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Confirmed"
 msgstr "Confirmed"
 
-#: src/components/round/RoundStage.jsx:465
+#: src/components/round/RoundStage.jsx:470
 msgid "Confirmed votes"
 msgstr "Confirmed votes"
 
@@ -429,7 +429,7 @@ msgstr "Confirmed votes"
 msgid "Connected"
 msgstr "Connected"
 
-#: src/lib/serverMessages.js:47
+#: src/lib/serverMessages.js:45
 msgid "Content-Type must be application/json."
 msgstr "Content-Type must be application/json."
 
@@ -438,13 +438,13 @@ msgid "Continue"
 msgstr "Continue"
 
 #: src/components/panels/RoomSettings.jsx:392
-#: src/components/room/Room.jsx:217
-#: src/components/room/Room.jsx:248
+#: src/components/room/Room.jsx:215
+#: src/components/room/Room.jsx:246
 msgid "Copied"
 msgstr "Copied"
 
-#: src/components/room/Room.jsx:217
-#: src/components/round/RoundStage.jsx:111
+#: src/components/room/Room.jsx:215
+#: src/components/round/RoundStage.jsx:108
 msgid "Copy invite link"
 msgstr "Copy invite link"
 
@@ -457,12 +457,12 @@ msgstr "Copy it now. It replaces any link you saved before, and it will not be s
 #~ msgstr "Copy link"
 
 #: src/components/panels/RoomSettings.jsx:392
-#: src/components/room/Room.jsx:248
+#: src/components/room/Room.jsx:246
 msgid "Copy recovery link"
 msgstr "Copy recovery link"
 
 #: src/components/panels/RoomSettings.jsx:110
-#: src/components/room/Room.jsx:244
+#: src/components/room/Room.jsx:242
 msgid "Couldn’t copy automatically. Select and copy the link manually."
 msgstr "Couldn’t copy automatically. Select and copy the link manually."
 
@@ -470,7 +470,7 @@ msgstr "Couldn’t copy automatically. Select and copy the link manually."
 msgid "Count the facilitator as a voter. Turn this off if you run the session without estimating."
 msgstr "Count the facilitator as a voter. Turn this off if you run the session without estimating."
 
-#: src/components/NotFoundPage.jsx:70
+#: src/components/NotFoundPage.jsx:65
 msgid "Create a new room"
 msgstr "Create a new room"
 
@@ -486,7 +486,7 @@ msgstr "Create planning room"
 msgid "Custom decks"
 msgstr "Custom decks"
 
-#: src/lib/serverMessages.js:48
+#: src/lib/serverMessages.js:46
 msgid "Deck cards must be unique."
 msgstr "Deck cards must be unique."
 
@@ -500,7 +500,7 @@ msgstr "Delete room"
 msgid "Delete this room permanently?"
 msgstr "Delete this room permanently?"
 
-#: src/components/round/RoundStage.jsx:170
+#: src/components/round/RoundStage.jsx:167
 msgid "Describe the item to estimate"
 msgstr "Describe the item to estimate"
 
@@ -516,8 +516,8 @@ msgstr "Discuss the revealed cards, choose the final estimate, and click Save es
 msgid "Dismiss for a week"
 msgstr "Dismiss for a week"
 
-#: src/components/room/Room.jsx:264
-#: src/components/room/Room.jsx:270
+#: src/components/room/Room.jsx:262
+#: src/components/room/Room.jsx:268
 msgid "Dismiss message"
 msgstr "Dismiss message"
 
@@ -525,11 +525,11 @@ msgstr "Dismiss message"
 msgid "Dismiss room reminder"
 msgstr "Dismiss room reminder"
 
-#: src/components/room/Room.jsx:220
+#: src/components/room/Room.jsx:218
 msgid "Dismiss the invite reminder"
 msgstr "Dismiss the invite reminder"
 
-#: src/components/room/Room.jsx:251
+#: src/components/room/Room.jsx:249
 msgid "Dismiss the recovery link"
 msgstr "Dismiss the recovery link"
 
@@ -558,6 +558,10 @@ msgstr "Drag to reorder {card}"
 msgid "During a round you can remove people, but roles and facilitator ownership stay fixed."
 msgstr "During a round you can remove people, but roles and facilitator ownership stay fixed."
 
+#: src/lib/labels.js:18
+msgid "Each card doubles, for work that scales steeply."
+msgstr "Each card doubles, for work that scales steeply."
+
 #: src/components/PrivacyPage.jsx:58
 msgid "Each room keeps only what it needs to run the session on the server that hosts it:"
 msgstr "Each room keeps only what it needs to run the session on the server that hosts it:"
@@ -571,7 +575,7 @@ msgstr "Edit"
 msgid "Edit {0}"
 msgstr "Edit {0}"
 
-#: src/components/round/RoundStage.jsx:355
+#: src/components/round/RoundStage.jsx:352
 msgid "Edit title"
 msgstr "Edit title"
 
@@ -579,19 +583,19 @@ msgstr "Edit title"
 msgid "Enjoying Point Taken? If you find it useful, please consider <0>buying me a coffee</0>."
 msgstr "Enjoying Point Taken? If you find it useful, please consider <0>buying me a coffee</0>."
 
-#: src/components/round/RoundStage.jsx:183
+#: src/components/round/RoundStage.jsx:180
 msgid "Enter a new item instead"
 msgstr "Enter a new item instead"
 
-#: src/lib/serverMessages.js:49
+#: src/lib/serverMessages.js:47
 msgid "Enter a task title."
 msgstr "Enter a task title."
 
-#: src/components/round/RoundStage.jsx:422
+#: src/components/round/RoundStage.jsx:427
 msgid "Enter a value"
 msgstr "Enter a value"
 
-#: src/lib/serverMessages.js:50
+#: src/lib/serverMessages.js:48
 msgid "Enter an item title."
 msgstr "Enter an item title."
 
@@ -629,15 +633,15 @@ msgstr "Export"
 
 #: src/components/panels/PeopleList.jsx:13
 #: src/components/panels/PeopleList.jsx:135
-#: src/components/room/Room.jsx:195
+#: src/components/room/Room.jsx:193
 msgid "Facilitator"
 msgstr "Facilitator"
 
-#: src/App.jsx:176
+#: src/App.jsx:167
 msgid "Facilitator access recovered."
 msgstr "Facilitator access recovered."
 
-#: src/App.jsx:122
+#: src/App.jsx:115
 msgid "Facilitator access was recovered in another browser, so this session was signed out. Join again to keep taking part."
 msgstr "Facilitator access was recovered in another browser, so this session was signed out. Join again to keep taking part."
 
@@ -646,11 +650,11 @@ msgstr "Facilitator access was recovered in another browser, so this session was
 msgid "Facilitator controls"
 msgstr "Facilitator controls"
 
-#: src/lib/serverMessages.js:51
+#: src/lib/serverMessages.js:49
 msgid "Facilitator ownership can only transfer between rounds."
 msgstr "Facilitator ownership can only transfer between rounds."
 
-#: src/components/EntryScreens.jsx:73
+#: src/components/EntryScreens.jsx:77
 #: src/components/panels/RoomSettings.jsx:375
 msgid "Facilitator recovery link"
 msgstr "Facilitator recovery link"
@@ -668,9 +672,9 @@ msgid "Fibonacci"
 msgstr "Fibonacci"
 
 #: src/components/panels/History.jsx:96
-#: src/components/round/RoundStage.jsx:418
-#: src/lib/export.js:33
-#: src/lib/export.js:57
+#: src/components/round/RoundStage.jsx:423
+#: src/lib/export.js:38
+#: src/lib/export.js:62
 msgid "Final estimate"
 msgstr "Final estimate"
 
@@ -678,7 +682,7 @@ msgstr "Final estimate"
 msgid "Find the estimate your team can stand behind."
 msgstr "Find the estimate your team can stand behind."
 
-#: src/components/EntryScreens.jsx:105
+#: src/components/EntryScreens.jsx:112
 msgid "Finding the room again…"
 msgstr "Finding the room again…"
 
@@ -690,11 +694,11 @@ msgstr "Finish"
 msgid "Finish the current round before changing its deck or suggestion rules."
 msgstr "Finish the current round before changing its deck or suggestion rules."
 
-#: src/lib/serverMessages.js:52
+#: src/lib/serverMessages.js:50
 msgid "Finish the current round before closing the room."
 msgstr "Finish the current round before closing the room."
 
-#: src/lib/serverMessages.js:53
+#: src/lib/serverMessages.js:51
 msgid "Finish the current round first."
 msgstr "Finish the current round first."
 
@@ -702,11 +706,11 @@ msgstr "Finish the current round first."
 msgid "Finished tasks will collect here."
 msgstr "Finished tasks will collect here."
 
-#: src/components/round/RoundStage.jsx:155
+#: src/components/round/RoundStage.jsx:152
 msgid "First estimate"
 msgstr "First estimate"
 
-#: src/lib/labels.js:40
+#: src/lib/labels.js:42
 msgid "For tied leaders, choose the card nearest their midpoint."
 msgstr "For tied leaders, choose the card nearest their midpoint."
 
@@ -718,7 +722,7 @@ msgstr "Free · privacy-first · no accounts"
 msgid "Free, and provided “as is”"
 msgstr "Free, and provided “as is”"
 
-#: src/components/round/RoundStage.jsx:445
+#: src/components/round/RoundStage.jsx:450
 msgid "Full consensus"
 msgstr "Full consensus"
 
@@ -734,11 +738,11 @@ msgstr "Generate a new recovery link?"
 msgid "Generate new link"
 msgstr "Generate new link"
 
-#: src/lib/serverMessages.js:54
+#: src/lib/serverMessages.js:52
 msgid "Give reactions a moment to breathe."
 msgstr "Give reactions a moment to breathe."
 
-#: src/components/NotFoundPage.jsx:71
+#: src/components/NotFoundPage.jsx:66
 msgid "Go to the home page"
 msgstr "Go to the home page"
 
@@ -746,7 +750,7 @@ msgstr "Go to the home page"
 #~ msgid "Hide these steps"
 #~ msgstr "Hide these steps"
 
-#: src/lib/labels.js:34
+#: src/lib/labels.js:36
 msgid "Highest vote"
 msgstr "Highest vote"
 
@@ -770,15 +774,15 @@ msgstr "If this statement changes, the “last updated” date above will change
 msgid "Immediately erase the room and all of its data."
 msgstr "Immediately erase the room and all of its data."
 
-#: src/lib/serverMessages.js:55
+#: src/lib/serverMessages.js:53
 msgid "Invalid room identity."
 msgstr "Invalid room identity."
 
-#: src/components/round/RoundStage.jsx:111
+#: src/components/round/RoundStage.jsx:108
 msgid "Invite link copied"
 msgstr "Invite link copied"
 
-#: src/components/room/Room.jsx:169
+#: src/components/room/Room.jsx:167
 msgid "Invite people"
 msgstr "Invite people"
 
@@ -787,15 +791,15 @@ msgid "Invite someone with the room link and they’ll appear here."
 msgstr "Invite someone with the room link and they’ll appear here."
 
 #: src/components/room/FacilitatorGuide.jsx:14
-#: src/components/room/Room.jsx:206
+#: src/components/room/Room.jsx:204
 msgid "Invite your team"
 msgstr "Invite your team"
 
-#: src/components/round/RoundStage.jsx:105
+#: src/components/round/RoundStage.jsx:102
 msgid "Invite your team, or wait for them to join. You can also turn the facilitator back into a voter in room settings."
 msgstr "Invite your team, or wait for them to join. You can also turn the facilitator back into a voter in room settings."
 
-#: src/components/EntryScreens.jsx:76
+#: src/components/EntryScreens.jsx:80
 msgid "It is the recovery key for {roomName}. Using it makes you the facilitator and signs out whoever is running the room right now. If someone sent it to invite you, join as a participant instead."
 msgstr "It is the recovery key for {roomName}. Using it makes you the facilitator and signs out whoever is running the room right now. If someone sent it to invite you, join as a participant instead."
 
@@ -803,19 +807,19 @@ msgstr "It is the recovery key for {roomName}. Using it makes you the facilitato
 #~ msgid "It’s the only way to reclaim this room if you lose this browser or switch devices. We won’t show it again."
 #~ msgstr "It’s the only way to reclaim this room if you lose this browser or switch devices. We won’t show it again."
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Item"
 msgstr "Item"
 
-#: src/lib/serverMessages.js:56
+#: src/lib/serverMessages.js:54
 msgid "Items can only be changed between rounds."
 msgstr "Items can only be changed between rounds."
 
-#: src/lib/serverMessages.js:57
+#: src/lib/serverMessages.js:55
 msgid "Items can only be reordered between rounds."
 msgstr "Items can only be reordered between rounds."
 
-#: src/lib/serverMessages.js:58
+#: src/lib/serverMessages.js:56
 msgid "Items must be provided as a list."
 msgstr "Items must be provided as a list."
 
@@ -828,23 +832,23 @@ msgstr "Items to estimate"
 msgid "Its estimates remain available here until the room expires."
 msgstr "Its estimates remain available here until the room expires."
 
-#: src/components/EntryScreens.jsx:84
+#: src/components/EntryScreens.jsx:88
 msgid "Join as a participant"
 msgstr "Join as a participant"
 
-#: src/components/EntryScreens.jsx:47
+#: src/components/EntryScreens.jsx:48
 msgid "Join room"
 msgstr "Join room"
 
-#: src/components/EntryScreens.jsx:34
+#: src/components/EntryScreens.jsx:35
 msgid "Join the planning room"
 msgstr "Join the planning room"
 
-#: src/components/room/Room.jsx:281
+#: src/components/room/Room.jsx:279
 msgid "joined the room"
 msgstr "joined the room"
 
-#: src/lib/serverMessages.js:59
+#: src/lib/serverMessages.js:57
 msgid "Keep at least one reaction available."
 msgstr "Keep at least one reaction available."
 
@@ -857,7 +861,7 @@ msgstr "Keep editing"
 msgid "Language"
 msgstr "Language"
 
-#: src/components/round/RoundStage.jsx:445
+#: src/components/round/RoundStage.jsx:450
 msgid "Largest voting group"
 msgstr "Largest voting group"
 
@@ -865,7 +869,11 @@ msgstr "Largest voting group"
 msgid "Last updated: 5 July 2026"
 msgstr "Last updated: 5 July 2026"
 
-#: src/components/room/Room.jsx:281
+#: src/components/room/Room.jsx:131
+msgid "Leave it"
+msgstr "Leave it"
+
+#: src/components/room/Room.jsx:279
 msgid "left the room"
 msgstr "left the room"
 
@@ -873,7 +881,7 @@ msgstr "left the room"
 msgid "Let people signal agreement, uncertainty, breaks, or a wish to speak."
 msgstr "Let people signal agreement, uncertainty, breaks, or a wish to speak."
 
-#: src/components/room/Room.jsx:169
+#: src/components/room/Room.jsx:167
 msgid "Link copied"
 msgstr "Link copied"
 
@@ -885,7 +893,7 @@ msgstr "Live voting"
 msgid "Lock room"
 msgstr "Lock room"
 
-#: src/components/room/Room.jsx:153
+#: src/components/room/Room.jsx:151
 msgid "Locked"
 msgstr "Locked"
 
@@ -934,11 +942,11 @@ msgstr "Manage"
 msgid "Manage people"
 msgstr "Manage people"
 
-#: src/lib/labels.js:32
+#: src/lib/labels.js:34
 msgid "Median"
 msgstr "Median"
 
-#: src/lib/labels.js:31
+#: src/lib/labels.js:33
 msgid "Middle ground"
 msgstr "Middle ground"
 
@@ -946,15 +954,15 @@ msgstr "Middle ground"
 msgid "Modified Fibonacci"
 msgstr "Modified Fibonacci"
 
-#: src/lib/labels.js:16
+#: src/lib/labels.js:17
 msgid "More range for larger or less certain work."
 msgstr "More range for larger or less certain work."
 
-#: src/lib/labels.js:30
+#: src/lib/labels.js:32
 msgid "Most votes"
 msgstr "Most votes"
 
-#: src/lib/labels.js:26
+#: src/lib/labels.js:28
 msgid "Need to speak"
 msgstr "Need to speak"
 
@@ -962,7 +970,7 @@ msgstr "Need to speak"
 msgid "New card"
 msgstr "New card"
 
-#: src/components/round/RoundStage.jsx:165
+#: src/components/round/RoundStage.jsx:162
 msgid "New item"
 msgstr "New item"
 
@@ -974,15 +982,15 @@ msgstr "New participants cannot join. Existing participants can reconnect."
 msgid "Next"
 msgstr "Next"
 
-#: src/lib/labels.js:24
+#: src/lib/labels.js:26
 msgid "Nice"
 msgstr "Nice"
 
-#: src/lib/export.js:42
+#: src/lib/export.js:47
 msgid "No"
 msgstr "No"
 
-#: src/components/EntryScreens.jsx:51
+#: src/components/EntryScreens.jsx:52
 msgid "No account needed. <0>How your data is handled</0>."
 msgstr "No account needed. <0>How your data is handled</0>."
 
@@ -998,7 +1006,7 @@ msgstr "No analytics or usage tracking, and no advertising or marketing profiles
 msgid "No analytics, no advertising, no third-party trackers, and nothing is sold or shared."
 msgstr "No analytics, no advertising, no third-party trackers, and nothing is sold or shared."
 
-#: src/components/round/RoundStage.jsx:145
+#: src/components/round/RoundStage.jsx:142
 msgid "No items are waiting to be estimated."
 msgstr "No items are waiting to be estimated."
 
@@ -1006,11 +1014,11 @@ msgstr "No items are waiting to be estimated."
 msgid "No location data, contacts, or device fingerprinting."
 msgstr "No location data, contacts, or device fingerprinting."
 
-#: src/components/round/RoundStage.jsx:459
+#: src/components/round/RoundStage.jsx:464
 msgid "No numeric spread"
 msgstr "No numeric spread"
 
-#: src/components/round/RoundStage.jsx:438
+#: src/components/round/RoundStage.jsx:443
 msgid "No range"
 msgstr "No range"
 
@@ -1018,11 +1026,11 @@ msgstr "No range"
 msgid "No sign-up. No email, password, or profile is ever required."
 msgstr "No sign-up. No email, password, or profile is ever required."
 
-#: src/components/round/RoundStage.jsx:401
+#: src/components/round/RoundStage.jsx:406
 msgid "No signal"
 msgstr "No signal"
 
-#: src/lib/labels.js:35
+#: src/lib/labels.js:37
 msgid "No suggestion"
 msgstr "No suggestion"
 
@@ -1031,24 +1039,24 @@ msgid "No third-party scripts, embeds, or trackers load in the app."
 msgstr "No third-party scripts, embeds, or trackers load in the app."
 
 #: src/components/panels/History.jsx:134
-#: src/lib/export.js:61
+#: src/lib/export.js:66
 msgid "No vote"
 msgstr "No vote"
 
-#: src/components/round/RoundStage.jsx:102
+#: src/components/round/RoundStage.jsx:99
 msgid "Nobody to vote"
 msgstr "Nobody to vote"
 
 #: src/components/panels/History.jsx:101
-#: src/lib/export.js:58
+#: src/lib/export.js:63
 msgid "None"
 msgstr "None"
 
-#: src/lib/serverMessages.js:60
+#: src/lib/serverMessages.js:58
 msgid "Not found"
 msgstr "Not found"
 
-#: src/components/round/RoundStage.jsx:247
+#: src/components/round/RoundStage.jsx:244
 msgid "Now estimating"
 msgstr "Now estimating"
 
@@ -1065,7 +1073,7 @@ msgstr "Observer · Away"
 msgid "Observer · Here"
 msgstr "Observer · Here"
 
-#: src/lib/labels.js:48
+#: src/lib/labels.js:50
 msgid "Off"
 msgstr "Off"
 
@@ -1077,91 +1085,91 @@ msgstr "Off"
 #~ msgid "Only for you, not for your team. Shown once."
 #~ msgstr "Only for you, not for your team. Shown once."
 
-#: src/lib/serverMessages.js:61
+#: src/lib/serverMessages.js:59
 msgid "Only the facilitator can add estimation items."
 msgstr "Only the facilitator can add estimation items."
 
-#: src/lib/serverMessages.js:62
+#: src/lib/serverMessages.js:60
 msgid "Only the facilitator can cancel a round."
 msgstr "Only the facilitator can cancel a round."
 
-#: src/lib/serverMessages.js:63
+#: src/lib/serverMessages.js:61
 msgid "Only the facilitator can change participant roles."
 msgstr "Only the facilitator can change participant roles."
 
-#: src/lib/serverMessages.js:64
+#: src/lib/serverMessages.js:62
 msgid "Only the facilitator can change room settings."
 msgstr "Only the facilitator can change room settings."
 
-#: src/lib/serverMessages.js:65
+#: src/lib/serverMessages.js:63
 msgid "Only the facilitator can clear reactions."
 msgstr "Only the facilitator can clear reactions."
 
-#: src/lib/serverMessages.js:66
+#: src/lib/serverMessages.js:64
 msgid "Only the facilitator can close the room."
 msgstr "Only the facilitator can close the room."
 
-#: src/lib/serverMessages.js:67
+#: src/lib/serverMessages.js:65
 msgid "Only the facilitator can create a new recovery link."
 msgstr "Only the facilitator can create a new recovery link."
 
-#: src/lib/serverMessages.js:68
+#: src/lib/serverMessages.js:66
 msgid "Only the facilitator can delete the room."
 msgstr "Only the facilitator can delete the room."
 
-#: src/lib/serverMessages.js:69
+#: src/lib/serverMessages.js:67
 msgid "Only the facilitator can edit estimation items."
 msgstr "Only the facilitator can edit estimation items."
 
-#: src/lib/serverMessages.js:70
+#: src/lib/serverMessages.js:68
 msgid "Only the facilitator can edit the item title."
 msgstr "Only the facilitator can edit the item title."
 
-#: src/lib/serverMessages.js:71
+#: src/lib/serverMessages.js:69
 msgid "Only the facilitator can finalize an estimate."
 msgstr "Only the facilitator can finalize an estimate."
 
-#: src/lib/serverMessages.js:72
+#: src/lib/serverMessages.js:70
 msgid "Only the facilitator can lock the room."
 msgstr "Only the facilitator can lock the room."
 
-#: src/lib/serverMessages.js:73
+#: src/lib/serverMessages.js:71
 msgid "Only the facilitator can pause reactions."
 msgstr "Only the facilitator can pause reactions."
 
-#: src/lib/serverMessages.js:74
+#: src/lib/serverMessages.js:72
 msgid "Only the facilitator can remove estimation items."
 msgstr "Only the facilitator can remove estimation items."
 
-#: src/lib/serverMessages.js:75
+#: src/lib/serverMessages.js:73
 msgid "Only the facilitator can remove participants."
 msgstr "Only the facilitator can remove participants."
 
-#: src/lib/serverMessages.js:76
+#: src/lib/serverMessages.js:74
 msgid "Only the facilitator can reorder estimation items."
 msgstr "Only the facilitator can reorder estimation items."
 
-#: src/lib/serverMessages.js:77
+#: src/lib/serverMessages.js:75
 msgid "Only the facilitator can restart voting."
 msgstr "Only the facilitator can restart voting."
 
-#: src/lib/serverMessages.js:78
+#: src/lib/serverMessages.js:76
 msgid "Only the facilitator can reveal cards."
 msgstr "Only the facilitator can reveal cards."
 
-#: src/lib/serverMessages.js:79
+#: src/lib/serverMessages.js:77
 msgid "Only the facilitator can start a round."
 msgstr "Only the facilitator can start a round."
 
-#: src/lib/serverMessages.js:80
+#: src/lib/serverMessages.js:78
 msgid "Only the facilitator can transfer ownership."
 msgstr "Only the facilitator can transfer ownership."
 
-#: src/lib/serverMessages.js:81
+#: src/lib/serverMessages.js:79
 msgid "Only the person who created this room can take facilitation back."
 msgstr "Only the person who created this room can take facilitation back."
 
-#: src/components/EntryScreens.jsx:91
+#: src/components/EntryScreens.jsx:95
 msgid "Only use the second option if this is your own room and you saved this link."
 msgstr "Only use the second option if this is your own room and you saved this link."
 
@@ -1195,8 +1203,8 @@ msgid "Opening the room…"
 msgstr "Opening the room…"
 
 #: src/components/panels/PeopleList.jsx:157
-#: src/components/room/Room.jsx:195
-#: src/lib/export.js:60
+#: src/components/room/Room.jsx:193
+#: src/lib/export.js:65
 msgid "Participant"
 msgstr "Participant"
 
@@ -1212,7 +1220,7 @@ msgstr "Paste a list from your backlog or write the work down here."
 msgid "Pause reactions"
 msgstr "Pause reactions"
 
-#: src/components/round/RoundStage.jsx:122
+#: src/components/round/RoundStage.jsx:119
 msgid "Pending items"
 msgstr "Pending items"
 
@@ -1228,11 +1236,11 @@ msgstr "Pick one to start. You can tweak the deck later in room settings."
 msgid "Pick the closest fit"
 msgstr "Pick the closest fit"
 
-#: src/lib/labels.js:41
+#: src/lib/labels.js:43
 msgid "Pick the middle submitted card, reducing the effect of extremes."
 msgstr "Pick the middle submitted card, reducing the effect of extremes."
 
-#: src/lib/labels.js:39
+#: src/lib/labels.js:41
 msgid "Pick the most popular card; ties lean higher."
 msgstr "Pick the most popular card; ties lean higher."
 
@@ -1265,6 +1273,10 @@ msgstr "Point Taken is made by <0>xexio.dev</0>, an independent developer based 
 msgid "Point Taken uses a small amount of browser storage purely to keep a session working and to save you re-typing. None of it is used for tracking, and it never leaves your device except the identity cookie, which is sent only to this site."
 msgstr "Point Taken uses a small amount of browser storage purely to keep a session working and to save you re-typing. None of it is used for tracking, and it never leaves your device except the identity cookie, which is sent only to this site."
 
+#: src/lib/labels.js:11
+msgid "Powers of two"
+msgstr "Powers of two"
+
 #: src/components/panels/RoomSettings.jsx:159
 msgid "Prepare and maintain the work this room will estimate."
 msgstr "Prepare and maintain the work this room will estimate."
@@ -1281,15 +1293,15 @@ msgstr "Prepare the session before voting starts. Add one item per line."
 msgid "Product highlights"
 msgstr "Product highlights"
 
-#: src/components/EntryScreens.jsx:106
+#: src/components/EntryScreens.jsx:113
 msgid "Pulling up a chair…"
 msgstr "Pulling up a chair…"
 
-#: src/components/room/Room.jsx:180
+#: src/components/room/Room.jsx:178
 msgid "Quick guide"
 msgstr "Quick guide"
 
-#: src/lib/labels.js:17
+#: src/lib/labels.js:19
 msgid "Quick, conversational sizing without numbers."
 msgstr "Quick, conversational sizing without numbers."
 
@@ -1301,11 +1313,11 @@ msgstr "Raise hand"
 msgid "React"
 msgstr "React"
 
-#: src/lib/serverMessages.js:82
+#: src/lib/serverMessages.js:80
 msgid "Reaction palette must be a list."
 msgstr "Reaction palette must be a list."
 
-#: src/lib/serverMessages.js:83
+#: src/lib/serverMessages.js:81
 msgid "Reactions are currently paused."
 msgstr "Reactions are currently paused."
 
@@ -1313,7 +1325,7 @@ msgstr "Reactions are currently paused."
 msgid "Reactions paused"
 msgstr "Reactions paused"
 
-#: src/components/round/RoundStage.jsx:155
+#: src/components/round/RoundStage.jsx:152
 msgid "Ready for another?"
 msgstr "Ready for another?"
 
@@ -1321,7 +1333,7 @@ msgstr "Ready for another?"
 msgid "Ready to lock it in?"
 msgstr "Ready to lock it in?"
 
-#: src/components/round/RoundStage.jsx:259
+#: src/components/round/RoundStage.jsx:256
 msgid "Ready to reveal"
 msgstr "Ready to reveal"
 
@@ -1363,15 +1375,15 @@ msgstr "Remove person"
 msgid "Removing your data"
 msgstr "Removing your data"
 
-#: src/lib/serverMessages.js:84
+#: src/lib/serverMessages.js:82
 msgid "Request body must be valid JSON."
 msgstr "Request body must be valid JSON."
 
-#: src/lib/serverMessages.js:85
+#: src/lib/serverMessages.js:83
 msgid "Request is too large."
 msgstr "Request is too large."
 
-#: src/lib/serverMessages.js:86
+#: src/lib/serverMessages.js:84
 msgid "Request origin is not allowed."
 msgstr "Request origin is not allowed."
 
@@ -1379,7 +1391,7 @@ msgstr "Request origin is not allowed."
 msgid "Reset deck"
 msgstr "Reset deck"
 
-#: src/components/round/RoundStage.jsx:308
+#: src/components/round/RoundStage.jsx:305
 msgid "Restart this round and its reveal timer?"
 msgstr "Restart this round and its reveal timer?"
 
@@ -1387,12 +1399,12 @@ msgstr "Restart this round and its reveal timer?"
 msgid "Resume reactions"
 msgstr "Resume reactions"
 
-#: src/components/round/RoundStage.jsx:229
-#: src/components/round/RoundStage.jsx:263
+#: src/components/round/RoundStage.jsx:226
+#: src/components/round/RoundStage.jsx:260
 msgid "Reveal cards"
 msgstr "Reveal cards"
 
-#: src/components/round/RoundStage.jsx:224
+#: src/components/round/RoundStage.jsx:221
 msgid "Reveal cards early?"
 msgstr "Reveal cards early?"
 
@@ -1400,15 +1412,15 @@ msgstr "Reveal cards early?"
 msgid "Reveal reminder"
 msgstr "Reveal reminder"
 
-#: src/components/round/RoundStage.jsx:258
+#: src/components/round/RoundStage.jsx:255
 msgid "Reveal suggested in {remaining}s"
 msgstr "Reveal suggested in {remaining}s"
 
-#: src/lib/serverMessages.js:87
+#: src/lib/serverMessages.js:85
 msgid "Reveal the cards first."
 msgstr "Reveal the cards first."
 
-#: src/lib/labels.js:23
+#: src/lib/labels.js:25
 msgid "Reviewing"
 msgstr "Reviewing"
 
@@ -1417,7 +1429,7 @@ msgstr "Reviewing"
 msgid "Role for {0}"
 msgstr "Role for {0}"
 
-#: src/lib/serverMessages.js:88
+#: src/lib/serverMessages.js:86
 msgid "Roles can only change between rounds."
 msgstr "Roles can only change between rounds."
 
@@ -1425,7 +1437,7 @@ msgstr "Roles can only change between rounds."
 msgid "Room access"
 msgstr "Room access"
 
-#: src/lib/serverMessages.js:89
+#: src/lib/serverMessages.js:87
 msgid "Room already exists."
 msgstr "Room already exists."
 
@@ -1437,20 +1449,20 @@ msgstr "Room closed"
 msgid "Room is ready"
 msgstr "Room is ready"
 
-#: src/lib/serverMessages.js:90
+#: src/lib/serverMessages.js:88
 msgid "Room message is too large."
 msgstr "Room message is too large."
 
 #: src/components/panels/RoomSettings.jsx:140
-#: src/components/room/Room.jsx:184
+#: src/components/room/Room.jsx:182
 msgid "Room settings"
 msgstr "Room settings"
 
-#: src/lib/serverMessages.js:91
+#: src/lib/serverMessages.js:89
 msgid "Room settings can only change between rounds."
 msgstr "Room settings can only change between rounds."
 
-#: src/components/NotFoundPage.jsx:16
+#: src/components/NotFoundPage.jsx:11
 msgid "Rooms and everything in them are deleted 7 days after the last activity. Start a new one and share the fresh invite link with your team."
 msgstr "Rooms and everything in them are deleted 7 days after the last activity. Start a new one and share the fresh invite link with your team."
 
@@ -1458,7 +1470,7 @@ msgstr "Rooms and everything in them are deleted 7 days after the last activity.
 msgid "Rooms and everything in them are deleted automatically 7 days after the last activity."
 msgstr "Rooms and everything in them are deleted automatically 7 days after the last activity."
 
-#: src/components/room/Room.jsx:156
+#: src/components/room/Room.jsx:154
 msgid "Rooms expire after 7 days of inactivity. Any activity keeps them alive."
 msgstr "Rooms expire after 7 days of inactivity. Any activity keeps them alive."
 
@@ -1471,11 +1483,11 @@ msgid "Run your first planning session"
 msgstr "Run your first planning session"
 
 #: src/components/panels/ItemManager.jsx:238
-#: src/components/round/RoundStage.jsx:340
+#: src/components/round/RoundStage.jsx:337
 msgid "Save"
 msgstr "Save"
 
-#: src/components/round/RoundStage.jsx:426
+#: src/components/round/RoundStage.jsx:431
 msgid "Save estimate"
 msgstr "Save estimate"
 
@@ -1503,7 +1515,7 @@ msgstr "Select an item from the estimation queue, or enter a new one, then click
 msgid "Select one card to continue"
 msgstr "Select one card to continue"
 
-#: src/components/round/RoundStage.jsx:159
+#: src/components/round/RoundStage.jsx:156
 msgid "Selected from the item list"
 msgstr "Selected from the item list"
 
@@ -1527,7 +1539,7 @@ msgstr "Seven-day rooms"
 msgid "Short-lived reactions and raised hands, which clear on their own within seconds."
 msgstr "Short-lived reactions and raised hands, which clear on their own within seconds."
 
-#: src/lib/labels.js:44
+#: src/lib/labels.js:46
 msgid "Show the votes and leave the decision entirely to the team."
 msgstr "Show the votes and leave the decision entirely to the team."
 
@@ -1539,15 +1551,15 @@ msgstr "Signal when it may be time to turn the cards over."
 msgid "Something went wrong."
 msgstr "Something went wrong."
 
-#: src/lib/serverMessages.js:92
+#: src/lib/serverMessages.js:90
 msgid "Something went wrong. Please try again."
 msgstr "Something went wrong. Please try again."
 
-#: src/components/round/RoundStage.jsx:402
+#: src/components/round/RoundStage.jsx:407
 msgid "Split vote · higher tied value shown"
 msgstr "Split vote · higher tied value shown"
 
-#: src/components/round/RoundStage.jsx:310
+#: src/components/round/RoundStage.jsx:307
 msgid "Start another ballot?"
 msgstr "Start another ballot?"
 
@@ -1555,7 +1567,7 @@ msgstr "Start another ballot?"
 msgid "Start the vote"
 msgstr "Start the vote"
 
-#: src/components/round/RoundStage.jsx:186
+#: src/components/round/RoundStage.jsx:183
 msgid "Start voting"
 msgstr "Start voting"
 
@@ -1564,9 +1576,9 @@ msgid "Step {stepNumber} of {stepCount}"
 msgstr "Step {stepNumber} of {stepCount}"
 
 #: src/components/panels/RoomSettings.jsx:218
-#: src/components/round/RoundStage.jsx:400
-#: src/lib/export.js:33
-#: src/lib/export.js:58
+#: src/components/round/RoundStage.jsx:405
+#: src/lib/export.js:38
+#: src/lib/export.js:63
 msgid "Suggested estimate"
 msgstr "Suggested estimate"
 
@@ -1574,23 +1586,23 @@ msgstr "Suggested estimate"
 msgid "Supporting the project"
 msgstr "Supporting the project"
 
-#: src/lib/labels.js:11
+#: src/lib/labels.js:12
 msgid "T-shirt sizes"
 msgstr "T-shirt sizes"
 
-#: src/components/room/Room.jsx:173
+#: src/components/room/Room.jsx:171
 msgid "Take facilitation back"
 msgstr "Take facilitation back"
 
-#: src/components/room/Room.jsx:131
+#: src/components/room/Room.jsx:128
 msgid "Take facilitation back?"
 msgstr "Take facilitation back?"
 
-#: src/components/room/Room.jsx:133
+#: src/components/room/Room.jsx:130
 msgid "Take it back"
 msgstr "Take it back"
 
-#: src/components/EntryScreens.jsx:87
+#: src/components/EntryScreens.jsx:91
 msgid "Take over as facilitator"
 msgstr "Take over as facilitator"
 
@@ -1602,43 +1614,43 @@ msgstr "Team reactions"
 msgid "Tell the room what to call you."
 msgstr "Tell the room what to call you."
 
-#: src/lib/serverMessages.js:93
+#: src/lib/serverMessages.js:91
 msgid "That action could not be completed."
 msgstr "That action could not be completed."
 
-#: src/lib/serverMessages.js:94
+#: src/lib/serverMessages.js:92
 msgid "That card is not in this deck."
 msgstr "That card is not in this deck."
 
-#: src/lib/serverMessages.js:95
+#: src/lib/serverMessages.js:93
 msgid "That item is already in the estimation queue."
 msgstr "That item is already in the estimation queue."
 
-#: src/lib/serverMessages.js:96
+#: src/lib/serverMessages.js:94
 msgid "That item is no longer pending."
 msgstr "That item is no longer pending."
 
-#: src/lib/serverMessages.js:97
+#: src/lib/serverMessages.js:95
 msgid "That participant cannot be changed."
 msgstr "That participant cannot be changed."
 
-#: src/lib/serverMessages.js:98
+#: src/lib/serverMessages.js:96
 msgid "That participant cannot be removed."
 msgstr "That participant cannot be removed."
 
-#: src/lib/serverMessages.js:99
+#: src/lib/serverMessages.js:97
 msgid "That pending item was not found."
 msgstr "That pending item was not found."
 
-#: src/lib/serverMessages.js:100
+#: src/lib/serverMessages.js:98
 msgid "That reaction is not available."
 msgstr "That reaction is not available."
 
-#: src/lib/serverMessages.js:101
+#: src/lib/serverMessages.js:99
 msgid "That recovery code is not valid for this room."
 msgstr "That recovery code is not valid for this room."
 
-#: src/components/NotFoundPage.jsx:32
+#: src/components/NotFoundPage.jsx:27
 msgid "That room link isn’t valid"
 msgstr "That room link isn’t valid"
 
@@ -1646,13 +1658,13 @@ msgstr "That room link isn’t valid"
 msgid "The app runs on Cloudflare’s network (Workers and Durable Objects). To deliver the service and protect it from abuse, Cloudflare processes connection details — including your IP address — transiently for connectivity, security, and rate-limiting. The app uses your IP only as a short-lived counter to limit how many rooms can be created or joined in a short window; it is not linked to your name or votes. This processing is covered by Cloudflare’s own privacy practices."
 msgstr "The app runs on Cloudflare’s network (Workers and Durable Objects). To deliver the service and protect it from abuse, Cloudflare processes connection details — including your IP address — transiently for connectivity, security, and rate-limiting. The app uses your IP only as a short-lived counter to limit how many rooms can be created or joined in a short window; it is not linked to your name or votes. This processing is covered by Cloudflare’s own privacy practices."
 
-#: src/components/NotFoundPage.jsx:25
+#: src/components/NotFoundPage.jsx:20
 msgid "The facilitator deleted this room, along with its votes and history. Start a new one and share the fresh invite link with your team."
 msgstr "The facilitator deleted this room, along with its votes and history. Start a new one and share the fresh invite link with your team."
 
-#: src/components/room/Room.jsx:165
-#: src/components/room/Room.jsx:213
-#: src/components/room/Room.jsx:331
+#: src/components/room/Room.jsx:163
+#: src/components/room/Room.jsx:211
+#: src/components/room/Room.jsx:329
 msgid "The invite link could not be copied. Copy it from the address bar instead."
 msgstr "The invite link could not be copied. Copy it from the address bar instead."
 
@@ -1660,11 +1672,11 @@ msgstr "The invite link could not be copied. Copy it from the address bar instea
 msgid "The item list is read-only while a round is active."
 msgstr "The item list is read-only while a round is active."
 
-#: src/components/NotFoundPage.jsx:34
+#: src/components/NotFoundPage.jsx:29
 msgid "The link may be incomplete or mistyped. Ask whoever invited you to send it again, or start a room of your own."
 msgstr "The link may be incomplete or mistyped. Ask whoever invited you to send it again, or start a room of your own."
 
-#: src/components/NotFoundPage.jsx:42
+#: src/components/NotFoundPage.jsx:37
 msgid "The link may be out of date or mistyped. Nothing to estimate here."
 msgstr "The link may be out of date or mistyped. Nothing to estimate here."
 
@@ -1676,7 +1688,7 @@ msgstr "The next task will appear here."
 msgid "The only personal detail we handle is the display name you choose — a nickname is fine."
 msgstr "The only personal detail we handle is the display name you choose — a nickname is fine."
 
-#: src/lib/serverMessages.js:102
+#: src/lib/serverMessages.js:100
 msgid "The pending item order is no longer current."
 msgstr "The pending item order is no longer current."
 
@@ -1684,7 +1696,7 @@ msgstr "The pending item order is no longer current."
 msgid "The People list shows who has voted. When the team is ready, click Reveal cards."
 msgstr "The People list shows who has voted. When the team is ready, click Reveal cards."
 
-#: src/App.jsx:218
+#: src/App.jsx:207
 msgid "The room is reconnecting. Try that again in a moment."
 msgstr "The room is reconnecting. Try that again in a moment."
 
@@ -1692,7 +1704,7 @@ msgstr "The room is reconnecting. Try that again in a moment."
 msgid "The room name, the planning deck, and the room settings."
 msgstr "The room name, the planning deck, and the room settings."
 
-#: src/App.jsx:105
+#: src/App.jsx:102
 msgid "The room sent an unreadable update. Reconnecting may help."
 msgstr "The room sent an unreadable update. Reconnecting may help."
 
@@ -1700,23 +1712,23 @@ msgstr "The room sent an unreadable update. Reconnecting may help."
 msgid "The short version"
 msgstr "The short version"
 
-#: src/components/round/RoundStage.jsx:103
+#: src/components/round/RoundStage.jsx:100
 msgid "There are no voters yet"
 msgstr "There are no voters yet"
 
-#: src/lib/serverMessages.js:103
+#: src/lib/serverMessages.js:101
 msgid "There is no active round to cancel."
 msgstr "There is no active round to cancel."
 
-#: src/lib/serverMessages.js:104
+#: src/lib/serverMessages.js:102
 msgid "There is no active round to edit."
 msgstr "There is no active round to edit."
 
-#: src/lib/serverMessages.js:105
+#: src/lib/serverMessages.js:103
 msgid "There is no active round to restart."
 msgstr "There is no active round to restart."
 
-#: src/lib/serverMessages.js:106
+#: src/lib/serverMessages.js:104
 msgid "There is no voting round to reveal."
 msgstr "There is no voting round to reveal."
 
@@ -1736,7 +1748,7 @@ msgstr "They’ll bring the first task to the table."
 msgid "They’ll leave immediately and their current vote will be discarded."
 msgstr "They’ll leave immediately and their current vote will be discarded."
 
-#: src/components/EntryScreens.jsx:74
+#: src/components/EntryScreens.jsx:78
 msgid "This link is not an invitation"
 msgstr "This link is not an invitation"
 
@@ -1744,23 +1756,23 @@ msgstr "This link is not an invitation"
 #~ msgid "This one is only for you. It reclaims the room if you lose this browser or switch devices, so do not send it to your team. We won’t show it again."
 #~ msgstr "This one is only for you. It reclaims the room if you lose this browser or switch devices, so do not send it to your team. We won’t show it again."
 
-#: src/components/NotFoundPage.jsx:41
+#: src/components/NotFoundPage.jsx:36
 msgid "This page doesn’t exist"
 msgstr "This page doesn’t exist"
 
-#: src/lib/serverMessages.js:107
+#: src/lib/serverMessages.js:105
 msgid "This room has been closed."
 msgstr "This room has been closed."
 
-#: src/components/NotFoundPage.jsx:14
+#: src/components/NotFoundPage.jsx:9
 msgid "This room has expired"
 msgstr "This room has expired"
 
-#: src/lib/serverMessages.js:108
+#: src/lib/serverMessages.js:106
 msgid "This room has expired or does not exist."
 msgstr "This room has expired or does not exist."
 
-#: src/lib/serverMessages.js:109
+#: src/lib/serverMessages.js:107
 msgid "This room has reached its 20-person limit."
 msgstr "This room has reached its 20-person limit."
 
@@ -1768,7 +1780,7 @@ msgstr "This room has reached its 20-person limit."
 msgid "This room is closed"
 msgstr "This room is closed"
 
-#: src/lib/serverMessages.js:110
+#: src/lib/serverMessages.js:108
 msgid "This room is closed and can only be viewed."
 msgstr "This room is closed and can only be viewed."
 
@@ -1776,11 +1788,11 @@ msgstr "This room is closed and can only be viewed."
 msgid "This room is closed and read-only. Settings can’t be changed, but you can still delete it below."
 msgstr "This room is closed and read-only. Settings can’t be changed, but you can still delete it below."
 
-#: src/lib/serverMessages.js:111
+#: src/lib/serverMessages.js:109
 msgid "This room is not accepting new participants."
 msgstr "This room is not accepting new participants."
 
-#: src/components/NotFoundPage.jsx:23
+#: src/components/NotFoundPage.jsx:18
 msgid "This room was deleted"
 msgstr "This room was deleted"
 
@@ -1788,15 +1800,15 @@ msgstr "This room was deleted"
 msgid "Timestamps for when the room was created, last used, and is due to expire."
 msgstr "Timestamps for when the room was created, last used, and is due to expire."
 
-#: src/lib/serverMessages.js:112
+#: src/lib/serverMessages.js:110
 msgid "Too many attempts. Try again shortly."
 msgstr "Too many attempts. Try again shortly."
 
-#: src/lib/serverMessages.js:113
+#: src/lib/serverMessages.js:111
 msgid "Too many room actions. Slow down and try again."
 msgstr "Too many room actions. Slow down and try again."
 
-#: src/lib/serverMessages.js:114
+#: src/lib/serverMessages.js:112
 msgid "Too many rooms created. Try again shortly."
 msgstr "Too many rooms created. Try again shortly."
 
@@ -1812,15 +1824,15 @@ msgstr "Transfer facilitator ownership"
 msgid "Turn the cards over automatically once everyone has voted."
 msgstr "Turn the cards over automatically once everyone has voted."
 
-#: src/lib/serverMessages.js:115
+#: src/lib/serverMessages.js:113
 msgid "Unknown participant role."
 msgstr "Unknown participant role."
 
-#: src/lib/serverMessages.js:116
+#: src/lib/serverMessages.js:114
 msgid "Unknown room action."
 msgstr "Unknown room action."
 
-#: src/lib/serverMessages.js:117
+#: src/lib/serverMessages.js:115
 msgid "Unknown suggestion algorithm."
 msgstr "Unknown suggestion algorithm."
 
@@ -1828,11 +1840,11 @@ msgstr "Unknown suggestion algorithm."
 msgid "Unlock room"
 msgstr "Unlock room"
 
-#: src/lib/serverMessages.js:118
+#: src/lib/serverMessages.js:116
 msgid "Unsupported reveal timer."
 msgstr "Unsupported reveal timer."
 
-#: src/lib/labels.js:22
+#: src/lib/labels.js:24
 msgid "Unsure"
 msgstr "Unsure"
 
@@ -1841,17 +1853,17 @@ msgstr "Unsure"
 msgid "Usage & privacy"
 msgstr "Usage & privacy"
 
-#: src/lib/labels.js:43
+#: src/lib/labels.js:45
 msgid "Use the most cautious submitted estimate."
 msgstr "Use the most cautious submitted estimate."
 
-#: src/lib/export.js:33
-#: src/lib/export.js:60
+#: src/lib/export.js:38
+#: src/lib/export.js:65
 msgid "Vote"
 msgstr "Vote"
 
-#: src/components/round/RoundStage.jsx:312
-#: src/components/round/RoundStage.jsx:358
+#: src/components/round/RoundStage.jsx:309
+#: src/components/round/RoundStage.jsx:355
 msgid "Vote again"
 msgstr "Vote again"
 
@@ -1864,11 +1876,11 @@ msgid "Vote locked"
 msgstr "Vote locked"
 
 #: src/components/panels/History.jsx:108
-#: src/components/round/RoundStage.jsx:448
+#: src/components/round/RoundStage.jsx:453
 msgid "Vote range"
 msgstr "Vote range"
 
-#: src/lib/export.js:33
+#: src/lib/export.js:38
 msgid "Voter"
 msgstr "Voter"
 
@@ -1876,7 +1888,7 @@ msgstr "Voter"
 msgid "Votes during a round and the finalized estimates in the room’s history."
 msgstr "Votes during a round and the finalized estimates in the room’s history."
 
-#: src/components/round/RoundStage.jsx:253
+#: src/components/round/RoundStage.jsx:250
 msgid "votes locked"
 msgstr "votes locked"
 
@@ -1884,7 +1896,7 @@ msgstr "votes locked"
 msgid "Votes stay hidden from other participants until the facilitator reveals them (or everyone has voted, if auto-reveal is on). We do not store IP addresses alongside your activity."
 msgstr "Votes stay hidden from other participants until the facilitator reveals them (or everyone has voted, if auto-reveal is on). We do not store IP addresses alongside your activity."
 
-#: src/lib/serverMessages.js:119
+#: src/lib/serverMessages.js:117
 msgid "Voting is not open."
 msgstr "Voting is not open."
 
@@ -1900,7 +1912,7 @@ msgstr "Waiting for the facilitator"
 #~ msgid "We’ll add a short suffix to your name so everyone stays distinct."
 #~ msgstr "We’ll add a short suffix to your name so everyone stays distinct."
 
-#: src/components/round/RoundStage.jsx:156
+#: src/components/round/RoundStage.jsx:153
 msgid "What are we sizing?"
 msgstr "What are we sizing?"
 
@@ -1924,7 +1936,7 @@ msgstr "What we do not collect"
 msgid "Who runs this & how to reach out"
 msgstr "Who runs this & how to reach out"
 
-#: src/lib/export.js:42
+#: src/lib/export.js:47
 msgid "Yes"
 msgstr "Yes"
 
@@ -1936,7 +1948,7 @@ msgstr "You"
 msgid "You · Facilitator"
 msgstr "You · Facilitator"
 
-#: src/lib/serverMessages.js:120
+#: src/lib/serverMessages.js:118
 msgid "You are already the facilitator."
 msgstr "You are already the facilitator."
 
@@ -1948,11 +1960,11 @@ msgstr "You can clear any of this at any time from your browser’s site-data se
 msgid "You created this room."
 msgstr "You created this room."
 
-#: src/components/room/Room.jsx:132
+#: src/components/room/Room.jsx:129
 msgid "You created this room. {currentFacilitatorName} stops being the facilitator, and everyone in the room is told."
 msgstr "You created this room. {currentFacilitatorName} stops being the facilitator, and everyone in the room is told."
 
-#: src/lib/serverMessages.js:121
+#: src/lib/serverMessages.js:119
 msgid "You joined after this round started and can vote in the next one."
 msgstr "You joined after this round started and can vote in the next one."
 
@@ -1964,7 +1976,7 @@ msgstr "You joined during this round. Your hand opens on the next task."
 msgid "You joined this room."
 msgstr "You joined this room."
 
-#: src/App.jsx:123
+#: src/App.jsx:116
 msgid "You were removed from this room."
 msgstr "You were removed from this room."
 
@@ -1976,7 +1988,7 @@ msgstr "You’ll be the facilitator."
 msgid "You’ll become a regular participant and they’ll receive all facilitator controls."
 msgstr "You’ll become a regular participant and they’ll receive all facilitator controls."
 
-#: src/components/EntryScreens.jsx:49
+#: src/components/EntryScreens.jsx:50
 msgid "You’re joining {roomName}"
 msgstr "You’re joining {roomName}"
 
@@ -1984,7 +1996,7 @@ msgstr "You’re joining {roomName}"
 msgid "You’re observing this session. Observers can follow the discussion without voting."
 msgstr "You’re observing this session. Observers can follow the discussion without voting."
 
-#: src/components/EntryScreens.jsx:33
+#: src/components/EntryScreens.jsx:34
 msgid "You’ve been invited"
 msgstr "You’ve been invited"
 
@@ -1996,8 +2008,8 @@ msgstr "Your data is never sold, rented, or shared with anyone."
 msgid "Your hand"
 msgstr "Your hand"
 
-#: src/components/EntryScreens.jsx:37
-#: src/components/EntryScreens.jsx:42
+#: src/components/EntryScreens.jsx:38
+#: src/components/EntryScreens.jsx:43
 #: src/components/HomePage.jsx:102
 #: src/components/HomePage.jsx:107
 msgid "Your name"
@@ -2011,14 +2023,14 @@ msgstr "Your planning room is still active"
 msgid "Your queue is empty"
 msgstr "Your queue is empty"
 
-#: src/components/room/Room.jsx:233
+#: src/components/room/Room.jsx:231
 msgid "Your recovery link"
 msgstr "Your recovery link"
 
-#: src/lib/serverMessages.js:122
+#: src/lib/serverMessages.js:120
 msgid "Your room identity is no longer valid."
 msgstr "Your room identity is no longer valid."
 
-#: src/components/round/RoundStage.jsx:269
+#: src/components/round/RoundStage.jsx:266
 msgid "Your vote is locked. You can still choose another card."
 msgstr "Your vote is locked. You can still choose another card."

@@ -8,12 +8,14 @@ import { msg } from "@lingui/core/macro";
 const DECK_NAMES = {
   fibonacci: msg`Fibonacci`,
   modified: msg`Modified Fibonacci`,
+  powers: msg`Powers of two`,
   tshirt: msg`T-shirt sizes`,
 };
 
 const DECK_DESCRIPTIONS = {
   fibonacci: msg`A focused sequence for relative complexity.`,
   modified: msg`More range for larger or less certain work.`,
+  powers: msg`Each card doubles, for work that scales steeply.`,
   tshirt: msg`Quick, conversational sizing without numbers.`,
 };
 

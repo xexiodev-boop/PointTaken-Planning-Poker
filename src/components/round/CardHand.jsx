@@ -61,14 +61,16 @@ export function CardHand({ room, send }) {
       <div className="cards">
         {room.deck.cards.map((value) => (
           <button
+            aria-pressed={selected === value}
             className={`poker-card ${selected === value ? "selected" : ""}`}
             key={value}
             onClick={() => send({ type: "select_vote", value })}
             type="button"
           >
-            <small>{value}</small>
+            {/* The corner pips draw the card face; only the centre value is announced. */}
+            <small aria-hidden="true">{value}</small>
             <strong>{value}</strong>
-            <small>{value}</small>
+            <small aria-hidden="true">{value}</small>
           </button>
         ))}
       </div>

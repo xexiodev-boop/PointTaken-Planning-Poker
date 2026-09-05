@@ -1,6 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
+import { i18n } from "@lingui/core";
+import { DECKS } from "../shared/decks.js";
 import { ROOM_LIMITS } from "../shared/limits.js";
-import { csvCell } from "../src/lib/export.js";
+import { csvCell, exportHistory } from "../src/lib/export.js";
 import { SERVER_MESSAGES } from "../src/lib/serverMessages.js";
 import { FACILITATOR_ONLY, LIMIT_MESSAGES } from "../shared/messages.js";
 import {
@@ -474,6 +477,81 @@ describe("reclaiming facilitation", () => {
 
     await expect(object.applyAction(room, creator, { type: "reclaim_facilitator" }))
       .rejects.toThrow("You are already the facilitator.");
+  });
+});
+
+describe("decks", () => {
+  // A deck whose name or description never reaches the catalog stays English
+  // for Spanish users, which is invisible until someone opens the picker.
+  const catalog = new Map(
+    readFileSync(new URL("../src/locales/es.po", import.meta.url), "utf8")
+      .split("\n\n")
+      .map((entry) => [
+        entry.match(/^msgid "(.*)"$/m)?.[1],
+        entry.match(/^msgstr "(.*)"$/m)?.[1],
+      ])
+      .filter(([id]) => id),
+  );
+
+  it.each(Object.entries(DECKS))("%s is a legal deck", (id, deck) => {
+    expect(deck.id).toBe(id);
+    expect(cleanCards(deck.cards)).toEqual(deck.cards);
+  });
+
+  it.each(Object.values(DECKS))("$id has Spanish name and description", (deck) => {
+    expect(catalog.get(deck.name)).toBeTruthy();
+    expect(catalog.get(deck.description)).toBeTruthy();
+  });
+});
+
+describe("history export", () => {
+  // The export strings go through Lingui macros, which need an active locale.
+  beforeAll(() => {
+    i18n.load("en", {});
+    i18n.activate("en");
+  });
+
+  const room = {
+    name: "Team Room",
+    history: [{
+      title: "Login flow",
+      finalValue: "5",
+      suggestion: { value: "5" },
+      metrics: { consensusPercent: 80 },
+      votes: [{ participantName: "Ada", value: "5", confirmed: true }],
+      completedAt: 0,
+    }],
+  };
+
+  function stubBrowser() {
+    const revoked = [];
+    const link = {};
+    link.click = () => {};
+    vi.stubGlobal("document", { createElement: () => link });
+    vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:test");
+    vi.spyOn(URL, "revokeObjectURL").mockImplementation((url) => revoked.push(url));
+    return { link, revoked };
+  }
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+    vi.useRealTimers();
+  });
+
+  // Revoking in the same tick as click() aborts the download in Safari and Firefox.
+  it.each(["csv", "md"])("keeps the %s blob alive past the click", (format) => {
+    vi.useFakeTimers();
+    const { link, revoked } = stubBrowser();
+
+    exportHistory(room, format);
+
+    expect(link.href).toBe("blob:test");
+    expect(link.download).toBe(`team-room-estimates.${format}`);
+    expect(revoked).toEqual([]);
+
+    vi.runAllTimers();
+    expect(revoked).toEqual(["blob:test"]);
   });
 });
 

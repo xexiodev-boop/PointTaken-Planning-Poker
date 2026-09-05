@@ -1,6 +1,7 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { readDisplayName, rememberDisplayName } from "../lib/displayName.js";
+import { LanguageSwitcher } from "./LanguageSwitcher.jsx";
 
 function roomNameFromId(roomId) {
   return roomId
@@ -52,6 +53,9 @@ export function JoinRoom({ roomId, onJoin, error }) {
             No account needed. <a href="/privacy">How your data is handled</a>.
           </Trans>
         </small>
+        <div className="entry-footer">
+          <LanguageSwitcher />
+        </div>
       </section>
     </main>
   );
@@ -90,6 +94,9 @@ export function RecoveryPrompt({ roomId, onDecide }) {
         <small className="join-privacy">
           <Trans>Only use the second option if this is your own room and you saved this link.</Trans>
         </small>
+        <div className="entry-footer">
+          <LanguageSwitcher />
+        </div>
       </section>
     </main>
   );
@@ -106,6 +113,9 @@ export function LoadingRoom({ status, error }) {
             : <Trans>Pulling up a chair…</Trans>}
         </h2>
         {error && <p className="form-error">{error}</p>}
+        <div className="entry-footer">
+          <LanguageSwitcher />
+        </div>
       </div>
     </main>
   );

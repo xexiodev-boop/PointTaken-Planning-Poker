@@ -17,13 +17,18 @@ function mdCell(value) {
   return String(value ?? "").replaceAll("|", "\\|");
 }
 
+// Safari and Firefox read the blob after click() returns, so revoking straight
+// away cancels the download. A minute is far longer than any browser needs and
+// still bounds how long the blob is held.
+const REVOKE_DELAY_MS = 60_000;
+
 function downloadText(filename, content, type) {
   const url = URL.createObjectURL(new Blob([content], { type }));
   const link = document.createElement("a");
   link.href = url;
   link.download = filename;
   link.click();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), REVOKE_DELAY_MS);
 }
 
 export function exportHistory(room, format) {
