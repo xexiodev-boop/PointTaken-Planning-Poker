@@ -1,4 +1,5 @@
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
+import { ChevronRight, X } from "lucide-react";
 import { useState } from "react";
 import { useModal } from "../../hooks/useModal.js";
 import { exportHistory } from "../../lib/export.js";
@@ -48,7 +49,7 @@ export function History({ room }) {
                         )}
                     </small>
                   </div>
-                  <i aria-hidden="true">›</i>
+                  <ChevronRight className="row-chevron" size={16} aria-hidden="true" />
                 </button>
               </li>
             ))}
@@ -86,7 +87,7 @@ function ResultDetail({ item, onClose }) {
           </div>
           <div className="workspace-header-actions">
             <span className="completed-estimate">{item.finalValue}</span>
-            <button className="workspace-close" onClick={onClose} type="button" aria-label={t`Close details`}>×</button>
+            <button className="workspace-close" onClick={onClose} type="button" aria-label={t`Close details`}><X size={17} aria-hidden="true" /></button>
           </div>
         </header>
         <main className="result-detail">

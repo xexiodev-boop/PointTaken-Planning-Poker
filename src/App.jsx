@@ -1,8 +1,9 @@
 import { t } from "@lingui/core/macro";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ROOM_ID_PATTERN } from "../shared/roomId.js";
-import { JoinRoom, LoadingRoom } from "./components/EntryScreens.jsx";
+import { JoinRoom, LoadingRoom, RecoveryPrompt } from "./components/EntryScreens.jsx";
 import { HomePage } from "./components/HomePage.jsx";
+import { NotFoundPage } from "./components/NotFoundPage.jsx";
 import { PrivacyPage } from "./components/PrivacyPage.jsx";
 import { Room } from "./components/room/Room.jsx";
 import { api } from "./lib/api.js";
@@ -17,16 +18,31 @@ function useRoomId() {
 export default function App() {
   const roomId = useRoomId();
   if (roomId) return <RoomPage roomId={roomId} />;
-  if (window.location.pathname.replace(/\/+$/, "") === "/privacy") return <PrivacyPage />;
-  return <HomePage />;
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (path === "/privacy") return <PrivacyPage />;
+  if (path === "/") return <HomePage />;
+  // A /room/... path reaching here failed ROOM_PATH, so the id is malformed.
+  return <NotFoundPage reason={path.startsWith("/room") ? "room" : "page"} />;
+}
+
+function readRecoveryCode() {
+  return new URLSearchParams(window.location.search).get("recover");
 }
 
 function RoomPage({ roomId }) {
   const [access, setAccess] = useState("checking");
+  const [gone, setGone] = useState(null);
   const [room, setRoom] = useState(null);
   const [status, setStatus] = useState("connecting");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [issuedRecoveryCode, setIssuedRecoveryCode] = useState(null);
+  // A recovery link is a facilitator credential, not an invite, and people do
+  // share it by mistake. Redeeming it rotates the creator's token and unseats
+  // whoever is facilitating, so ask before spending it: null means the prompt
+  // is still open, "" means proceed as a normal visitor, and a code means the
+  // visitor chose to take facilitation over.
+  const [recoveryDecision, setRecoveryDecision] = useState(() => (readRecoveryCode() ? null : ""));
   const socketRef = useRef(null);
 
   useEffect(() => {
@@ -40,6 +56,10 @@ function RoomPage({ roomId }) {
   }, [room]);
 
   useEffect(() => {
+    // Hold everything back while the recovery prompt is open: connecting first
+    // would join the room under the visitor's own identity and race the
+    // token rotation that redeeming performs.
+    if (recoveryDecision === null) return undefined;
     let cancelled = false;
     let retryTimer;
     let retryCount = 0;
@@ -69,11 +89,14 @@ function RoomPage({ roomId }) {
                 : message.room,
             );
           }
+          // Sent only to the socket that asked for it, never broadcast. Held in
+          // memory and shown once in room settings; nothing persists it.
+          if (message.type === "recovery_code") setIssuedRecoveryCode(message.code);
           if (message.type === "error") setError(localizeServerMessage(message.message));
           if (message.type === "announcement") setNotice(localizeAnnouncement(message));
           if (message.type === "room_deleted") {
             forgetRoom(roomId);
-            window.location.assign("/");
+            setGone("deleted");
           }
         } catch {
           setError(t`The room sent an unreadable update. Reconnecting may help.`);
@@ -84,11 +107,13 @@ function RoomPage({ roomId }) {
         // Explicit app codes are intentional kicks — act on them immediately.
         if (event.code === 4002) {
           forgetRoom(roomId);
-          window.location.assign("/");
+          setGone("deleted");
           return;
         }
-        if (event.code === 4001) {
-          setError(t`You were removed from this room.`);
+        if (event.code === 4001 || event.code === 4003) {
+          setError(event.code === 4003
+            ? t`Facilitator access was recovered in another browser, so this session was signed out. Join again to keep taking part.`
+            : t`You were removed from this room.`);
           setAccess("join");
           setRoom(null);
           setStatus("join");
@@ -121,9 +146,8 @@ function RoomPage({ roomId }) {
           return;
         }
         if (requestError.status === 404) {
-          // Room is gone (expired or deleted) — send them home.
           forgetRoom(roomId);
-          window.location.assign("/");
+          setGone("expired");
           return;
         }
         // Transient failure (still restarting, network blip) — back off and retry.
@@ -134,19 +158,15 @@ function RoomPage({ roomId }) {
     }
 
     async function redeemRecoveryLink() {
-      const code = new URLSearchParams(window.location.search).get("recover");
-      if (!code) return;
+      if (!recoveryDecision) return;
       try {
         await api(`/api/rooms/${roomId}/recover`, {
           method: "POST",
-          body: JSON.stringify({ code }),
+          body: JSON.stringify({ code: recoveryDecision }),
         });
         if (!cancelled) setNotice(t`Facilitator access recovered.`);
       } catch (requestError) {
         if (!cancelled) setError(requestError.message);
-      } finally {
-        // Strip the secret from the address bar/history regardless of outcome.
-        window.history.replaceState(null, "", `/room/${roomId}`);
       }
     }
 
@@ -161,14 +181,16 @@ function RoomPage({ roomId }) {
         connect();
       } catch (requestError) {
         if (cancelled) return;
-        if (requestError.status === 401) {
-          setAccess("join");
-          setStatus("join");
-        } else {
-          setAccess("join");
-          setStatus("join");
-          setError(requestError.message);
+        // 404 means the room is gone; anything else means this browser just
+        // has no valid identity for it.
+        if (requestError.status === 404) {
+          forgetRoom(roomId);
+          setGone("expired");
+          return;
         }
+        setAccess("join");
+        setStatus("join");
+        if (requestError.status !== 401) setError(requestError.message);
       }
     }
 
@@ -178,7 +200,7 @@ function RoomPage({ roomId }) {
       window.clearTimeout(retryTimer);
       socketRef.current?.close();
     };
-  }, [roomId]);
+  }, [roomId, recoveryDecision]);
 
   const send = useCallback((event) => {
     if (socketRef.current?.readyState !== WebSocket.OPEN) {
@@ -203,6 +225,18 @@ function RoomPage({ roomId }) {
     }
   }
 
+  function decideRecovery(accepted) {
+    const code = readRecoveryCode() ?? "";
+    // Strip the secret from the address bar and history either way, so a
+    // refresh can't re-prompt and the code can't be copied back out of the URL.
+    window.history.replaceState(null, "", `/room/${roomId}`);
+    setRecoveryDecision(accepted ? code : "");
+  }
+
+  if (gone) return <NotFoundPage reason={gone} />;
+  if (recoveryDecision === null) {
+    return <RecoveryPrompt roomId={roomId} onDecide={decideRecovery} />;
+  }
   if (access === "join") return <JoinRoom roomId={roomId} onJoin={join} error={error} />;
   if (!room) return <LoadingRoom status={status} error={error} />;
 
@@ -215,6 +249,8 @@ function RoomPage({ roomId }) {
       onError={setError}
       notice={notice}
       onNotice={setNotice}
+      issuedRecoveryCode={issuedRecoveryCode}
+      onClearIssuedRecoveryCode={() => setIssuedRecoveryCode(null)}
     />
   );
 }

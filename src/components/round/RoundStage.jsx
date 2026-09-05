@@ -1,9 +1,10 @@
 import { plural } from "@lingui/core/macro";
+import { ArrowDown, ChevronRight, Pencil, Plus, RotateCcw, X } from "lucide-react";
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import { useEffect, useMemo, useState } from "react";
 import { useConfirmation } from "../../hooks/useConfirmation.jsx";
 
-export function RoundStage({ room, send, onManageItems }) {
+export function RoundStage({ room, send, onManageItems, onCopyInvite, inviteCopied }) {
   const round = room.currentRound;
   const isFacilitator = room.viewer.role === "facilitator";
 
@@ -31,6 +32,8 @@ export function RoundStage({ room, send, onManageItems }) {
             send={send}
             previousRound={round}
             onManageItems={onManageItems}
+            onCopyInvite={onCopyInvite}
+            inviteCopied={inviteCopied}
           />
         ) : (
           <div className="stage-message">
@@ -54,7 +57,7 @@ export function RoundStage({ room, send, onManageItems }) {
   return <ResultsStage room={room} send={send} />;
 }
 
-function StartRound({ room, send, previousRound, onManageItems }) {
+function StartRound({ room, send, previousRound, onManageItems, onCopyInvite, inviteCopied }) {
   const { t } = useLingui();
   const pendingItems = useMemo(
     () => room.items.filter((item) => item.status === "pending"),
@@ -66,6 +69,7 @@ function StartRound({ room, send, previousRound, onManageItems }) {
   const selectedItem = pendingItems.find((item) => item.id === itemId);
   const firstPendingId = pendingItems[0]?.id ?? "";
   const selectedIsPending = pendingItems.some((item) => item.id === itemId);
+  const voterCount = room.participants.filter((person) => person.eligible).length;
 
   useEffect(() => {
     if (firstPendingId && !selectedIsPending) {
@@ -87,6 +91,24 @@ function StartRound({ room, send, previousRound, onManageItems }) {
       return;
     }
     setTitle("");
+  }
+
+  if (voterCount === 0) {
+    return (
+      <div className="stage-message no-voters">
+        <p className="eyebrow"><Trans>Nobody to vote</Trans></p>
+        <h2><Trans>There are no voters yet</Trans></h2>
+        <p>
+          <Trans>
+            Invite your team, or wait for them to join. You can also turn the
+            facilitator back into a voter in room settings.
+          </Trans>
+        </p>
+        <button className="primary-button" onClick={onCopyInvite} type="button">
+          {inviteCopied ? <Trans>Invite link copied</Trans> : <Trans>Copy invite link</Trans>}
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -111,7 +133,7 @@ function StartRound({ room, send, previousRound, onManageItems }) {
                 >
                   <small>{String(index + 1).padStart(2, "0")}</small>
                   <span>{item.title}</span>
-                  <i aria-hidden="true">›</i>
+                  <ChevronRight className="row-chevron" size={16} aria-hidden="true" />
                 </button>
               ))}
             </div>
@@ -119,7 +141,7 @@ function StartRound({ room, send, previousRound, onManageItems }) {
             <div className="picker-empty">
               <p><Trans>No items are waiting to be estimated.</Trans></p>
               <button onClick={onManageItems} type="button">
-                <span aria-hidden="true">+</span>
+                <Plus size={15} aria-hidden="true" />
                 <Trans>Add items to the estimation queue</Trans>
               </button>
             </div>
@@ -249,7 +271,7 @@ function VotingStage({ room, send }) {
         (person) => person.id === room.viewer.id && person.eligible,
       ) && (
         <button className="choose-card-cue" onClick={showHand} type="button">
-          <Trans>Choose a card</Trans> <span aria-hidden="true">↓</span>
+          <Trans>Choose a card</Trans> <ArrowDown size={15} aria-hidden="true" />
         </button>
       )}
       {confirmationDialog}
@@ -327,13 +349,13 @@ function FacilitatorRoundControls({ room, send }) {
       ) : (
         <>
           <button className="round-control-button" onClick={() => setEditing(true)} type="button">
-            <span aria-hidden="true">✎</span> <Trans>Edit title</Trans>
+            <Pencil size={14} aria-hidden="true" /> <Trans>Edit title</Trans>
           </button>
           <button className="round-control-button" onClick={restartVoting} type="button">
-            <span aria-hidden="true">↻</span> {round.phase === "revealed" ? <Trans>Vote again</Trans> : <Trans>Clear votes</Trans>}
+            <RotateCcw size={14} aria-hidden="true" /> {round.phase === "revealed" ? <Trans>Vote again</Trans> : <Trans>Clear votes</Trans>}
           </button>
           <button className="round-control-button danger" onClick={cancelRound} type="button">
-            <span aria-hidden="true">×</span> <Trans>Cancel round</Trans>
+            <X size={14} aria-hidden="true" /> <Trans>Cancel round</Trans>
           </button>
         </>
       )}

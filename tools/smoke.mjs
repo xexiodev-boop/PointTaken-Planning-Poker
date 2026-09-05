@@ -30,11 +30,13 @@ function roomSocket(roomId, session) {
   });
   const listeners = new Set();
   const errorListeners = new Set();
+  const messageListeners = new Set();
   let latestRoom = null;
   let latestError = null;
 
   socket.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
+    messageListeners.forEach((listener) => listener(message));
     if (message.type === "error") {
       latestError = message.message;
       errorListeners.forEach((listener) => listener(message.message));
@@ -84,6 +86,23 @@ function roomSocket(roomId, session) {
           resolve(message);
         }
         errorListeners.add(check);
+      });
+    },
+    // Waits for any message type, for replies that are not room state or an
+    // error (e.g. a freshly minted recovery code).
+    waitForType(type, timeoutMs = 5000) {
+      return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          messageListeners.delete(check);
+          reject(new Error(`Timed out waiting for a ${type} message.`));
+        }, timeoutMs);
+        function check(message) {
+          if (message.type !== type) return;
+          clearTimeout(timeout);
+          messageListeners.delete(check);
+          resolve(message);
+        }
+        messageListeners.add(check);
       });
     },
     close() {
@@ -367,7 +386,134 @@ await assert.rejects(
   /20-person limit/,
 );
 
+// The creator takes facilitation back with their own identity, no recovery code.
+const reclaimOwner = { cookie: "" };
+const reclaimRoom = await request("/api/rooms", {
+  method: "POST",
+  body: JSON.stringify({ name: "Reclaim owner", deckId: "fibonacci" }),
+}, reclaimOwner);
+const reclaimMate = { cookie: "" };
+const reclaimMateJoin = await request(`/api/rooms/${reclaimRoom.roomId}/join`, {
+  method: "POST",
+  body: JSON.stringify({ name: "Bo" }),
+}, reclaimMate);
+const reclaimOwnerSocket = roomSocket(reclaimRoom.roomId, reclaimOwner);
+const reclaimMateSocket = roomSocket(reclaimRoom.roomId, reclaimMate);
+await reclaimOwnerSocket.waitFor((room) => room.participants.length === 2);
+await reclaimMateSocket.waitFor((room) => room.participants.length === 2);
+
+// Stands in for the away-timer hand-off.
+reclaimOwnerSocket.send({ type: "transfer_facilitator", participantId: reclaimMateJoin.participantId });
+const handedOver = await reclaimOwnerSocket.waitFor((room) => room.viewer.role === "participant");
+assert.equal(handedOver.viewer.isCreator, true);
+
+reclaimMateSocket.send({ type: "reclaim_facilitator" });
+await reclaimMateSocket.waitForError(/created this room/);
+
+const reclaimAnnouncement = reclaimMateSocket.waitForType("announcement");
+reclaimOwnerSocket.send({ type: "reclaim_facilitator" });
+const reclaimed = await reclaimOwnerSocket.waitFor((room) => room.viewer.role === "facilitator");
+assert.equal(reclaimed.participants.find((person) => person.displayName.startsWith("Bo")).role, "participant");
+assert.match((await reclaimAnnouncement).message, /took facilitation back/);
+// The token must survive the reclaim.
+const stillValid = await request(`/api/rooms/${reclaimRoom.roomId}/state`, { method: "GET" }, reclaimOwner);
+assert.equal(stillValid.viewer.role, "facilitator");
+reclaimOwnerSocket.close();
+reclaimMateSocket.close();
+
+// A facilitator sitting out drops off the eligible list; with nobody left to
+// vote, the round is refused rather than opened and left hanging.
+const sitOutOwner = { cookie: "" };
+const sitOutRoom = await request("/api/rooms", {
+  method: "POST",
+  body: JSON.stringify({ name: "Sit-out owner", deckId: "fibonacci" }),
+}, sitOutOwner);
+const sitOutSocket = roomSocket(sitOutRoom.roomId, sitOutOwner);
+await sitOutSocket.waitFor((room) => room.participants.length === 1);
+
+sitOutSocket.send({ type: "update_settings", facilitatorVotes: false });
+await sitOutSocket.waitFor((room) => room.settings.facilitatorVotes === false);
+sitOutSocket.send({ type: "start_round", title: "Nobody home" });
+await sitOutSocket.waitForError(/at least one voter/);
+
+const sitOutVoter = { cookie: "" };
+await request(`/api/rooms/${sitOutRoom.roomId}/join`, {
+  method: "POST",
+  body: JSON.stringify({ name: "Vic" }),
+}, sitOutVoter);
+const sitOutVoterSocket = roomSocket(sitOutRoom.roomId, sitOutVoter);
+await sitOutVoterSocket.waitFor((room) => room.participants.length === 2);
+
+sitOutSocket.send({ type: "start_round", title: "Login page" });
+const sitOutRound = await sitOutVoterSocket.waitFor((room) => room.currentRound?.phase === "voting");
+assert.equal(sitOutRound.participants.filter((person) => person.eligible).length, 1);
+
+sitOutVoterSocket.send({ type: "select_vote", value: "5" });
+sitOutVoterSocket.send({ type: "confirm_vote" });
+await sitOutSocket.waitFor((room) => room.currentRound?.revealAllowed === true);
+sitOutSocket.send({ type: "select_vote", value: "8" });
+await sitOutSocket.waitForError(/./);
+sitOutSocket.close();
+sitOutVoterSocket.close();
+
+// A regenerated recovery code replaces the one handed out at creation, and the
+// secret reaches only the socket that asked: it must never ride a broadcast.
+const recoveryOwner = { cookie: "" };
+const recoveryRoom = await request("/api/rooms", {
+  method: "POST",
+  body: JSON.stringify({ name: "Recovery owner", deckId: "fibonacci" }),
+}, recoveryOwner);
+const recoverySocket = roomSocket(recoveryRoom.roomId, recoveryOwner);
+await recoverySocket.waitFor((room) => room.participants.length === 1);
+recoverySocket.send({ type: "regenerate_recovery" });
+const reissued = await recoverySocket.waitForType("recovery_code");
+assert.notEqual(reissued.code, recoveryRoom.recoveryCode);
+
+recoverySocket.send({ type: "set_room_lock", locked: true });
+const afterReissue = await recoverySocket.waitFor((room) => room.isLocked);
+assert.equal(JSON.stringify(afterReissue).includes(reissued.code), false);
+assert.equal("recoveryCodeHash" in afterReissue, false);
+recoverySocket.close();
+
+await assert.rejects(
+  request(`/api/rooms/${recoveryRoom.roomId}/recover`, {
+    method: "POST",
+    body: JSON.stringify({ code: recoveryRoom.recoveryCode }),
+  }, { cookie: "" }),
+  /not valid for this room/,
+);
+
+const reclaimer = { cookie: "" };
+await request(`/api/rooms/${recoveryRoom.roomId}/recover`, {
+  method: "POST",
+  body: JSON.stringify({ code: reissued.code }),
+}, reclaimer);
+const reclaimedState = await request(
+  `/api/rooms/${recoveryRoom.roomId}/state`,
+  { method: "GET" },
+  reclaimer,
+);
+assert.equal(reclaimedState.viewer.role, "facilitator");
+
 facilitator.close();
 participant.close();
 observer.close();
+// Sec-Fetch-Mode mimics a browser navigation, which is what selects between
+// asset serving and not_found_handling.
+async function pageStatus(path) {
+  const response = await fetch(`${baseUrl}${path}`, {
+    headers: { "Sec-Fetch-Mode": "navigate" },
+  });
+  await response.arrayBuffer();
+  return response.status;
+}
+
+assert.equal(await pageStatus("/"), 200);
+assert.equal(await pageStatus("/privacy"), 200);
+assert.equal(await pageStatus("/privacy/"), 200);
+assert.equal(await pageStatus(`/room/${created.roomId}`), 200);
+assert.equal(await pageStatus(`/room/${created.roomId}/`), 200);
+assert.equal(await pageStatus("/room/not-a-room"), 404);
+assert.equal(await pageStatus("/no-such-page"), 404);
+
 console.log(`Smoke test passed for ${lobby.name} (${created.roomId}).`);

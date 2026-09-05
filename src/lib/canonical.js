@@ -1,9 +1,7 @@
-// index.html ships a static <link rel="canonical"> pointing at the homepage,
-// and the SPA fallback serves that same document for every route. Left alone
-// it tells search engines that every page (e.g. /privacy) is a duplicate of
-// the homepage. Correct it to the route actually being viewed before render;
-// room URLs are join credentials (and crawl-blocked in robots.txt), so the
-// tag is removed there rather than advertising them.
+// index.html ships a static <link rel="canonical"> pointing at the homepage and
+// is also served for /room/:id, which would mark every room a duplicate of it.
+// Room URLs are join credentials, so the tag is removed there rather than
+// corrected.
 const ORIGIN = "https://pointtaken.team";
 const INDEXABLE_PATHS = ["/", "/privacy"];
 

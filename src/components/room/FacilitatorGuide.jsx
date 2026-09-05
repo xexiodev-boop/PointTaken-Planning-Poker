@@ -1,4 +1,5 @@
 import { msg } from "@lingui/core/macro";
+import { ArrowRight, X } from "lucide-react";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { useModal } from "../../hooks/useModal.js";
@@ -52,7 +53,7 @@ export function FacilitatorGuide({ onClose, onManageItems }) {
             <p className="eyebrow"><Trans>Facilitator tutorial</Trans></p>
             <h2 id="facilitator-guide-title"><Trans>Run your first planning session</Trans></h2>
           </div>
-          <button className="workspace-close" onClick={onClose} type="button" aria-label={t`Close guide`}>×</button>
+          <button className="workspace-close" onClick={onClose} type="button" aria-label={t`Close guide`}><X size={17} aria-hidden="true" /></button>
         </header>
         <div className="tutorial-progress">
           <span><Trans>Step {stepNumber} of {stepCount}</Trans></span>
@@ -68,7 +69,7 @@ export function FacilitatorGuide({ onClose, onManageItems }) {
           <p>{i18n._(step.text)}</p>
           {step.action && (
             <button className="tutorial-action" onClick={onManageItems} type="button">
-              {i18n._(step.action)} →
+              {i18n._(step.action)} <ArrowRight size={15} aria-hidden="true" />
             </button>
           )}
         </section>

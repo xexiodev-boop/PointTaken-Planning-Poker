@@ -1,4 +1,5 @@
 import { Trans, useLingui } from "@lingui/react/macro";
+import { Coffee, X } from "lucide-react";
 import { useState } from "react";
 import { dismissSupportBanner, isSupportBannerHidden } from "../lib/supportBanner.js";
 
@@ -17,7 +18,7 @@ export function SupportBanner() {
 
   return (
     <div className="support-banner" role="complementary">
-      <span className="support-banner-icon" aria-hidden="true">☕</span>
+      <Coffee className="support-banner-icon" size={16} aria-hidden="true" />
       <p>
         <Trans>
           Enjoying Point Taken? If you find it useful, please consider{" "}
@@ -28,7 +29,7 @@ export function SupportBanner() {
         </Trans>
       </p>
       <button aria-label={t`Dismiss for a week`} onClick={dismiss} type="button">
-        ×
+        <X size={15} aria-hidden="true" />
       </button>
     </div>
   );

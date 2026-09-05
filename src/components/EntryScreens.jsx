@@ -57,6 +57,44 @@ export function JoinRoom({ roomId, onJoin, error }) {
   );
 }
 
+// Shown when a URL carries a ?recover= code, before it is spent. Redeeming
+// takes facilitation from whoever holds it, so a link shared by mistake must
+// not do that silently just because someone opened it.
+export function RecoveryPrompt({ roomId, onDecide }) {
+  const roomName = roomNameFromId(roomId);
+
+  return (
+    <main className="center-shell">
+      <section className="join-card recovery-prompt">
+        <a className="brand" href="/">
+          <span className="brand-mark">P</span>
+          <span>Point Taken</span>
+        </a>
+        <p className="eyebrow"><Trans>Facilitator recovery link</Trans></p>
+        <h1><Trans>This link is not an invitation</Trans></h1>
+        <p className="recovery-prompt-copy">
+          <Trans>
+            It is the recovery key for {roomName}. Using it makes you the facilitator and
+            signs out whoever is running the room right now. If someone sent it to invite
+            you, join as a participant instead.
+          </Trans>
+        </p>
+        <div className="recovery-prompt-actions">
+          <button className="primary-button" onClick={() => onDecide(false)} type="button">
+            <Trans>Join as a participant</Trans>
+          </button>
+          <button className="secondary-button" onClick={() => onDecide(true)} type="button">
+            <Trans>Take over as facilitator</Trans>
+          </button>
+        </div>
+        <small className="join-privacy">
+          <Trans>Only use the second option if this is your own room and you saved this link.</Trans>
+        </small>
+      </section>
+    </main>
+  );
+}
+
 export function LoadingRoom({ status, error }) {
   return (
     <main className="center-shell">

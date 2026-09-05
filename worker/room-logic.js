@@ -1,4 +1,5 @@
 import { ROOM_LIMITS } from "../shared/limits.js";
+import { LIMIT_MESSAGES } from "../shared/messages.js";
 
 // Thrown for malformed/oversized client input. The worker's top-level catch
 // maps this to a 400 with the message surfaced; any other error is treated as
@@ -53,7 +54,7 @@ export function cleanCards(cards) {
     .filter(Boolean);
   if (cleaned.length < 2) throw new Error("A deck needs at least two cards.");
   if (cleaned.length > ROOM_LIMITS.cards) {
-    throw new Error(`A deck can contain at most ${ROOM_LIMITS.cards} cards.`);
+    throw new Error(LIMIT_MESSAGES.cards);
   }
   if (new Set(cleaned).size !== cleaned.length) throw new Error("Deck cards must be unique.");
   return cleaned;

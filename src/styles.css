@@ -52,7 +52,7 @@ a { color: inherit; text-decoration: none; }
   background: var(--green-dark);
   text-align: center;
 }
-.support-banner-icon { font-size: 15px; line-height: 1; }
+.support-banner-icon { flex: 0 0 auto; }
 .support-banner p { margin: 0; font-size: 13px; line-height: 1.4; }
 .support-banner a { color: var(--lime); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 .support-banner a:hover { color: #eef7c9; }
@@ -236,6 +236,43 @@ legend { margin-bottom: 6px; }
 .spinner { width: 34px; height: 34px; margin: 0 auto 20px; border: 3px solid #dfe4df; border-top-color: var(--green); border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* .poker-card's face without its interactive states. */
+.notfound-card {
+  width: min(100%, 470px);
+  padding: 42px;
+  border: 1px solid rgba(23,37,30,.08);
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.notfound-card .brand { margin-bottom: 34px; }
+.notfound-cards { margin-bottom: 30px; display: flex; justify-content: center; gap: 12px; }
+.notfound-digit {
+  width: 70px;
+  height: 104px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #d6d7d0;
+  border-radius: 10px;
+  color: var(--green-dark);
+  background: white;
+  box-shadow: 0 5px 13px rgba(30,50,38,.05);
+}
+.notfound-digit:first-child { transform: rotate(-7deg); }
+.notfound-digit:nth-child(2) { transform: translateY(-9px); border-color: var(--green); }
+.notfound-digit:last-child { transform: rotate(7deg); }
+.notfound-digit small:first-child { text-align: left; }
+.notfound-digit small:last-child { text-align: right; transform: rotate(180deg); }
+.notfound-digit strong { font: 800 30px "Manrope"; }
+.notfound-card h1 { margin: 0; font: 800 26px/1.2 "Manrope", inherit; letter-spacing: -.03em; }
+.notfound-card p { margin: 14px 0 26px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.notfound-card a.primary-button { display: inline-block; }
+.notfound-card a.primary-button:hover { text-decoration: none; }
+.notfound-footer { margin-top: 30px; display: flex; justify-content: center; }
+
 .home-footer {
   grid-column: 1 / -1;
   padding: 18px 28px;
@@ -392,6 +429,8 @@ legend { margin-bottom: 6px; }
 .status-dot[data-status="reconnecting"] { background: #e4a03d; }
 .text-button { padding: 0; border: 0; color: var(--green); background: none; font-size: 13px; font-weight: 700; cursor: pointer; }
 .text-button:disabled { opacity: .45; cursor: not-allowed; }
+.text-button.reclaim { padding: 5px 11px; border-radius: 99px; color: var(--green-dark); background: rgba(28,107,77,.1); }
+.text-button.reclaim:hover { background: rgba(28,107,77,.18); }
 .viewer-cluster { justify-self: end; display: flex; align-items: center; gap: 10px; min-width: 0; }
 .viewer-pill { display: flex; align-items: center; gap: 9px; min-width: 0; }
 .viewer-pill > span { width: 34px; height: 34px; flex: 0 0 auto; border-radius: 50%; }
@@ -403,12 +442,89 @@ legend { margin-bottom: 6px; }
 .toast button { width: 25px; height: 25px; flex: 0 0 auto; padding: 0; border: 0; border-radius: 50%; color: white; background: rgba(255,255,255,.14); font-size: 17px; cursor: pointer; }
 .toast button:hover { background: rgba(255,255,255,.24); }
 .toast.notice { background: var(--green); }
-.recovery-banner { margin: 14px auto 0; width: min(calc(100% - 44px), 760px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 18px; border: 1px solid #cfe0d3; border-radius: 12px; background: #eef5ee; box-shadow: var(--shadow); }
-.recovery-banner strong { display: block; font-size: 14px; color: var(--ink); }
-.recovery-banner p { margin: 3px 0 8px; max-width: 52ch; font-size: 12px; color: var(--muted); }
-.recovery-banner code { display: inline-block; max-width: 100%; padding: 6px 9px; border-radius: 7px; background: #dcebdd; color: var(--green-dark); font-size: 12px; word-break: break-all; }
-.recovery-actions { display: flex; flex: 0 0 auto; gap: 8px; }
-.recovery-actions .primary-button, .recovery-actions .secondary-button { padding: 9px 14px; font-size: 13px; }
+/* Post-creation launch panel. Two links exist at this moment and only one of
+   them is safe to share, so each gets its own card: the invite in the app's
+   green, the recovery link in the amber already used for "be careful" states
+   (locked room, expiring room). Red stays reserved for destructive actions. */
+/* Post-creation notices, styled as full-width stripes under the header in the
+   same vein as the support banner. In flow, so nothing overlaps the round
+   stage, and each stripe costs only its own line. Green for the link meant to
+   be shared, amber for the one that must not be. Red stays for destructive. */
+.launch-stripe {
+  position: relative;
+  padding: 9px 44px 9px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 12px;
+  border-bottom: 1px solid;
+  font-size: 13px;
+}
+/* Direct child only: the hint carries its own <strong> and must not inherit
+   the label's larger, non-wrapping treatment. */
+.launch-stripe > strong { display: flex; align-items: center; gap: 6px; font-size: 13px; white-space: nowrap; }
+.launch-hint { font-size: 12px; opacity: .78; }
+.launch-hint strong { font-weight: 800; }
+.launch-stripe code { padding: 3px 8px; border-radius: 6px; font-size: 12px; word-break: break-all; }
+.stripe-copy {
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  border: 1px solid;
+  border-radius: 99px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.stripe-close {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
+.launch-stripe.invite { color: var(--green-dark); background: #eaf3ea; border-bottom-color: #cfe0d3; }
+.launch-stripe.invite code { color: var(--green-dark); background: #d8e9d9; }
+.launch-stripe.invite .stripe-copy { border-color: #9dc4a6; color: var(--green-dark); }
+.launch-stripe.invite .stripe-copy:hover, .launch-stripe.invite .stripe-close:hover { background: #d8e9d9; }
+.launch-stripe.secret { color: #7a4d13; background: #fbf1de; border-bottom-color: #e6c589; }
+.launch-stripe.secret code { color: #7a4d13; background: #f3e2c2; }
+.launch-stripe.secret .stripe-copy { border-color: #d9aa51; color: #7a4d13; }
+.launch-stripe.secret .stripe-copy:hover, .launch-stripe.secret .stripe-close:hover { background: #f3e2c2; }
+
+/* A freshly minted recovery link inside room settings. Same amber language as
+   the stripe, since it carries the same "yours alone" meaning. */
+.issued-recovery {
+  margin-top: 12px;
+  padding: 12px 14px;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  border: 1px solid #d9aa51;
+  border-radius: 10px;
+  color: #7a4d13;
+  background: #fbf1de;
+}
+.issued-recovery p { margin: 0; max-width: 52ch; font-size: 12px; }
+.issued-recovery code { max-width: 100%; padding: 5px 8px; border-radius: 6px; color: #7a4d13; background: #f3e2c2; font-size: 12px; word-break: break-all; }
+.issued-recovery .stripe-copy { border-color: #d9aa51; color: #7a4d13; }
+.issued-recovery .stripe-copy:hover { background: #f3e2c2; }
+
+.recovery-prompt .brand { margin-bottom: 34px; }
+.recovery-prompt-copy { margin: 10px 0 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.recovery-prompt-actions { margin-top: 24px; display: grid; gap: 10px; }
+.recovery-prompt-actions .secondary-button { padding: 13px 14px; font-size: 13px; }
 .presence-notifications { position: fixed; z-index: 18; top: 88px; right: 22px; width: min(calc(100% - 32px), 310px); display: grid; gap: 8px; pointer-events: none; }
 .presence-notice { padding: 11px 13px; display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: 10px; border: 1px solid rgba(23,37,30,.09); border-radius: 12px; color: var(--ink); background: rgba(255,253,248,.96); box-shadow: 0 12px 35px rgba(24,45,33,.15); animation: presence-in .2s ease-out; }
 .presence-notice > span { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; color: white; font-size: 12px; font-weight: 800; }
@@ -452,7 +568,7 @@ legend { margin-bottom: 6px; }
   cursor: pointer;
   transition: transform .12s, background .12s;
 }
-.reaction-trigger span, .hand-trigger span { font-size: 18px; }
+.hand-trigger span { font-size: 18px; }
 .reaction-trigger:hover, .hand-trigger:hover { transform: translateY(-2px); background: #edf3e9; }
 .reaction-trigger[aria-expanded="true"] { color: var(--green-dark); background: #e4efe0; }
 .hand-trigger.active { color: #805511; background: #f5dfb4; box-shadow: inset 0 0 0 1px #d9aa51; }
@@ -573,7 +689,7 @@ legend { margin-bottom: 6px; }
 .picker-list button.selected { color: var(--green-dark); background: white; box-shadow: 0 4px 12px rgba(30,50,38,.07); }
 .picker-list small { color: #9aa39d; font-size: 9px; font-weight: 700; }
 .picker-list span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 600; }
-.picker-list i { color: var(--green); font-size: 18px; font-style: normal; }
+.picker-list .row-chevron { color: var(--green); }
 .picker-empty { padding: 12px 18px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .picker-empty p { margin: 0 0 12px; }
 .picker-empty button {
@@ -605,6 +721,10 @@ legend { margin-bottom: 6px; }
 .task-entry select { min-width: 0; flex: 1; padding: 15px 38px 15px 16px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: white; outline: none; }
 .task-entry select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(28,107,77,.1); }
 .stage-message p:last-child, .stage-hint { margin: 0; color: var(--muted); }
+/* Ends in a button, so .stage-message's last-child <p> rule does not apply. */
+.no-voters { position: relative; z-index: 1; max-width: 480px; }
+.no-voters p { margin: 0; color: var(--muted); }
+.no-voters .primary-button { margin-top: 20px; }
 .choose-card-cue {
   margin-top: 14px;
   padding: 9px 13px;
@@ -740,7 +860,7 @@ legend { margin-bottom: 6px; }
 .history-list div { min-width: 0; display: grid; }
 .history-list strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
 .history-list small { color: var(--muted); font-size: 10px; }
-.history-list i { color: #96a098; font-size: 18px; font-style: normal; }
+.history-list .row-chevron { color: #96a098; }
 
 .modal-backdrop {
   position: fixed;
@@ -833,7 +953,7 @@ legend { margin-bottom: 6px; }
 .manage-items-button:hover { border-color: var(--green); background: #f5f9f4; }
 .manage-items-button span { display: grid; gap: 3px; }
 .manage-items-button small { color: var(--muted); font-weight: 400; }
-.manage-items-button i { color: var(--green); font-size: 19px; font-style: normal; }
+.manage-items-button svg { flex: 0 0 auto; color: var(--green); }
 .batch-items { margin-top: 15px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 8px; }
 .batch-items textarea {
   width: 100%;
@@ -1039,6 +1159,17 @@ legend { margin-bottom: 6px; }
 .workspace-header-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 12px; }
 .workspace-close { display: grid; width: 32px; height: 32px; padding: 0; place-items: center; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); background: white; font-size: 20px; line-height: 1; cursor: pointer; }
 .workspace-close:hover { border-color: #b9c0bb; color: var(--ink); background: #f3f2ec; }
+
+/* Icon-only buttons carry an SVG rather than a text glyph, so they centre a
+   box instead of a line of text. */
+.toast button,
+.recent-room-banner > button,
+.support-banner button,
+.icon-button,
+.drag-handle,
+.remove-card,
+.queue-drag-handle,
+.queue-remove { display: grid; place-items: center; }
 .guide-backdrop { z-index: 38; }
 .facilitator-guide {
   width: min(100%, 780px);
@@ -1164,6 +1295,8 @@ legend { margin-bottom: 6px; }
   .recent-room-banner p { display: none; }
   .recent-room-banner > a { grid-column: 2; width: fit-content; padding: 6px 9px; }
   .recent-room-banner > button { grid-row: 1; grid-column: 3; }
+  .launch-stripe { padding: 9px 40px 9px 14px; justify-content: flex-start; }
+  .launch-stripe strong { white-space: normal; }
   .hero h1 { font-size: 43px; }
   .room-header { padding: 12px 16px; }
   .room-header .brand > span:last-child { display: none; }

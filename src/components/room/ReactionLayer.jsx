@@ -113,6 +113,8 @@ export function ReactionLayer({ room, send }) {
             ref={triggerRef}
             type="button"
           >
+            {/* Emoji, not an icon: this button drops emoji, so it should
+                preview what it dispenses. */}
             <span aria-hidden="true">🙂</span>
             <Trans>React</Trans>
           </button>

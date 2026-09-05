@@ -1,7 +1,8 @@
 import { Trans } from "@lingui/react/macro";
+import { ArrowLeft } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher.jsx";
 
-const CONTACT_EMAIL = "ajdionisio@proton.me";
+const CONTACT_EMAIL = "hello@xexio.dev";
 const HOME_URL = "https://xexio.dev";
 
 export function PrivacyPage() {
@@ -12,7 +13,10 @@ export function PrivacyPage() {
           <span className="brand-mark">P</span>
           <span>Point Taken</span>
         </a>
-        <a className="text-button" href="/"><Trans>← Back to home</Trans></a>
+        <a className="text-button back-link" href="/">
+          <ArrowLeft size={14} aria-hidden="true" />
+          <Trans>Back to home</Trans>
+        </a>
       </header>
 
       <article className="legal-article">
@@ -61,6 +65,8 @@ export function PrivacyPage() {
               <Trans>
                 A one-way hash (SHA-256) of the facilitator recovery code. The code itself is shown to
                 you once and is never stored — we keep only the hash so it can be checked, not recovered.
+                Because it cannot be shown again, a facilitator can generate a replacement from room
+                settings at any time. Doing so stores a new hash and stops the previous code working.
               </Trans>
             </li>
             <li><Trans>Timestamps for when the room was created, last used, and is due to expire.</Trans></li>

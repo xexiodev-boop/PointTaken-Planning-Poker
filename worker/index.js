@@ -1,6 +1,8 @@
 import { SUGGESTION_ALGORITHM_IDS } from "../shared/algorithms.js";
 import { getDeck } from "../shared/decks.js";
+import { eligibleVoters, isEligibleVoter } from "../shared/eligibility.js";
 import { ROOM_LIMITS } from "../shared/limits.js";
+import { FACILITATOR_ONLY, LIMIT_MESSAGES } from "../shared/messages.js";
 import { DEFAULT_REACTION_PALETTE, HAND_REACTION } from "../shared/reactions.js";
 import { ALLOWED_REVEAL_DELAYS as REVEAL_DELAY_SECONDS, DEFAULT_REVEAL_DELAY_SECONDS } from "../shared/reveal.js";
 import { ROOM_ID_PATTERN } from "../shared/roomId.js";
@@ -17,7 +19,7 @@ const ROOM_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000;
 // How long the facilitator can be disconnected before the room auto-transfers
 // facilitation to the longest-tenured connected participant, so a dropped
 // facilitator can't strand a live session.
-const FACILITATOR_GRACE_MS = 2 * 60 * 1000;
+const FACILITATOR_GRACE_MS = 5 * 60 * 1000;
 const CURRENT_SCHEMA_VERSION = 1;
 const IDENTITY_COOKIE = "point_taken_identity";
 const REACTION_COOLDOWN_MS = 1200;
@@ -214,9 +216,9 @@ function findParticipantByToken(room, token) {
   return room.participants.find((participant) => participant.token === token);
 }
 
-function requireFacilitator(participant, action) {
+function requireFacilitator(participant, message) {
   if (participant.role !== "facilitator") {
-    throw new Error(`Only the facilitator can ${action}.`);
+    throw new Error(message);
   }
 }
 
@@ -246,11 +248,29 @@ function revealRound(room, round) {
   round.metrics = calculateResultMetrics(round, room.deck);
 }
 
+// /room/:id is the only page URL that cannot be a static asset, so
+// run_worker_first routes it here. Anything else that arrives is a dead URL.
+const ROOM_ROUTE = new RegExp(`^/room/(?:${ROOM_ID_PATTERN})$`);
+
+async function serveAppShell(env, url) {
+  const path = url.pathname.replace(/\/+$/, "") || "/";
+  const known = ROOM_ROUTE.test(path);
+  // Via the assets binding so the shells keep their `_headers` rules; the
+  // API-only headers applied elsewhere in this file would break their CSP.
+  const shell = new Request(new URL(known ? "/index.html" : "/404.html", url));
+  const asset = await env.ASSETS.fetch(shell);
+  if (known) return asset;
+  return new Response(asset.body, { status: 404, headers: asset.headers });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
     try {
+      if (!url.pathname.startsWith("/api/")) {
+        return serveAppShell(env, url);
+      }
       if (url.pathname === "/api/rooms" && request.method === "POST") {
         if (!validateOrigin(request, url, env)) {
           safeLog("origin_rejected", { action: "create_room" });
@@ -401,6 +421,7 @@ export class PlanningRoom {
     room.settings.suggestionAlgorithm ??= "most_votes";
     room.settings.revealDelaySeconds ??= DEFAULT_REVEAL_DELAY_SECONDS;
     room.settings.autoRevealEnabled ??= false;
+    room.settings.facilitatorVotes ??= true;
     room.settings.reactionsEnabled ??= true;
     room.settings.reactionPalette ??= [...DEFAULT_REACTION_PALETTE];
     room.settings.reactionPalette = room.settings.reactionPalette.filter(
@@ -509,6 +530,7 @@ export class PlanningRoom {
         suggestionAlgorithm: "most_votes",
         revealDelaySeconds: DEFAULT_REVEAL_DELAY_SECONDS,
         autoRevealEnabled: false,
+        facilitatorVotes: true,
         reactionsEnabled: true,
         reactionPalette: [...DEFAULT_REACTION_PALETTE],
         reactionsMuted: false,
@@ -593,7 +615,7 @@ export class PlanningRoom {
     if (room.isClosed) return json({ error: "This room has been closed." }, 423);
     if (room.isLocked) return json({ error: "This room is not accepting new participants." }, 423);
     if (room.participants.length >= ROOM_LIMITS.participants) {
-      return json({ error: `This room has reached its ${ROOM_LIMITS.participants}-person limit.` }, 409);
+      return json({ error: LIMIT_MESSAGES.participants }, 409);
     }
 
     const participant = newParticipant(input.name, "participant", room.participants.length);
@@ -614,7 +636,7 @@ export class PlanningRoom {
 
     const pair = new WebSocketPair();
     const [client, server] = Object.values(pair);
-    server.serializeAttachment({ token: participant.token });
+    server.serializeAttachment({ token: participant.token, participantId: participant.id });
     this.ctx.acceptWebSocket(server);
 
     participant.connected = true;
@@ -657,7 +679,7 @@ export class PlanningRoom {
       }
       const event = JSON.parse(message);
       if (event.type === "delete_room") {
-        requireFacilitator(participant, "delete the room");
+        requireFacilitator(participant, FACILITATOR_ONLY.deleteRoom);
         for (const connectedSocket of this.ctx.getWebSockets()) {
           try {
             connectedSocket.send(JSON.stringify({ type: "room_deleted" }));
@@ -670,8 +692,24 @@ export class PlanningRoom {
         await this.ctx.storage.deleteAll();
         return;
       }
-      await this.applyAction(room, participant, event);
+      // Handled here rather than in applyAction because the new secret goes to
+      // the one socket that asked for it. It must never reach a broadcast or
+      // the room view, and only the hash is kept, exactly as at creation.
+      // Allowed on a closed room: the facilitator may still need to reclaim it.
+      if (event.type === "regenerate_recovery") {
+        requireFacilitator(participant, FACILITATOR_ONLY.regenerateRecovery);
+        const recoveryCode = crypto.randomUUID();
+        room.recoveryCodeHash = await sha256Hex(recoveryCode);
+        await this.saveRoom(room);
+        socket.send(JSON.stringify({ type: "recovery_code", code: recoveryCode }));
+        safeLog("recovery_regenerated", { roomId: room.id });
+        return;
+      }
+      const outcome = await this.applyAction(room, participant, event);
       await this.saveRoom(room);
+      if (outcome?.announcement) {
+        await this.announce(room, outcome.announcement.message, outcome.announcement.details);
+      }
       // finalize is the only action that appends to history, so only then do we
       // pay to broadcast the full history alongside the state.
       await this.broadcast(room, { includeHistory: event.type === "finalize" });
@@ -764,7 +802,7 @@ export class PlanningRoom {
 
     switch (event.type) {
       case "update_settings": {
-        requireFacilitator(participant, "change room settings");
+        requireFacilitator(participant, FACILITATOR_ONLY.changeSettings);
         requireBetweenRounds(room, "Room settings can only change between rounds.");
 
         if (event.cards) room.deck.cards = cleanCards(event.cards);
@@ -781,6 +819,9 @@ export class PlanningRoom {
         }
         if (event.autoRevealEnabled !== undefined) {
           room.settings.autoRevealEnabled = Boolean(event.autoRevealEnabled);
+        }
+        if (event.facilitatorVotes !== undefined) {
+          room.settings.facilitatorVotes = Boolean(event.facilitatorVotes);
         }
         if (event.reactionsEnabled !== undefined) {
           room.settings.reactionsEnabled = Boolean(event.reactionsEnabled);
@@ -833,26 +874,26 @@ export class PlanningRoom {
       }
 
       case "set_reactions_muted": {
-        requireFacilitator(participant, "pause reactions");
+        requireFacilitator(participant, FACILITATOR_ONLY.pauseReactions);
         room.settings.reactionsMuted = Boolean(event.muted);
         break;
       }
 
       case "clear_reactions": {
-        requireFacilitator(participant, "clear reactions");
+        requireFacilitator(participant, FACILITATOR_ONLY.clearReactions);
         room.reactions = [];
         room.raisedHands = [];
         break;
       }
 
       case "set_room_lock": {
-        requireFacilitator(participant, "lock the room");
+        requireFacilitator(participant, FACILITATOR_ONLY.lockRoom);
         room.isLocked = Boolean(event.locked);
         break;
       }
 
       case "set_participant_role": {
-        requireFacilitator(participant, "change participant roles");
+        requireFacilitator(participant, FACILITATOR_ONLY.changeRoles);
         requireBetweenRounds(room, "Roles can only change between rounds.");
         const target = room.participants.find(({ id }) => id === event.participantId);
         if (!target || target.role === "facilitator") {
@@ -865,8 +906,31 @@ export class PlanningRoom {
         break;
       }
 
+      // Unlike recover(), this must not rotate the creator's token: the
+      // request comes from the creator's own session, which rotation signs out.
+      case "reclaim_facilitator": {
+        if (participant.id !== room.creatorParticipantId) {
+          throw new Error("Only the person who created this room can take facilitation back.");
+        }
+        if (participant.role === "facilitator") {
+          throw new Error("You are already the facilitator.");
+        }
+        const current = room.participants.find((person) => person.role === "facilitator");
+        if (current) current.role = "participant";
+        participant.role = "facilitator";
+        return {
+          announcement: {
+            message: `${displayName(participant)} took facilitation back.`,
+            details: {
+              kind: "facilitator_reclaimed",
+              params: { name: displayName(participant) },
+            },
+          },
+        };
+      }
+
       case "transfer_facilitator": {
-        requireFacilitator(participant, "transfer ownership");
+        requireFacilitator(participant, FACILITATOR_ONLY.transferOwnership);
         requireBetweenRounds(room, "Facilitator ownership can only transfer between rounds.");
         const target = room.participants.find(({ id }) => id === event.participantId);
         if (!target || target.id === participant.id) {
@@ -878,7 +942,7 @@ export class PlanningRoom {
       }
 
       case "remove_participant": {
-        requireFacilitator(participant, "remove participants");
+        requireFacilitator(participant, FACILITATOR_ONLY.removeParticipants);
         const target = room.participants.find(({ id }) => id === event.participantId);
         if (!target || target.role === "facilitator") {
           throw new Error("That participant cannot be removed.");
@@ -910,7 +974,7 @@ export class PlanningRoom {
       }
 
       case "add_items": {
-        requireFacilitator(participant, "add estimation items");
+        requireFacilitator(participant, FACILITATOR_ONLY.addItems);
         requireBetweenRounds(room, "Items can only be changed between rounds.");
         const existingTitles = new Set(
           room.items.filter((item) => item.status === "pending").map((item) => item.title.toLowerCase()),
@@ -922,7 +986,7 @@ export class PlanningRoom {
           values.findIndex((value) => value.toLowerCase() === title.toLowerCase()) === index,
         );
         if (uniqueNewTitles.length > availableSlots) {
-          throw new Error(`A room can have at most ${ROOM_LIMITS.pendingItems} pending items.`);
+          throw new Error(LIMIT_MESSAGES.pendingItems);
         }
         for (const title of uniqueNewTitles) {
           if (existingTitles.has(title.toLowerCase())) continue;
@@ -938,7 +1002,7 @@ export class PlanningRoom {
       }
 
       case "remove_item": {
-        requireFacilitator(participant, "remove estimation items");
+        requireFacilitator(participant, FACILITATOR_ONLY.removeItems);
         requireBetweenRounds(room, "Items can only be changed between rounds.");
         const item = room.items.find(({ id }) => id === event.itemId);
         if (!item || item.status !== "pending") throw new Error("That pending item was not found.");
@@ -947,7 +1011,7 @@ export class PlanningRoom {
       }
 
       case "update_item": {
-        requireFacilitator(participant, "edit estimation items");
+        requireFacilitator(participant, FACILITATOR_ONLY.editItems);
         requireBetweenRounds(room, "Items can only be changed between rounds.");
         const item = room.items.find(({ id }) => id === event.itemId);
         if (!item || item.status !== "pending") throw new Error("That pending item was not found.");
@@ -965,7 +1029,7 @@ export class PlanningRoom {
       }
 
       case "reorder_items": {
-        requireFacilitator(participant, "reorder estimation items");
+        requireFacilitator(participant, FACILITATOR_ONLY.reorderItems);
         requireBetweenRounds(room, "Items can only be reordered between rounds.");
         const pendingItems = room.items.filter(({ status }) => status === "pending");
         const orderedIds = Array.isArray(event.itemIds) ? event.itemIds : [];
@@ -986,7 +1050,7 @@ export class PlanningRoom {
       }
 
       case "close_room": {
-        requireFacilitator(participant, "close the room");
+        requireFacilitator(participant, FACILITATOR_ONLY.closeRoom);
         requireBetweenRounds(room, "Finish the current round before closing the room.");
         room.isClosed = true;
         room.isLocked = true;
@@ -995,7 +1059,7 @@ export class PlanningRoom {
       }
 
       case "start_round": {
-        requireFacilitator(participant, "start a round");
+        requireFacilitator(participant, FACILITATOR_ONLY.startRound);
         requireBetweenRounds(room, "Finish the current round first.");
         const selectedItem = event.itemId
           ? room.items.find(({ id, status }) => id === event.itemId && status === "pending")
@@ -1003,6 +1067,9 @@ export class PlanningRoom {
         if (event.itemId && !selectedItem) throw new Error("That item is no longer pending.");
         const title = selectedItem?.title ?? cleanTitle(event.title);
         if (!title) throw new Error("Enter a task title.");
+        // A round with no eligible voters can never complete.
+        const voters = eligibleVoters(room.participants, room.settings);
+        if (voters.length === 0) throw new Error("A round needs at least one voter.");
         const now = Date.now();
         const revealDelayMs = room.settings.revealDelaySeconds * 1000;
         room.currentRound = {
@@ -1013,9 +1080,7 @@ export class PlanningRoom {
           startedAt: now,
           revealAvailableAt: revealDelayMs ? now + revealDelayMs : null,
           revealAllowed: false,
-          eligibleParticipantIds: room.participants
-            .filter(({ role }) => role !== "observer")
-            .map(({ id }) => id),
+          eligibleParticipantIds: voters.map(({ id }) => id),
           votes: {},
           suggestion: null,
           finalValue: null,
@@ -1024,7 +1089,7 @@ export class PlanningRoom {
       }
 
       case "update_round_title": {
-        requireFacilitator(participant, "edit the item title");
+        requireFacilitator(participant, FACILITATOR_ONLY.editItemTitle);
         const round = room.currentRound;
         if (!round || round.phase === "finalized") throw new Error("There is no active round to edit.");
         const title = cleanTitle(event.title);
@@ -1038,7 +1103,7 @@ export class PlanningRoom {
       }
 
       case "restart_voting": {
-        requireFacilitator(participant, "restart voting");
+        requireFacilitator(participant, FACILITATOR_ONLY.restartVoting);
         const round = room.currentRound;
         if (!round || round.phase === "finalized") throw new Error("There is no active round to restart.");
         const now = Date.now();
@@ -1054,7 +1119,7 @@ export class PlanningRoom {
       }
 
       case "cancel_round": {
-        requireFacilitator(participant, "cancel a round");
+        requireFacilitator(participant, FACILITATOR_ONLY.cancelRound);
         const round = room.currentRound;
         if (!round || round.phase === "finalized") throw new Error("There is no active round to cancel.");
         room.currentRound = null;
@@ -1091,7 +1156,7 @@ export class PlanningRoom {
       }
 
       case "reveal": {
-        requireFacilitator(participant, "reveal cards");
+        requireFacilitator(participant, FACILITATOR_ONLY.revealCards);
         const round = room.currentRound;
         if (!round || round.phase !== "voting") throw new Error("There is no voting round to reveal.");
         revealRound(room, round);
@@ -1099,7 +1164,7 @@ export class PlanningRoom {
       }
 
       case "finalize": {
-        requireFacilitator(participant, "finalize an estimate");
+        requireFacilitator(participant, FACILITATOR_ONLY.finalizeEstimate);
         const round = room.currentRound;
         if (!round || round.phase !== "revealed") throw new Error("Reveal the cards first.");
         const finalValue = String(event.value ?? "").trim();
@@ -1194,6 +1259,7 @@ export class PlanningRoom {
         displayName: displayName(viewer),
         color: viewer.color,
         role: viewer.role,
+        isCreator: viewer.id === room.creatorParticipantId,
       },
       participants: room.participants.map((participant) => ({
         id: participant.id,
@@ -1203,7 +1269,10 @@ export class PlanningRoom {
         connected: participant.connected,
         hasVoted: Boolean(round?.votes[participant.id]?.confirmed),
         vote: votesVisible ? round?.votes[participant.id]?.value ?? null : undefined,
-        eligible: round ? round.eligibleParticipantIds.includes(participant.id) : true,
+        // Between rounds there is no fixed list yet: report who would vote now.
+        eligible: round
+          ? round.eligibleParticipantIds.includes(participant.id)
+          : isEligibleVoter(participant, room.settings),
       })),
       currentRound: round
         ? {
@@ -1245,10 +1314,13 @@ export class PlanningRoom {
   async broadcast(room, { includeHistory = false, excludeSocket = null } = {}) {
     for (const socket of this.ctx.getWebSockets()) {
       if (socket === excludeSocket) continue;
-      const token = socket.deserializeAttachment()?.token;
-      const viewer = findParticipantByToken(room, token);
+      const attachment = socket.deserializeAttachment();
+      const viewer = findParticipantByToken(room, attachment?.token);
       if (!viewer) {
-        socket.close(4001, "Removed from room");
+        // A rotated token (recovery redemption) leaves the participant in
+        // place; only a removal takes the row away.
+        const superseded = room.participants.some(({ id }) => id === attachment?.participantId);
+        socket.close(superseded ? 4003 : 4001, superseded ? "Session superseded" : "Removed from room");
         continue;
       }
       try {

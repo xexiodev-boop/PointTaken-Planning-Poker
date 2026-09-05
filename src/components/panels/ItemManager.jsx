@@ -1,4 +1,5 @@
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
+import { GripVertical, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
@@ -90,7 +91,7 @@ export function ItemManager({ room, send, error, onClose }) {
           </div>
           <div className="workspace-header-actions">
             <span className="items-room-name">{room.name}</span>
-            <button className="workspace-close" onClick={onClose} type="button" aria-label={t`Close items`}>×</button>
+            <button className="workspace-close" onClick={onClose} type="button" aria-label={t`Close items`}><X size={17} aria-hidden="true" /></button>
           </div>
         </header>
 
@@ -223,7 +224,7 @@ function SortableQueueItem({ activeRound, index, item, onRemove, onUpdate }) {
         {...listeners}
         aria-label={t`Drag to reorder ${item.title}`}
       >
-        <span aria-hidden="true">⠿</span>
+        <GripVertical size={14} aria-hidden="true" />
       </button>
       <small>{String(index + 1).padStart(2, "0")}</small>
       {editing ? (
@@ -265,7 +266,7 @@ function SortableQueueItem({ activeRound, index, item, onRemove, onUpdate }) {
               type="button"
               aria-label={t`Remove ${item.title}`}
             >
-              ×
+              <X size={14} aria-hidden="true" />
             </button>
           </div>
         </>

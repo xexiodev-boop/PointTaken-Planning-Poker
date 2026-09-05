@@ -21,6 +21,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@lingui/core": "^6.4.0",
     "@lingui/react": "^6.4.0",
+    "lucide-react": "^1.41.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

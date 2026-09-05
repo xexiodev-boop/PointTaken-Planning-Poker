@@ -26,6 +26,8 @@ export default defineConfig({
             "es-planning-poker-remote-teams": "es/planning-poker-remote-teams.html",
             "how-to-run-planning-poker": "how-to-run-planning-poker.html",
             "es-how-to-run-planning-poker": "es/how-to-run-planning-poker.html",
+            privacy: "privacy.html",
+            "404": "404.html",
           },
         },
       },

@@ -1,4 +1,5 @@
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
+import { ArrowRight, GripVertical, X } from "lucide-react";
 import { useState } from "react";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
@@ -12,13 +13,18 @@ import { useConfirmation } from "../../hooks/useConfirmation.jsx";
 import { useModal } from "../../hooks/useModal.js";
 import { algorithmDescription, algorithmName, reactionLabel, revealDelayLabel } from "../../lib/labels.js";
 
-export function RoomSettings({ room, send, onClose, onManageItems }) {
+export function RoomSettings({ room, send, onClose, onManageItems, issuedRecoveryCode, onError }) {
   const { t } = useLingui();
+  const [recoveryCopied, setRecoveryCopied] = useState(false);
+  const issuedRecoveryLink = issuedRecoveryCode
+    ? `${window.location.origin}/room/${room.id}?recover=${issuedRecoveryCode}`
+    : null;
   const [cards, setCards] = useState(room.deck.cards);
   const [newCard, setNewCard] = useState("");
   const [algorithm, setAlgorithm] = useState(room.settings.suggestionAlgorithm);
   const [timer, setTimer] = useState(room.settings.revealDelaySeconds);
   const [autoReveal, setAutoReveal] = useState(room.settings.autoRevealEnabled);
+  const [facilitatorVotes, setFacilitatorVotes] = useState(room.settings.facilitatorVotes);
   const [reactionsEnabled, setReactionsEnabled] = useState(room.settings.reactionsEnabled);
   const [reactionPalette, setReactionPalette] = useState(room.settings.reactionPalette);
   const activeRound = room.currentRound && room.currentRound.phase !== "finalized";
@@ -57,6 +63,7 @@ export function RoomSettings({ room, send, onClose, onManageItems }) {
       suggestionAlgorithm: algorithm,
       revealDelaySeconds: Number(timer),
       autoRevealEnabled: autoReveal,
+      facilitatorVotes,
       reactionsEnabled,
       reactionPalette,
     });
@@ -78,6 +85,30 @@ export function RoomSettings({ room, send, onClose, onManageItems }) {
     if (!accepted) return;
     send({ type: "close_room" });
     onClose();
+  }
+
+  // Only the hash of a recovery code is stored, so a lost link can never be
+  // shown again. Minting a replacement is the only way back, and it invalidates
+  // whatever the facilitator saved before.
+  async function regenerateRecovery() {
+    const accepted = await confirm({
+      title: t`Generate a new recovery link?`,
+      message: t`Any recovery link you saved before will stop working. Only the new one will reclaim this room.`,
+      confirmLabel: t`Generate new link`,
+    });
+    if (accepted) {
+      setRecoveryCopied(false);
+      send({ type: "regenerate_recovery" });
+    }
+  }
+
+  async function copyRecoveryLink() {
+    try {
+      await navigator.clipboard.writeText(issuedRecoveryLink);
+      setRecoveryCopied(true);
+    } catch {
+      onError(t`Couldn’t copy automatically. Select and copy the link manually.`);
+    }
   }
 
   async function deleteRoom() {
@@ -108,7 +139,7 @@ export function RoomSettings({ room, send, onClose, onManageItems }) {
             <p className="eyebrow"><Trans>Facilitator controls</Trans></p>
             <h2 id="room-settings-title"><Trans>Room settings</Trans></h2>
           </div>
-          <button className="icon-button" onClick={onClose} type="button" aria-label={t`Close settings`}>×</button>
+          <button className="icon-button" onClick={onClose} type="button" aria-label={t`Close settings`}><X size={17} aria-hidden="true" /></button>
         </header>
 
         <div className="settings-content">
@@ -136,7 +167,7 @@ export function RoomSettings({ room, send, onClose, onManageItems }) {
                 <strong><Trans>Open item manager</Trans></strong>
                 <small><Trans>Add, review, and remove estimation items</Trans></small>
               </span>
-              <i aria-hidden="true">→</i>
+              <ArrowRight size={16} aria-hidden="true" />
             </button>
           </section>
 
@@ -235,6 +266,22 @@ export function RoomSettings({ room, send, onClose, onManageItems }) {
             </label>
           </section>
 
+          <section className="settings-group settings-row">
+            <div>
+              <h3><Trans>Facilitator votes</Trans></h3>
+              <p><Trans>Count the facilitator as a voter. Turn this off if you run the session without estimating.</Trans></p>
+            </div>
+            <label className="switch-control">
+              <input
+                checked={facilitatorVotes}
+                disabled={editingDisabled}
+                onChange={(event) => setFacilitatorVotes(event.target.checked)}
+                type="checkbox"
+              />
+              <span />
+            </label>
+          </section>
+
           <section className="settings-group">
             <div className="settings-title">
               <div>
@@ -322,6 +369,32 @@ export function RoomSettings({ room, send, onClose, onManageItems }) {
             </button>
           </section>
 
+          <section className="settings-group">
+            <div className="settings-title">
+              <div>
+                <h3><Trans>Facilitator recovery link</Trans></h3>
+                <p><Trans>Reclaims this room if you lose this browser or switch devices. Keep it to yourself.</Trans></p>
+              </div>
+              <button className="secondary-button" onClick={regenerateRecovery} type="button">
+                <Trans>Generate a new link</Trans>
+              </button>
+            </div>
+            {issuedRecoveryLink && (
+              <div className="issued-recovery">
+                <p>
+                  <Trans>
+                    Copy it now. It replaces any link you saved before, and it will not be
+                    shown again.
+                  </Trans>
+                </p>
+                <code>{issuedRecoveryLink}</code>
+                <button className="stripe-copy" onClick={copyRecoveryLink} type="button">
+                  {recoveryCopied ? <Trans>Copied</Trans> : <Trans>Copy recovery link</Trans>}
+                </button>
+              </div>
+            )}
+          </section>
+
           <section className="danger-zone">
             <div className="danger-action">
               <div>
@@ -381,7 +454,7 @@ function SortableCard({ card, disabled, onRemove, removable }) {
         {...listeners}
         aria-label={t`Drag to reorder ${card}`}
       >
-        <span aria-hidden="true">⠿</span>
+        <GripVertical size={14} aria-hidden="true" />
       </button>
       <strong>{card}</strong>
       <button
@@ -391,7 +464,7 @@ function SortableCard({ card, disabled, onRemove, removable }) {
         type="button"
         aria-label={t`Remove ${card}`}
       >
-        ×
+        <X size={14} aria-hidden="true" />
       </button>
     </div>
   );

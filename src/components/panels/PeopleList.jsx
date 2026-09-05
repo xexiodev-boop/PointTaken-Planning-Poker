@@ -1,4 +1,5 @@
 import { Trans, useLingui } from "@lingui/react/macro";
+import { Check, Ellipsis, Eye, X } from "lucide-react";
 import { useState } from "react";
 import { useConfirmation } from "../../hooks/useConfirmation.jsx";
 import { useModal } from "../../hooks/useModal.js";
@@ -44,9 +45,13 @@ export function PeopleList({ room, send }) {
                 </small>
               </div>
               {room.currentRound?.phase === "voting" && person.eligible && (
-                <i className={person.hasVoted ? "voted" : ""}>{person.hasVoted ? "✓" : "…"}</i>
+                <i className={person.hasVoted ? "voted" : ""}>
+                  {person.hasVoted
+                    ? <Check size={13} aria-hidden="true" />
+                    : <Ellipsis size={13} aria-hidden="true" />}
+                </i>
               )}
-              {person.role === "observer" && <i className="observer-mark" title={t`Observer`}>◉</i>}
+              {person.role === "observer" && <i className="observer-mark" title={t`Observer`}><Eye size={13} aria-hidden="true" /></i>}
             </div>
             );
           })}
@@ -109,7 +114,7 @@ function ParticipantManager({ room, send, onClose }) {
             <h2 id="participant-manager-title"><Trans>Manage people</Trans></h2>
             <p><Trans>Choose who votes, observes, or facilitates the room.</Trans></p>
           </div>
-          <button className="icon-button" onClick={onClose} type="button" aria-label={t`Close people manager`}>×</button>
+          <button className="icon-button" onClick={onClose} type="button" aria-label={t`Close people manager`}><X size={17} aria-hidden="true" /></button>
         </header>
 
         {activeRound && (

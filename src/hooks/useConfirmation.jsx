@@ -1,4 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
+import { CircleHelp, TriangleAlert } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 function ConfirmDialog({
@@ -32,7 +33,9 @@ function ConfirmDialog({
         onMouseDown={(event) => event.stopPropagation()}
         role="alertdialog"
       >
-        <span className="confirm-icon" aria-hidden="true">{tone === "danger" ? "!" : "?"}</span>
+        <span className="confirm-icon" aria-hidden="true">
+          {tone === "danger" ? <TriangleAlert size={20} /> : <CircleHelp size={20} />}
+        </span>
         <h2 id="confirmation-title">{title}</h2>
         <p id="confirmation-message">{message}</p>
         <div>

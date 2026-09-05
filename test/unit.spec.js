@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { ROOM_LIMITS } from "../shared/limits.js";
 import { csvCell } from "../src/lib/export.js";
+import { SERVER_MESSAGES } from "../src/lib/serverMessages.js";
+import { FACILITATOR_ONLY, LIMIT_MESSAGES } from "../shared/messages.js";
 import {
   calculateResultMetrics,
   calculateSuggestion,
@@ -373,4 +375,115 @@ describe("facilitator recovery", () => {
     expect(after.participants.find((participant) => participant.id === creatorId).role).toBe("facilitator");
     expect(after.participants.find((participant) => participant.id === "mate").role).toBe("participant");
   });
+});
+
+describe("facilitator voting setting", () => {
+  it("keeps the facilitator eligible by default", async () => {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const voter = person("Bo", "participant");
+    const room = makeRoom([facilitator, voter]);
+
+    await object.applyAction(room, facilitator, { type: "start_round", title: "Login page" });
+    expect(room.currentRound.eligibleParticipantIds).toEqual([facilitator.id, voter.id]);
+  });
+
+  it("leaves the facilitator out of the round when they do not vote", async () => {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const voter = person("Bo", "participant");
+    const observer = person("Cy", "observer");
+    const room = makeRoom([facilitator, voter, observer]);
+    room.settings.facilitatorVotes = false;
+
+    await object.applyAction(room, facilitator, { type: "start_round", title: "Login page" });
+    expect(room.currentRound.eligibleParticipantIds).toEqual([voter.id]);
+
+    await castVote(object, room, voter, "5");
+    expect(room.currentRound.revealAllowed).toBe(true);
+
+    await expect(object.applyAction(room, facilitator, { type: "select_vote", value: "5" }))
+      .rejects.toThrow();
+
+    await object.applyAction(room, facilitator, { type: "reveal" });
+    await object.applyAction(room, facilitator, { type: "finalize", value: "5" });
+    expect(room.history[0].votes).toHaveLength(1);
+  });
+
+  it("refuses to start a round that nobody could vote in", async () => {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const observer = person("Bo", "observer");
+    const room = makeRoom([facilitator, observer]);
+    room.settings.facilitatorVotes = false;
+
+    await expect(object.applyAction(room, facilitator, { type: "start_round", title: "Login page" }))
+      .rejects.toThrow("A round needs at least one voter.");
+    expect(room.currentRound).toBe(null);
+  });
+
+  it("still refuses when the facilitator is the only person and sits out", async () => {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const room = makeRoom([facilitator]);
+    room.settings.facilitatorVotes = false;
+
+    await expect(object.applyAction(room, facilitator, { type: "start_round", title: "Login page" }))
+      .rejects.toThrow("A round needs at least one voter.");
+  });
+});
+
+describe("reclaiming facilitation", () => {
+  function creatorRoom(participants, creator) {
+    const room = makeRoom(participants);
+    room.creatorParticipantId = creator.id;
+    return room;
+  }
+
+  it("lets the creator take the role back from an auto-transfer successor", async () => {
+    const object = new PlanningRoom({});
+    const creator = person("Ana", "participant"); // demoted by the away timer
+    const successor = person("Bo", "facilitator");
+    const room = creatorRoom([creator, successor], creator);
+    const creatorToken = creator.token;
+
+    const outcome = await object.applyAction(room, creator, { type: "reclaim_facilitator" });
+    expect(creator.role).toBe("facilitator");
+    expect(successor.role).toBe("participant");
+    expect(outcome.announcement.details.kind).toBe("facilitator_reclaimed");
+    // Rotating here would sign out the browser making the request.
+    expect(creator.token).toBe(creatorToken);
+  });
+
+  it("refuses anyone who did not create the room", async () => {
+    const object = new PlanningRoom({});
+    const creator = person("Ana", "participant");
+    const other = person("Bo", "participant");
+    const facilitator = person("Cy", "facilitator");
+    const room = creatorRoom([creator, other, facilitator], creator);
+
+    await expect(object.applyAction(room, other, { type: "reclaim_facilitator" }))
+      .rejects.toThrow("Only the person who created this room can take facilitation back.");
+    expect(facilitator.role).toBe("facilitator");
+  });
+
+  it("refuses when the creator already holds the role", async () => {
+    const object = new PlanningRoom({});
+    const creator = person("Ana", "facilitator");
+    const room = creatorRoom([creator], creator);
+
+    await expect(object.applyAction(room, creator, { type: "reclaim_facilitator" }))
+      .rejects.toThrow("You are already the facilitator.");
+  });
+});
+
+describe("server message catalog", () => {
+  const catalog = new Set(SERVER_MESSAGES.map((descriptor) => descriptor.message));
+
+  it.each(Object.entries({ ...FACILITATOR_ONLY, ...LIMIT_MESSAGES }))(
+    "has a translatable entry for %s",
+    (_key, message) => {
+      expect(catalog).toContain(message);
+    },
+  );
 });

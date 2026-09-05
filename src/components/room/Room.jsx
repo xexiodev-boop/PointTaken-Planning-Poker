@@ -1,7 +1,9 @@
 import { Trans, useLingui } from "@lingui/react/macro";
+import { Lock, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { describeExpiry } from "../../lib/expiry.js";
 import { takeRecoveryCode } from "../../lib/recovery.js";
+
 import { FacilitatorGuide } from "./FacilitatorGuide.jsx";
 import { ReactionLayer } from "./ReactionLayer.jsx";
 import { CardHand } from "../round/CardHand.jsx";
@@ -11,21 +13,42 @@ import { ItemManager } from "../panels/ItemManager.jsx";
 import { PeopleList } from "../panels/PeopleList.jsx";
 import { RoomSettings } from "../panels/RoomSettings.jsx";
 import { LanguageSwitcher } from "../LanguageSwitcher.jsx";
+import { useConfirmation } from "../../hooks/useConfirmation.jsx";
 import { SupportBanner } from "../SupportBanner.jsx";
 
-export function Room({ room, send, status, error, onError, notice, onNotice }) {
+export function Room({
+  room,
+  send,
+  status,
+  error,
+  onError,
+  notice,
+  onNotice,
+  issuedRecoveryCode,
+  onClearIssuedRecoveryCode,
+}) {
   const { t } = useLingui();
   const isFacilitator = room.viewer.role === "facilitator";
   const expiry = describeExpiry(room.expiresAt);
-  const [copied, setCopied] = useState(false);
+  const [copiedTarget, setCopiedTarget] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [itemsOpen, setItemsOpen] = useState(false);
   const [guideOpen, setGuideOpen] = useState(false);
   const [presenceNotices, setPresenceNotices] = useState([]);
   const [recoveryCode, setRecoveryCode] = useState(() => takeRecoveryCode(room.id));
-  const recoveryLink = `${window.location.origin}/room/${room.id}?recover=${recoveryCode ?? ""}`;
+  // Both stripes appear together on a freshly created room, then each is
+  // dismissed on its own. The invite one is safe to lose: the header keeps an
+  // "Invite people" button. The recovery one is shown exactly once.
+  const [showInvite, setShowInvite] = useState(recoveryCode !== null);
+  const inviteLink = `${window.location.origin}/room/${room.id}`;
+  const canReclaim = room.viewer.isCreator && !isFacilitator && !room.isClosed;
+  const currentFacilitatorName = room.participants.find(
+    (person) => person.role === "facilitator",
+  )?.displayName ?? "";
+  const recoveryLink = `${inviteLink}?recover=${recoveryCode ?? ""}`;
   const previousPeopleRef = useRef(null);
   const timersRef = useRef(new Set());
+  const { confirm, confirmationDialog } = useConfirmation();
 
   const scheduleTimeout = useCallback((callback, delay) => {
     const id = window.setTimeout(() => {
@@ -42,6 +65,13 @@ export function Room({ room, send, status, error, onError, notice, onNotice }) {
     timersRef.current.forEach((id) => window.clearTimeout(id));
     timersRef.current.clear();
   }, []);
+
+  // Regenerating retires the code the creation stripe is showing, so drop the
+  // stripe rather than leaving a dead link on screen. The new one is presented
+  // in room settings, where the facilitator asked for it.
+  useEffect(() => {
+    if (issuedRecoveryCode) setRecoveryCode(null);
+  }, [issuedRecoveryCode]);
 
   useEffect(() => {
     if (!notice) return undefined;
@@ -80,14 +110,28 @@ export function Room({ room, send, status, error, onError, notice, onNotice }) {
     });
   }, [room.participants, room.viewer.id, scheduleTimeout]);
 
-  async function copyLink() {
+  async function copyLink(text, target, failureMessage) {
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      scheduleTimeout(() => setCopied(false), 1600);
+      await navigator.clipboard.writeText(text);
+      setCopiedTarget(target);
+      scheduleTimeout(
+        () => setCopiedTarget((current) => (current === target ? null : current)),
+        1600,
+      );
     } catch {
-      onError(t`The invite link could not be copied. Copy it from the address bar instead.`);
+      onError(failureMessage);
     }
+  }
+
+  async function reclaimFacilitation() {
+    const accepted = await confirm({
+      title: t`Take facilitation back?`,
+      message: t`You created this room. ${currentFacilitatorName} stops being the facilitator, and everyone in the room is told.`,
+      confirmLabel: t`Take it back`,
+      cancelLabel: t`Leave it`,
+    });
+    if (!accepted) return;
+    send({ type: "reclaim_facilitator" });
   }
 
   return (
@@ -111,9 +155,22 @@ export function Room({ room, send, status, error, onError, notice, onNotice }) {
               {expiry.label}
             </span>
           </div>
-          <button className="text-button" onClick={copyLink} type="button">
-            {copied ? <Trans>Link copied</Trans> : <Trans>Invite people</Trans>}
+          <button
+            className="text-button"
+            onClick={() => copyLink(
+              inviteLink,
+              "header",
+              t`The invite link could not be copied. Copy it from the address bar instead.`,
+            )}
+            type="button"
+          >
+            {copiedTarget === "header" ? <Trans>Link copied</Trans> : <Trans>Invite people</Trans>}
           </button>
+          {canReclaim && (
+            <button className="text-button reclaim" onClick={reclaimFacilitation} type="button">
+              <Trans>Take facilitation back</Trans>
+            </button>
+          )}
           {isFacilitator && (
             <>
               {!room.isClosed && (
@@ -139,50 +196,76 @@ export function Room({ room, send, status, error, onError, notice, onNotice }) {
         </div>
       </header>
 
+      {/* Post-creation notices as full-width stripes under the header, in the
+          same vein as the support banner. Each carries its own close button, so
+          dismissing one never silently takes the other with it. */}
+      {isFacilitator && showInvite && (
+        <div className="launch-stripe invite" role="note">
+          <strong><Trans>Invite your team</Trans></strong>
+          <code>{inviteLink}</code>
+          <button
+            className="stripe-copy"
+            onClick={() => copyLink(
+              inviteLink,
+              "invite",
+              t`The invite link could not be copied. Copy it from the address bar instead.`,
+            )}
+            type="button"
+          >
+            {copiedTarget === "invite" ? <Trans>Copied</Trans> : <Trans>Copy invite link</Trans>}
+          </button>
+          <button
+            aria-label={t`Dismiss the invite reminder`}
+            className="stripe-close"
+            onClick={() => setShowInvite(false)}
+            type="button"
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        </div>
+      )}
       {isFacilitator && recoveryCode && (
-        <div className="recovery-banner" role="note">
-          <div>
-            <strong><Trans>Save your facilitator recovery link</Trans></strong>
-            <p>
-              <Trans>
-                It’s the only way to reclaim this room if you lose this browser or switch devices.
-                We won’t show it again.
-              </Trans>
-            </p>
-            <code>{recoveryLink}</code>
-          </div>
-          <div className="recovery-actions">
-            <button
-              className="primary-button"
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(recoveryLink);
-                  onNotice(t`Recovery link copied — keep it somewhere safe.`);
-                } catch {
-                  onError(t`Couldn’t copy automatically. Select and copy the link manually.`);
-                }
-              }}
-              type="button"
-            >
-              <Trans>Copy link</Trans>
-            </button>
-            <button className="secondary-button" onClick={() => setRecoveryCode(null)} type="button">
-              <Trans>Dismiss</Trans>
-            </button>
-          </div>
+        <div className="launch-stripe secret" role="note">
+          <strong>
+            <Lock size={14} aria-hidden="true" />
+            <Trans>Your recovery link</Trans>
+          </strong>
+          <span className="launch-hint">
+            <Trans><strong>Only for you</strong>, not for your team. Shown once.</Trans>
+          </span>
+          <code>{recoveryLink}</code>
+          <button
+            className="stripe-copy"
+            onClick={() => copyLink(
+              recoveryLink,
+              "recovery",
+              t`Couldn’t copy automatically. Select and copy the link manually.`,
+            )}
+            type="button"
+          >
+            {copiedTarget === "recovery" ? <Trans>Copied</Trans> : <Trans>Copy recovery link</Trans>}
+          </button>
+          <button
+            aria-label={t`Dismiss the recovery link`}
+            className="stripe-close"
+            onClick={() => setRecoveryCode(null)}
+            type="button"
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
         </div>
       )}
 
       {error && (
         <div className="toast" role="alert">
           <span>{error}</span>
-          <button aria-label={t`Dismiss message`} onClick={() => onError("")} type="button">×</button>
+          <button aria-label={t`Dismiss message`} onClick={() => onError("")} type="button"><X size={16} aria-hidden="true" /></button>
         </div>
       )}
       {notice && (
         <div className="toast notice" role="status">
           <span>{notice}</span>
-          <button aria-label={t`Dismiss message`} onClick={() => onNotice("")} type="button">×</button>
+          <button aria-label={t`Dismiss message`} onClick={() => onNotice("")} type="button"><X size={16} aria-hidden="true" /></button>
         </div>
       )}
       <div className="presence-notifications" aria-live="polite">
@@ -202,7 +285,14 @@ export function Room({ room, send, status, error, onError, notice, onNotice }) {
         <RoomSettings
           room={room}
           send={send}
-          onClose={() => setSettingsOpen(false)}
+          issuedRecoveryCode={issuedRecoveryCode}
+          onError={onError}
+          onClose={() => {
+            setSettingsOpen(false);
+            // The new secret lives only in memory; drop it when the panel that
+            // shows it closes rather than leaving it in state indefinitely.
+            onClearIssuedRecoveryCode();
+          }}
           onManageItems={() => {
             setSettingsOpen(false);
             setItemsOpen(true);
@@ -229,7 +319,17 @@ export function Room({ room, send, status, error, onError, notice, onNotice }) {
 
       <div className="room-layout">
         <section className="table-area">
-          <RoundStage room={room} send={send} onManageItems={() => setItemsOpen(true)} />
+          <RoundStage
+            room={room}
+            send={send}
+            onManageItems={() => setItemsOpen(true)}
+            onCopyInvite={() => copyLink(
+              inviteLink,
+              "stage",
+              t`The invite link could not be copied. Copy it from the address bar instead.`,
+            )}
+            inviteCopied={copiedTarget === "stage"}
+          />
           <CardHand room={room} send={send} />
         </section>
         <aside className="sidebar">
@@ -238,6 +338,7 @@ export function Room({ room, send, status, error, onError, notice, onNotice }) {
         </aside>
       </div>
       <ReactionLayer room={room} send={send} />
+      {confirmationDialog}
     </main>
   );
 }
