@@ -14,12 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. placeholder {0}: item.title
-#: src/components/panels/ItemManager.jsx:70
+#: src/components/panels/ItemManager.jsx:78
 msgid "“{0}” and its saved estimate will be deleted from this room."
 msgstr "“{0}” and its saved estimate will be deleted from this room."
 
 #. placeholder {0}: estimatedItems.length
-#: src/components/panels/ItemManager.jsx:182
+#: src/components/panels/ItemManager.jsx:201
 msgid "{0, plural, one {# already estimated} other {# already estimated}}"
 msgstr "{0, plural, one {# already estimated} other {# already estimated}}"
 
@@ -28,13 +28,18 @@ msgstr "{0, plural, one {# already estimated} other {# already estimated}}"
 msgid "{0, plural, one {# deck step apart} other {# deck steps apart}}"
 msgstr "{0, plural, one {# deck step apart} other {# deck steps apart}}"
 
+#. placeholder {0}: chosen.length
+#: src/components/panels/JiraImport.jsx:299
+msgid "{0, plural, one {# issue selected} other {# issues selected}}"
+msgstr "{0, plural, one {# issue selected} other {# issues selected}}"
+
 #. placeholder {0}: itemTitles.split(/\r?\n/).filter((line) => line.trim()).length
-#: src/components/panels/ItemManager.jsx:130
+#: src/components/panels/ItemManager.jsx:139
 msgid "{0, plural, one {# item ready} other {# items ready}}"
 msgstr "{0, plural, one {# item ready} other {# items ready}}"
 
 #. placeholder {0}: pendingItems.length
-#: src/components/panels/ItemManager.jsx:150
+#: src/components/panels/ItemManager.jsx:169
 msgid "{0, plural, one {# pending} other {# pending}}"
 msgstr "{0, plural, one {# pending} other {# pending}}"
 
@@ -42,11 +47,6 @@ msgstr "{0, plural, one {# pending} other {# pending}}"
 #: src/components/panels/History.jsx:46
 msgid "{0, plural, one {# vote} other {# votes}}"
 msgstr "{0, plural, one {# vote} other {# votes}}"
-
-#. placeholder {0}: Math.max(slotsLeft, 0)
-#: src/components/panels/JiraImport.jsx:285
-msgid "{0, plural, one {Only # more item fits in the queue} other {Only # more items fit in the queue}}"
-msgstr "{0, plural, one {Only # more item fits in the queue} other {Only # more items fit in the queue}}"
 
 #. placeholder {0}: item.metrics.consensusPercent
 #: src/components/panels/History.jsx:44
@@ -85,9 +85,9 @@ msgstr "{pendingCount, plural, one {# pending} other {# pending}}"
 msgid "{roomName} estimates"
 msgstr "{roomName} estimates"
 
-#: src/components/panels/JiraImport.jsx:286
-msgid "{selectedCount, plural, one {# issue selected} other {# issues selected}}"
-msgstr "{selectedCount, plural, one {# issue selected} other {# issues selected}}"
+#: src/components/panels/JiraImport.jsx:298
+msgid "{slotsLeft, plural, one {Only # more item fits in the queue} other {Only # more items fit in the queue}}"
+msgstr "{slotsLeft, plural, one {Only # more item fits in the queue} other {Only # more items fit in the queue}}"
 
 #: src/components/round/RoundStage.jsx:226
 msgid "{voted} of {eligibleCount}"
@@ -173,7 +173,7 @@ msgstr "A room can have at most 50 pending items."
 msgid "A round needs at least one voter."
 msgstr "A round needs at least one voter."
 
-#: src/components/panels/JiraImport.jsx:45
+#: src/components/panels/JiraImport.jsx:38
 msgid "Active sprint"
 msgstr "Active sprint"
 
@@ -181,7 +181,7 @@ msgstr "Active sprint"
 msgid "Add"
 msgstr "Add"
 
-#: src/components/panels/ItemManager.jsx:176
+#: src/components/panels/ItemManager.jsx:195
 msgid "Add a few items and they’ll appear here in voting order."
 msgstr "Add a few items and they’ll appear here in voting order."
 
@@ -201,7 +201,7 @@ msgstr "Add at least one item."
 msgid "Add card"
 msgstr "Add card"
 
-#: src/components/panels/ItemManager.jsx:117
+#: src/components/panels/ItemManager.jsx:126
 msgid "Add items"
 msgstr "Add items"
 
@@ -213,7 +213,7 @@ msgstr "Add items"
 msgid "Add no more than 100 items at a time."
 msgstr "Add no more than 100 items at a time."
 
-#: src/components/panels/ItemManager.jsx:106
+#: src/components/panels/ItemManager.jsx:115
 msgid "Add one item per line. You can keep editing the queue during a vote."
 msgstr "Add one item per line. You can keep editing the queue during a vote."
 
@@ -221,8 +221,8 @@ msgstr "Add one item per line. You can keep editing the queue during a vote."
 msgid "Add the items to estimate"
 msgstr "Add the items to estimate"
 
-#: src/components/panels/ItemManager.jsx:137
-#: src/components/panels/JiraImport.jsx:294
+#: src/components/panels/ItemManager.jsx:146
+#: src/components/panels/JiraImport.jsx:307
 msgid "Add to session"
 msgstr "Add to session"
 
@@ -253,7 +253,7 @@ msgstr "Agreement"
 msgid "All items, votes, participants, and completed estimates will be erased immediately. This cannot be undone."
 msgstr "All items, votes, participants, and completed estimates will be erased immediately. This cannot be undone."
 
-#: src/components/panels/JiraImport.jsx:48
+#: src/components/panels/JiraImport.jsx:41
 msgid "All open issues"
 msgstr "All open issues"
 
@@ -310,7 +310,7 @@ msgstr "Back"
 msgid "Back to home"
 msgstr "Back to home"
 
-#: src/components/panels/JiraImport.jsx:47
+#: src/components/panels/JiraImport.jsx:40
 msgid "Backlog (no sprint)"
 msgstr "Backlog (no sprint)"
 
@@ -318,7 +318,11 @@ msgstr "Backlog (no sprint)"
 msgid "Break"
 msgstr "Break"
 
-#: src/components/panels/ItemManager.jsx:272
+#: src/components/panels/ItemManager.jsx:157
+msgid "Browse issues"
+msgstr "Browse issues"
+
+#: src/components/panels/ItemManager.jsx:293
 #: src/components/panels/RoomSettings.jsx:439
 #: src/components/round/RoundStage.jsx:323
 msgid "Cancel"
@@ -409,6 +413,10 @@ msgstr "Clear every card and ask the team to vote again?"
 msgid "Clear reactions"
 msgstr "Clear reactions"
 
+#: src/components/panels/JiraImport.jsx:253
+msgid "Clear selection"
+msgstr "Clear selection"
+
 #: src/components/round/RoundStage.jsx:284
 msgid "Clear the current votes?"
 msgstr "Clear the current votes?"
@@ -430,9 +438,13 @@ msgstr "Close details"
 msgid "Close guide"
 msgstr "Close guide"
 
-#: src/components/panels/ItemManager.jsx:110
+#: src/components/panels/ItemManager.jsx:119
 msgid "Close items"
 msgstr "Close items"
+
+#: src/components/panels/JiraImport.jsx:155
+msgid "Close Jira import"
+msgstr "Close Jira import"
 
 #: src/components/panels/PeopleList.jsx:117
 msgid "Close people manager"
@@ -480,7 +492,9 @@ msgstr "Confirmed"
 msgid "Confirmed votes"
 msgstr "Confirmed votes"
 
-#: src/components/panels/JiraImport.jsx:200
+#: src/components/panels/ItemManager.jsx:157
+#: src/components/panels/JiraImport.jsx:161
+#: src/components/panels/JiraImport.jsx:182
 msgid "Connect Jira"
 msgstr "Connect Jira"
 
@@ -567,7 +581,7 @@ msgstr "Delete this room permanently?"
 #~ msgid "Describe the item to estimate"
 #~ msgstr "Describe the item to estimate"
 
-#: src/components/panels/JiraImport.jsx:188
+#: src/components/panels/JiraImport.jsx:152
 msgid "Disconnect"
 msgstr "Disconnect"
 
@@ -613,7 +627,7 @@ msgid "Download Markdown"
 msgstr "Download Markdown"
 
 #. placeholder {0}: item.title
-#: src/components/panels/ItemManager.jsx:251
+#: src/components/panels/ItemManager.jsx:272
 msgid "Drag to reorder {0}"
 msgstr "Drag to reorder {0}"
 
@@ -633,12 +647,12 @@ msgstr "Each card doubles, for work that scales steeply."
 msgid "Each room keeps only what it needs to run the session on the server that hosts it:"
 msgstr "Each room keeps only what it needs to run the session on the server that hosts it:"
 
-#: src/components/panels/ItemManager.jsx:287
+#: src/components/panels/ItemManager.jsx:308
 msgid "Edit"
 msgstr "Edit"
 
 #. placeholder {0}: item.title
-#: src/components/panels/ItemManager.jsx:285
+#: src/components/panels/ItemManager.jsx:306
 msgid "Edit {0}"
 msgstr "Edit {0}"
 
@@ -678,7 +692,8 @@ msgstr "Estimate saved"
 msgid "Estimates"
 msgstr "Estimates"
 
-#: src/components/panels/ItemManager.jsx:104
+#: src/components/panels/ItemManager.jsx:113
+#: src/components/panels/JiraImport.jsx:144
 msgid "Estimation queue"
 msgstr "Estimation queue"
 
@@ -749,9 +764,14 @@ msgstr "Fibonacci"
 msgid "Final estimate"
 msgstr "Final estimate"
 
-#: src/components/panels/JiraImport.jsx:247
+#: src/components/panels/JiraImport.jsx:197
+#: src/components/panels/JiraImport.jsx:236
 msgid "Find issues"
 msgstr "Find issues"
+
+#: src/components/panels/JiraImport.jsx:146
+msgid "Find issues and add them to the estimation queue."
+msgstr "Find issues and add them to the estimation queue."
 
 #: src/components/HomePage.jsx:77
 msgid "Find the estimate your team can stand behind."
@@ -764,6 +784,10 @@ msgstr "Finding the room again…"
 #: src/components/room/FacilitatorGuide.jsx:90
 msgid "Finish"
 msgstr "Finish"
+
+#: src/components/panels/JiraImport.jsx:170
+msgid "Finish signing in in the Atlassian window. This panel updates when you are done."
+msgstr "Finish signing in in the Atlassian window. This panel updates when you are done."
 
 #: src/components/panels/RoomSettings.jsx:154
 msgid "Finish the current round before changing its deck or suggestion rules."
@@ -853,11 +877,12 @@ msgstr "If you connect Jira"
 msgid "Immediately erase the room and all of its data."
 msgstr "Immediately erase the room and all of its data."
 
-#: src/components/panels/JiraImport.jsx:186
+#: src/components/panels/ItemManager.jsx:153
+#: src/components/panels/JiraImport.jsx:145
 msgid "Import from Jira"
 msgstr "Import from Jira"
 
-#: src/components/panels/JiraImport.jsx:271
+#: src/components/panels/JiraImport.jsx:284
 msgid "In queue"
 msgstr "In queue"
 
@@ -890,7 +915,11 @@ msgstr "Invite your team, or wait for them to join. You can also turn the facili
 msgid "Issue"
 msgstr "Issue"
 
-#: src/components/panels/JiraImport.jsx:231
+#: src/components/panels/JiraImport.jsx:245
+msgid "Issues"
+msgstr "Issues"
+
+#: src/components/panels/JiraImport.jsx:219
 msgid "Issues from"
 msgstr "Issues from"
 
@@ -918,7 +947,7 @@ msgstr "Item"
 msgid "Items must be provided as a list."
 msgstr "Items must be provided as a list."
 
-#: src/components/panels/ItemManager.jsx:105
+#: src/components/panels/ItemManager.jsx:114
 #: src/components/panels/RoomSettings.jsx:160
 msgid "Items to estimate"
 msgstr "Items to estimate"
@@ -931,11 +960,11 @@ msgstr "Its estimates remain available here until the room expires."
 msgid "Jira could not be reached. Try again shortly."
 msgstr "Jira could not be reached. Try again shortly."
 
-#: src/components/panels/JiraImport.jsx:238
+#: src/components/panels/JiraImport.jsx:225
 msgid "Jira search (JQL)"
 msgstr "Jira search (JQL)"
 
-#: src/components/panels/JiraImport.jsx:201
+#: src/components/panels/JiraImport.jsx:179
 msgid "Jira was not connected. Try again."
 msgstr "Jira was not connected. Try again."
 
@@ -1004,7 +1033,7 @@ msgstr "Link copied"
 msgid "Live voting"
 msgstr "Live voting"
 
-#: src/components/panels/JiraImport.jsx:279
+#: src/components/panels/JiraImport.jsx:292
 msgid "Load more issues"
 msgstr "Load more issues"
 
@@ -1020,7 +1049,7 @@ msgstr "Locked"
 msgid "Locked · {selected}"
 msgstr "Locked · {selected}"
 
-#: src/components/panels/ItemManager.jsx:124
+#: src/components/panels/ItemManager.jsx:133
 msgid "Login with SSO\n"
 "Add audit log export\n"
 "Improve empty states"
@@ -1127,7 +1156,7 @@ msgstr "No analytics or usage tracking, and no advertising or marketing profiles
 msgid "No analytics, no advertising, no third-party trackers, and nothing is sold or shared."
 msgstr "No analytics, no advertising, no third-party trackers, and nothing is sold or shared."
 
-#: src/components/panels/JiraImport.jsx:299
+#: src/components/panels/JiraImport.jsx:265
 msgid "No issues match that search."
 msgstr "No issues match that search."
 
@@ -1146,6 +1175,10 @@ msgstr "No numeric spread"
 #: src/components/round/RoundStage.jsx:420
 msgid "No range"
 msgstr "No range"
+
+#: src/components/panels/JiraImport.jsx:259
+msgid "No search yet"
+msgstr "No search yet"
 
 #: src/components/PrivacyPage.jsx:37
 msgid "No sign-up. No email, password, or profile is ever required."
@@ -1327,6 +1360,10 @@ msgstr "Open item manager"
 msgid "Open room"
 msgstr "Open room"
 
+#: src/components/panels/JiraImport.jsx:182
+msgid "Open the Atlassian window again"
+msgstr "Open the Atlassian window again"
+
 #: src/components/room/FacilitatorGuide.jsx:10
 msgid "Open the item manager and enter one item per line. Arrange them in the order you want to discuss them."
 msgstr "Open the item manager and enter one item per line. Arrange them in the order you want to discuss them."
@@ -1345,7 +1382,7 @@ msgstr "Participant"
 msgid "Participant display names and their role (facilitator, voter, or observer)."
 msgstr "Participant display names and their role (facilitator, voter, or observer)."
 
-#: src/components/panels/ItemManager.jsx:118
+#: src/components/panels/ItemManager.jsx:127
 msgid "Paste a list from your backlog or write the work down here."
 msgstr "Paste a list from your backlog or write the work down here."
 
@@ -1360,6 +1397,10 @@ msgstr "Pending items"
 #: src/components/panels/PeopleList.jsx:24
 msgid "People"
 msgstr "People"
+
+#: src/components/panels/JiraImport.jsx:198
+msgid "Pick a project, or write your own Jira search."
+msgstr "Pick a project, or write your own Jira search."
 
 #: src/components/room/FacilitatorGuide.jsx:19
 msgid "Pick an item from the pending list, or add one right there, then click Start voting."
@@ -1434,9 +1475,13 @@ msgstr "Prepare and maintain the work this room will estimate."
 msgid "Product highlights"
 msgstr "Product highlights"
 
-#: src/components/panels/JiraImport.jsx:221
+#: src/components/panels/JiraImport.jsx:209
 msgid "Project"
 msgstr "Project"
+
+#: src/components/panels/ItemManager.jsx:154
+msgid "Pull issues from your Jira backlog straight into the queue."
+msgstr "Pull issues from your Jira backlog straight into the queue."
 
 #: src/components/EntryScreens.jsx:113
 msgid "Pulling up a chair…"
@@ -1499,8 +1544,8 @@ msgid "Remove"
 msgstr "Remove"
 
 #. placeholder {0}: item.title
-#: src/components/panels/ItemManager.jsx:197
-#: src/components/panels/ItemManager.jsx:294
+#: src/components/panels/ItemManager.jsx:216
+#: src/components/panels/ItemManager.jsx:315
 msgid "Remove {0}"
 msgstr "Remove {0}"
 
@@ -1513,7 +1558,7 @@ msgstr "Remove {0}?"
 msgid "Remove {card}"
 msgstr "Remove {card}"
 
-#: src/components/panels/ItemManager.jsx:71
+#: src/components/panels/ItemManager.jsx:79
 msgid "Remove item"
 msgstr "Remove item"
 
@@ -1521,7 +1566,7 @@ msgstr "Remove item"
 msgid "Remove person"
 msgstr "Remove person"
 
-#: src/components/panels/ItemManager.jsx:69
+#: src/components/panels/ItemManager.jsx:77
 msgid "Remove this estimated item?"
 msgstr "Remove this estimated item?"
 
@@ -1628,6 +1673,10 @@ msgstr "Rooms and everything in them are deleted automatically 7 days after the 
 msgid "Rooms expire after 7 days of inactivity. Any activity keeps them alive."
 msgstr "Rooms expire after 7 days of inactivity. Any activity keeps them alive."
 
+#: src/components/panels/JiraImport.jsx:260
+msgid "Run a search and the matching issues will appear here."
+msgstr "Run a search and the matching issues will appear here."
+
 #: src/components/HomePage.jsx:148
 msgid "Run a session"
 msgstr "Run a session"
@@ -1636,7 +1685,7 @@ msgstr "Run a session"
 msgid "Run your first planning session"
 msgstr "Run your first planning session"
 
-#: src/components/panels/ItemManager.jsx:264
+#: src/components/panels/ItemManager.jsx:285
 #: src/components/round/RoundStage.jsx:314
 msgid "Save"
 msgstr "Save"
@@ -1661,6 +1710,10 @@ msgstr "Save settings"
 #~ msgid "Save your recovery link, and keep it secret"
 #~ msgstr "Save your recovery link, and keep it secret"
 
+#: src/components/panels/JiraImport.jsx:253
+msgid "Select all"
+msgstr "Select all"
+
 #: src/components/room/FacilitatorGuide.jsx:19
 #~ msgid "Select an item from the estimation queue, or enter a new one, then click Start voting."
 #~ msgstr "Select an item from the estimation queue, or enter a new one, then click Start voting."
@@ -1677,7 +1730,7 @@ msgstr "Selected from the item list"
 msgid "Session complete"
 msgstr "Session complete"
 
-#: src/components/panels/ItemManager.jsx:148
+#: src/components/panels/ItemManager.jsx:167
 msgid "Session queue"
 msgstr "Session queue"
 
@@ -1697,7 +1750,7 @@ msgstr "Short-lived reactions and raised hands, which clear on their own within 
 msgid "Show the votes and leave the decision entirely to the team."
 msgstr "Show the votes and leave the decision entirely to the team."
 
-#: src/components/panels/JiraImport.jsx:195
+#: src/components/panels/JiraImport.jsx:163
 msgid "Sign in with Atlassian to pull issues straight into the queue. Access is read-only, lasts about an hour, and stays in this browser."
 msgstr "Sign in with Atlassian to pull issues straight into the queue. Access is read-only, lasts about an hour, and stays in this browser."
 
@@ -1705,7 +1758,7 @@ msgstr "Sign in with Atlassian to pull issues straight into the queue. Access is
 msgid "Signal when it may be time to turn the cards over."
 msgstr "Signal when it may be time to turn the cards over."
 
-#: src/components/panels/JiraImport.jsx:213
+#: src/components/panels/JiraImport.jsx:202
 msgid "Site"
 msgstr "Site"
 
@@ -1926,7 +1979,7 @@ msgstr "They’ll bring the first task to the table."
 msgid "They’ll leave immediately and their current vote will be discarded."
 msgstr "They’ll leave immediately and their current vote will be discarded."
 
-#: src/components/panels/JiraImport.jsx:206
+#: src/components/panels/JiraImport.jsx:189
 msgid "This Atlassian account has no Jira site that Point Taken was given access to."
 msgstr "This Atlassian account has no Jira site that Point Taken was given access to."
 
@@ -2034,7 +2087,7 @@ msgstr "Unsure"
 msgid "Up next"
 msgstr "Up next"
 
-#: src/components/panels/JiraImport.jsx:46
+#: src/components/panels/JiraImport.jsx:39
 msgid "Upcoming sprints"
 msgstr "Upcoming sprints"
 
@@ -2090,7 +2143,7 @@ msgstr "Votes stay hidden from other participants until the facilitator reveals 
 msgid "Voting is not open."
 msgstr "Voting is not open."
 
-#: src/components/panels/ItemManager.jsx:279
+#: src/components/panels/ItemManager.jsx:300
 msgid "Voting now"
 msgstr "Voting now"
 
@@ -2194,7 +2247,7 @@ msgstr "You’re observing this session. Observers can follow the discussion wit
 msgid "You’ve been invited"
 msgstr "You’ve been invited"
 
-#: src/components/panels/JiraImport.jsx:104
+#: src/components/panels/JiraImport.jsx:175
 msgid "Your browser blocked the Jira window. Allow pop-ups for this site and try again."
 msgstr "Your browser blocked the Jira window. Allow pop-ups for this site and try again."
 
@@ -2221,7 +2274,7 @@ msgstr "Your name"
 msgid "Your planning room is still active"
 msgstr "Your planning room is still active"
 
-#: src/components/panels/ItemManager.jsx:175
+#: src/components/panels/ItemManager.jsx:194
 msgid "Your queue is empty"
 msgstr "Your queue is empty"
 

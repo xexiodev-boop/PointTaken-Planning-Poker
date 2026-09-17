@@ -5,13 +5,16 @@ import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, us
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useConfirmation } from "../../hooks/useConfirmation.jsx";
+import { useJiraConnection } from "../../hooks/useJiraConnection.js";
 import { useModal } from "../../hooks/useModal.js";
 import { IssueKey } from "../IssueKey.jsx";
 import { JiraImport } from "./JiraImport.jsx";
 
 export function ItemManager({ room, send, error, onClose }) {
-  const { t } = useLingui();
+  const { t, i18n } = useLingui();
   const [itemTitles, setItemTitles] = useState("");
+  const [jiraOpen, setJiraOpen] = useState(false);
+  const jira = useJiraConnection(i18n.locale);
   const pendingItems = useMemo(
     () => room.items.filter((item) => item.status === "pending"),
     [room.items],
@@ -64,6 +67,11 @@ export function ItemManager({ room, send, error, onClose }) {
     setItemTitles("");
   }
 
+  function openJira() {
+    if (!jira.status.connected) jira.connect();
+    setJiraOpen(true);
+  }
+
   async function removeEstimated(item) {
     const accepted = await confirm({
       title: t`Remove this estimated item?`,
@@ -90,6 +98,7 @@ export function ItemManager({ room, send, error, onClose }) {
   }
 
   return (
+    <>
     <div className="workspace-backdrop" onMouseDown={onClose}>
       <section
         aria-labelledby="item-manager-title"
@@ -138,7 +147,17 @@ export function ItemManager({ room, send, error, onClose }) {
               </button>
             </div>
           </form>
-          <JiraImport room={room} send={send} />
+          {jira.status?.available && (
+            <div className="jira-entry">
+              <div>
+                <h3><Trans>Import from Jira</Trans></h3>
+                <p><Trans>Pull issues from your Jira backlog straight into the queue.</Trans></p>
+              </div>
+              <button className="secondary-button" onClick={openJira} type="button">
+                {jira.status.connected ? <Trans>Browse issues</Trans> : <Trans>Connect Jira</Trans>}
+              </button>
+            </div>
+          )}
           </section>
 
           <section className="items-queue">
@@ -208,6 +227,8 @@ export function ItemManager({ room, send, error, onClose }) {
         {confirmationDialog}
       </section>
     </div>
+    {jiraOpen && <JiraImport jira={jira} onClose={() => setJiraOpen(false)} room={room} send={send} />}
+    </>
   );
 }
 
