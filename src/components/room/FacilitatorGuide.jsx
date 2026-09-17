@@ -16,7 +16,7 @@ const FACILITATOR_GUIDE_STEPS = [
   },
   {
     title: msg`Start the vote`,
-    text: msg`Select an item from the estimation queue, or enter a new one, then click Start voting.`,
+    text: msg`Pick an item from the pending list, or add one right there, then click Start voting.`,
   },
   {
     title: msg`Wait for the votes`,

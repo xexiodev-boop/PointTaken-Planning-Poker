@@ -1,5 +1,7 @@
 import { plural } from "@lingui/core/macro";
-import { ArrowDown, ChevronRight, Pencil, Plus, RotateCcw, X } from "lucide-react";
+import { ArrowDown, ChevronRight, ListOrdered, Pencil, RotateCcw, X } from "lucide-react";
+import { IssueKey } from "../IssueKey.jsx";
+import { QuickAddItem } from "./QuickAddItem.jsx";
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import { useEffect, useMemo, useState } from "react";
 import { useConfirmation } from "../../hooks/useConfirmation.jsx";
@@ -58,39 +60,35 @@ export function RoundStage({ room, send, onManageItems, onCopyInvite, inviteCopi
 }
 
 function StartRound({ room, send, previousRound, onManageItems, onCopyInvite, inviteCopied }) {
-  const { t } = useLingui();
   const pendingItems = useMemo(
     () => room.items.filter((item) => item.status === "pending"),
     [room.items],
   );
   const [itemId, setItemId] = useState(pendingItems[0]?.id ?? "");
-  const [title, setTitle] = useState("");
-  const [source, setSource] = useState(pendingItems.length ? "backlog" : "new");
+  const [addedTitle, setAddedTitle] = useState("");
   const selectedItem = pendingItems.find((item) => item.id === itemId);
   const firstPendingId = pendingItems[0]?.id ?? "";
-  const selectedIsPending = pendingItems.some((item) => item.id === itemId);
+  const addedId = addedTitle
+    ? pendingItems.find((item) => item.title.toLowerCase() === addedTitle.toLowerCase())?.id ?? ""
+    : "";
   const voterCount = room.participants.filter((person) => person.eligible).length;
 
   useEffect(() => {
-    if (firstPendingId && !selectedIsPending) {
+    if (addedId) {
+      setItemId(addedId);
+      setAddedTitle("");
+    } else if (!selectedItem) {
       setItemId(firstPendingId);
-      setSource("backlog");
-    } else if (!firstPendingId) {
-      setItemId("");
-      setSource("new");
     }
-  }, [firstPendingId, selectedIsPending]);
+  }, [addedId, selectedItem, firstPendingId]);
 
-  function submit(event) {
-    event.preventDefault();
-    if (source === "backlog" && itemId) {
-      send({ type: "start_round", itemId });
-    } else if (title.trim()) {
-      send({ type: "start_round", title });
-    } else {
-      return;
-    }
-    setTitle("");
+  function addItem(title) {
+    send({ type: "add_items", titles: [title] });
+    setAddedTitle(title);
+  }
+
+  function startVoting() {
+    if (selectedItem) send({ type: "start_round", itemId: selectedItem.id });
   }
 
   if (voterCount === 0) {
@@ -112,79 +110,58 @@ function StartRound({ room, send, previousRound, onManageItems, onCopyInvite, in
   }
 
   return (
-    <form className="start-round" onSubmit={submit}>
+    <div className="start-round">
       <div className="round-picker">
         <section className="pending-picker">
           <div className="picker-heading">
-            <span><Trans>Pending items</Trans></span>
-            <b>{pendingItems.length}</b>
+            <span><Trans>Pending items</Trans> <b>{pendingItems.length}</b></span>
+            <button className="picker-manage" onClick={onManageItems} type="button">
+              <ListOrdered size={13} aria-hidden="true" />
+              <Trans>Manage</Trans>
+            </button>
           </div>
           {pendingItems.length ? (
             <div className="picker-list">
               {pendingItems.map((item, index) => (
                 <button
-                  className={source === "backlog" && itemId === item.id ? "selected" : ""}
+                  className={itemId === item.id ? "selected" : ""}
                   key={item.id}
-                  onClick={() => {
-                    setItemId(item.id);
-                    setSource("backlog");
-                  }}
+                  onClick={() => setItemId(item.id)}
                   type="button"
                 >
                   <small>{String(index + 1).padStart(2, "0")}</small>
-                  <span>{item.title}</span>
+                  <span><IssueKey item={item} link={false} />{item.title}</span>
                   <ChevronRight className="row-chevron" size={16} aria-hidden="true" />
                 </button>
               ))}
             </div>
           ) : (
-            <div className="picker-empty">
-              <p><Trans>No items are waiting to be estimated.</Trans></p>
-              <button onClick={onManageItems} type="button">
-                <Plus size={15} aria-hidden="true" />
-                <Trans>Add items to the estimation queue</Trans>
-              </button>
-            </div>
+            <p className="picker-empty"><Trans>No items are waiting to be estimated.</Trans></p>
           )}
+          <QuickAddItem autoFocus={!pendingItems.length} onAdd={addItem} />
         </section>
 
         <section className="round-choice">
           <p className="eyebrow">{previousRound ? <Trans>Ready for another?</Trans> : <Trans>First estimate</Trans>}</p>
           <h2><Trans>What are we sizing?</Trans></h2>
-          {source === "backlog" && selectedItem ? (
+          {selectedItem ? (
             <div className="selected-backlog-item">
               <small><Trans>Selected from the item list</Trans></small>
-              <strong>{selectedItem.title}</strong>
+              <strong><IssueKey item={selectedItem} />{selectedItem.title}</strong>
             </div>
           ) : (
-            <div className="new-item-entry">
-              <label>
-                <Trans>New item</Trans>
-                <input
-                  autoFocus={!pendingItems.length}
-                  maxLength={160}
-                  onChange={(event) => setTitle(event.target.value)}
-                  placeholder={t`Describe the item to estimate`}
-                  value={title}
-                />
-              </label>
+            <div className="selected-backlog-item empty">
+              <strong><Trans>Add an item to the queue to start voting.</Trans></strong>
             </div>
           )}
           <div className="round-choice-actions">
-            {pendingItems.length > 0 && (
-              <button
-                className="text-button"
-                onClick={() => setSource(source === "new" ? "backlog" : "new")}
-                type="button"
-              >
-                {source === "new" ? <Trans>Choose a pending item</Trans> : <Trans>Enter a new item instead</Trans>}
-              </button>
-            )}
-            <button className="primary-button" type="submit"><Trans>Start voting</Trans></button>
+            <button className="primary-button" disabled={!selectedItem} onClick={startVoting} type="button">
+              <Trans>Start voting</Trans>
+            </button>
           </div>
         </section>
       </div>
-    </form>
+    </div>
   );
 }
 
@@ -241,7 +218,7 @@ function VotingStage({ room, send }) {
 
   return (
     <div className="round-stage voting-stage">
-      <p className="eyebrow"><Trans>Now estimating</Trans></p>
+      <p className="eyebrow"><Trans>Now estimating</Trans><IssueKey item={room.items.find(({ id }) => id === round.itemId)} /></p>
       <h1>{round.title}</h1>
       {isFacilitator && <FacilitatorRoundControls room={room} send={send} />}
       <div className="vote-progress">
@@ -389,7 +366,7 @@ function ResultsStage({ room, send }) {
 
   return (
     <div className="round-stage results-stage">
-      <p className="eyebrow"><Trans>Cards on the table</Trans></p>
+      <p className="eyebrow"><Trans>Cards on the table</Trans><IssueKey item={room.items.find(({ id }) => id === round.itemId)} /></p>
       <h1>{round.title}</h1>
       {isFacilitator && <FacilitatorRoundControls room={room} send={send} />}
       <div className="result-cards">

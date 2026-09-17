@@ -3,11 +3,13 @@ import { ChevronRight, X } from "lucide-react";
 import { useState } from "react";
 import { useModal } from "../../hooks/useModal.js";
 import { exportHistory } from "../../lib/export.js";
+import { IssueKey } from "../IssueKey.jsx";
 
 export function History({ room }) {
   const { history } = room;
   const [selected, setSelected] = useState(null);
   const [exportOpen, setExportOpen] = useState(false);
+  const issueFor = (entry) => room.items.find(({ id }) => id === entry.itemId);
 
   return (
     <>
@@ -36,7 +38,7 @@ export function History({ room }) {
                 <button onClick={() => setSelected(item)} type="button">
                   <span>{item.finalValue}</span>
                   <div>
-                    <strong>{item.title}</strong>
+                    <strong><IssueKey item={issueFor(item)} link={false} />{item.title}</strong>
                     <small>
                       {item.metrics
                         ? <Trans>{item.metrics.consensusPercent}% agreement</Trans>
@@ -56,17 +58,23 @@ export function History({ room }) {
           </ol>
         )}
       </section>
-      {selected && <ResultDetail item={selected} onClose={() => setSelected(null)} />}
+      {selected && <ResultDetail item={selected} issue={issueFor(selected)} onClose={() => setSelected(null)} />}
     </>
   );
 }
 
-function ResultDetail({ item, onClose }) {
+function ResultDetail({ item, issue, onClose }) {
   const { t } = useLingui();
   const counts = new Map();
   item.votes.forEach((vote) => {
     if (vote.value) counts.set(vote.value, (counts.get(vote.value) ?? 0) + 1);
   });
+  const deckOrder = item.deckCards ?? [];
+  const position = (value) => {
+    const index = deckOrder.indexOf(value);
+    return index === -1 ? deckOrder.length : index;
+  };
+  const breakdown = [...counts.entries()].sort(([a], [b]) => position(a) - position(b));
   const dialogRef = useModal(onClose);
 
   return (
@@ -81,7 +89,7 @@ function ResultDetail({ item, onClose }) {
       >
         <header>
           <div>
-            <p className="eyebrow"><Trans>Completed estimate</Trans></p>
+            <p className="eyebrow"><Trans>Completed estimate</Trans><IssueKey item={issue} /></p>
             <h1 id="result-detail-title">{item.title}</h1>
             <p>{new Date(item.completedAt).toLocaleString()}</p>
           </div>
@@ -119,7 +127,7 @@ function ResultDetail({ item, onClose }) {
               <h2><Trans>How the team voted</Trans></h2>
             </div>
             <div className="breakdown-bars">
-              {[...counts.entries()].map(([value, count]) => (
+              {breakdown.map(([value, count]) => (
                 <div key={value}>
                   <strong>{value}</strong>
                   <span><i style={{ width: `${(count / item.votes.length) * 100}%` }} /></span>

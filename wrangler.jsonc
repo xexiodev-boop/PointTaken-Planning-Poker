@@ -17,6 +17,10 @@
       }
     ]
   },
+  // The matching JIRA_CLIENT_SECRET is a secret: wrangler secret put JIRA_CLIENT_SECRET
+  "vars": {
+    "JIRA_CLIENT_ID": "ri7P8GzbwQ2iWf0iA9B8i0s2C0bDYIel"
+  },
   "migrations": [
     {
       "tag": "v1",

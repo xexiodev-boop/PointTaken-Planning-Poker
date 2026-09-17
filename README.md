@@ -18,6 +18,8 @@ team or your backlog.
   vote, or no suggestion at all.
 - **Backlog queue**: batch-add items to estimate, reorder them by drag and drop, and edit
   titles inline between rounds.
+- **Jira import**: optionally sign in with Atlassian and pull issues into the queue with a
+  project picker or your own JQL. Read-only, and the token never leaves an HttpOnly cookie.
 - **Round insights**: agreement percentage, unanimous-vote detection, vote spread, and a
   detailed per-estimate breakdown.
 - **History export**: download completed estimates as CSV or Markdown, generated locally in
@@ -79,6 +81,15 @@ npm run dev
 ```
 
 The app is available at `http://localhost:5173`.
+
+### Jira import (optional)
+
+The import button only appears when the Worker has both halves of an Atlassian OAuth 2.0 (3LO)
+app with the `read:jira-work` scope and `<origin>/api/jira/callback` as a callback URL:
+
+- `JIRA_CLIENT_ID`: a plain var in `wrangler.jsonc`.
+- `JIRA_CLIENT_SECRET`: `wrangler secret put JIRA_CLIENT_SECRET` in production, or a line in
+  `.dev.vars` locally.
 
 ### Verification
 

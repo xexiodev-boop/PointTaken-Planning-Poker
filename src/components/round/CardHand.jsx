@@ -6,6 +6,7 @@ export function CardHand({ room, send }) {
   const viewer = room.participants.find(({ id }) => id === room.viewer.id);
   const selected = round?.ownVote?.value;
   const confirmed = round?.ownVote?.confirmed;
+  const confirmVotes = room.settings.confirmVotes !== false;
   const handRef = useRef(null);
   const shouldShowHand = !room.isClosed && round?.phase === "voting" && viewer?.eligible && !selected;
 
@@ -45,13 +46,13 @@ export function CardHand({ room, send }) {
           <h3>
             {confirmed
               ? <Trans>Vote locked</Trans>
-              : selected
+              : selected && confirmVotes
                 ? <Trans>Ready to lock it in?</Trans>
                 : <Trans>Pick the closest fit</Trans>}
           </h3>
           {!selected && <small className="hand-prompt"><Trans>Select one card to continue</Trans></small>}
         </div>
-        {selected && !confirmed && (
+        {selected && !confirmed && confirmVotes && (
           <button className="primary-button compact" onClick={() => send({ type: "confirm_vote" })} type="button">
             <Trans>Confirm {selected}</Trans>
           </button>

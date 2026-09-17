@@ -10,6 +10,7 @@ import { CardHand } from "../round/CardHand.jsx";
 import { RoundStage } from "../round/RoundStage.jsx";
 import { History } from "../panels/History.jsx";
 import { ItemManager } from "../panels/ItemManager.jsx";
+import { UpNext } from "../panels/UpNext.jsx";
 import { PeopleList } from "../panels/PeopleList.jsx";
 import { RoomSettings } from "../panels/RoomSettings.jsx";
 import { LanguageSwitcher } from "../LanguageSwitcher.jsx";
@@ -334,6 +335,7 @@ export function Room({
         </section>
         <aside className="sidebar">
           <PeopleList room={room} send={send} />
+          <UpNext room={room} send={send} onManageItems={() => setItemsOpen(true)} />
           <History room={room} />
         </aside>
       </div>

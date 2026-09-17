@@ -4,7 +4,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useConfirmation } from "../../hooks/useConfirmation.jsx";
 import { useModal } from "../../hooks/useModal.js";
+import { IssueKey } from "../IssueKey.jsx";
+import { JiraImport } from "./JiraImport.jsx";
 
 export function ItemManager({ room, send, error, onClose }) {
   const { t } = useLingui();
@@ -15,10 +18,13 @@ export function ItemManager({ room, send, error, onClose }) {
   );
   const [orderedItems, setOrderedItems] = useState(pendingItems);
   const estimatedItems = room.items.filter((item) => item.status === "estimated");
-  const activeRound = room.currentRound && room.currentRound.phase !== "finalized";
+  const votingItemId = room.currentRound && room.currentRound.phase !== "finalized"
+    ? room.currentRound.itemId
+    : null;
   const pendingOrderRef = useRef(null);
   const pendingSignature = pendingItems.map(({ id, title }) => `${id}:${title}`).join("|");
   const dialogRef = useModal(onClose);
+  const { confirm, confirmationDialog } = useConfirmation();
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -58,6 +64,16 @@ export function ItemManager({ room, send, error, onClose }) {
     setItemTitles("");
   }
 
+  async function removeEstimated(item) {
+    const accepted = await confirm({
+      title: t`Remove this estimated item?`,
+      message: t`“${item.title}” and its saved estimate will be deleted from this room.`,
+      confirmLabel: t`Remove item`,
+      tone: "danger",
+    });
+    if (accepted) send({ type: "remove_item", itemId: item.id });
+  }
+
   function reorderItems(event) {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -87,19 +103,13 @@ export function ItemManager({ room, send, error, onClose }) {
           <div>
             <p className="eyebrow"><Trans>Estimation queue</Trans></p>
             <h1 id="item-manager-title"><Trans>Items to estimate</Trans></h1>
-            <p><Trans>Prepare the session before voting starts. Add one item per line.</Trans></p>
+            <p><Trans>Add one item per line. You can keep editing the queue during a vote.</Trans></p>
           </div>
           <div className="workspace-header-actions">
             <span className="items-room-name">{room.name}</span>
             <button className="workspace-close" onClick={onClose} type="button" aria-label={t`Close items`}><X size={17} aria-hidden="true" /></button>
           </div>
         </header>
-
-        {activeRound && (
-          <div className="items-active-notice">
-            <Trans>The item list is read-only while a round is active.</Trans>
-          </div>
-        )}
 
         <div className="items-workspace">
           <section className="items-composer">
@@ -109,7 +119,6 @@ export function ItemManager({ room, send, error, onClose }) {
           <form onSubmit={addItems}>
             <textarea
               autoFocus
-              disabled={activeRound}
               maxLength={16000}
               onChange={(event) => setItemTitles(event.target.value)}
               placeholder={t`Login with SSO\nAdd audit log export\nImprove empty states`}
@@ -124,11 +133,12 @@ export function ItemManager({ room, send, error, onClose }) {
                   other="# items ready"
                 />
               </small>
-              <button className="primary-button" disabled={activeRound || !itemTitles.trim()} type="submit">
+              <button className="primary-button" disabled={!itemTitles.trim()} type="submit">
                 <Trans>Add to session</Trans>
               </button>
             </div>
           </form>
+          <JiraImport room={room} send={send} />
           </section>
 
           <section className="items-queue">
@@ -149,7 +159,7 @@ export function ItemManager({ room, send, error, onClose }) {
                 <ol>
                   {orderedItems.map((item, index) => (
                     <SortableQueueItem
-                      activeRound={activeRound}
+                      locked={item.id === votingItemId}
                       index={index}
                       item={item}
                       key={item.id}
@@ -175,17 +185,33 @@ export function ItemManager({ room, send, error, onClose }) {
                   other="# already estimated"
                 />
               </strong>
-              <span>{estimatedItems.map((item) => item.title).join(" · ")}</span>
+              <ol>
+                {estimatedItems.map((item) => (
+                  <li key={item.id}>
+                    <b>{item.finalValue}</b>
+                    <span><IssueKey item={item} />{item.title}</span>
+                    <button
+                      className="queue-remove"
+                      onClick={() => removeEstimated(item)}
+                      type="button"
+                      aria-label={t`Remove ${item.title}`}
+                    >
+                      <X size={14} aria-hidden="true" />
+                    </button>
+                  </li>
+                ))}
+              </ol>
             </div>
           )}
           </section>
         </div>
+        {confirmationDialog}
       </section>
     </div>
   );
 }
 
-function SortableQueueItem({ activeRound, index, item, onRemove, onUpdate }) {
+function SortableQueueItem({ index, item, locked, onRemove, onUpdate }) {
   const { t } = useLingui();
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(item.title);
@@ -196,7 +222,7 @@ function SortableQueueItem({ activeRound, index, item, onRemove, onUpdate }) {
     setNodeRef,
     transform,
     transition,
-  } = useSortable({ id: item.id, disabled: activeRound || editing });
+  } = useSortable({ id: item.id, disabled: locked || editing });
 
   useEffect(() => {
     if (!editing) setTitle(item.title);
@@ -218,7 +244,7 @@ function SortableQueueItem({ activeRound, index, item, onRemove, onUpdate }) {
     >
       <button
         className="queue-drag-handle"
-        disabled={activeRound}
+        disabled={locked}
         type="button"
         {...attributes}
         {...listeners}
@@ -248,11 +274,12 @@ function SortableQueueItem({ activeRound, index, item, onRemove, onUpdate }) {
         </form>
       ) : (
         <>
-          <span>{item.title}</span>
+          <span><IssueKey item={item} />{item.title}</span>
           <div className="queue-item-actions">
+            {locked && <em className="queue-voting-badge"><Trans>Voting now</Trans></em>}
             <button
               className="queue-edit"
-              disabled={activeRound}
+              disabled={locked}
               onClick={() => setEditing(true)}
               type="button"
               aria-label={t`Edit ${item.title}`}
@@ -261,7 +288,7 @@ function SortableQueueItem({ activeRound, index, item, onRemove, onUpdate }) {
             </button>
             <button
               className="queue-remove"
-              disabled={activeRound}
+              disabled={locked}
               onClick={onRemove}
               type="button"
               aria-label={t`Remove ${item.title}`}

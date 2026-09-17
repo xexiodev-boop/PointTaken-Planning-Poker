@@ -1,11 +1,14 @@
 import { SUGGESTION_ALGORITHM_IDS } from "../shared/algorithms.js";
 import { getDeck } from "../shared/decks.js";
 import { eligibleVoters, isEligibleVoter } from "../shared/eligibility.js";
+import { isIssueKey, issueUrl, jiraSiteOrigin } from "../shared/jira.js";
 import { ROOM_LIMITS } from "../shared/limits.js";
 import { FACILITATOR_ONLY, LIMIT_MESSAGES } from "../shared/messages.js";
 import { DEFAULT_REACTION_PALETTE, HAND_REACTION } from "../shared/reactions.js";
 import { ALLOWED_REVEAL_DELAYS as REVEAL_DELAY_SECONDS, DEFAULT_REVEAL_DELAY_SECONDS } from "../shared/reveal.js";
 import { ROOM_ID_PATTERN } from "../shared/roomId.js";
+import { cookieValue, json } from "./http.js";
+import { handleJira } from "./jira.js";
 import {
   byteLength,
   calculateResultMetrics,
@@ -44,19 +47,6 @@ const ADJECTIVES = ["Brisk", "Bright", "Calm", "Clever", "Merry", "Nimble", "Qui
 const COLORS_AS_WORDS = ["Amber", "Azure", "Coral", "Indigo", "Jade", "Lilac", "Silver", "Violet", "Gold", "Crimson"];
 const ANIMALS = ["Badger", "Falcon", "Fox", "Koala", "Otter", "Panda", "Raven", "Tiger", "Whale", "Zebra", "Hedgehog", "Elephant", "Penguin", "Dolphin", "Giraffe", "Kangaroo", "Lemur", "Meerkat", "Owl", "Seal", "Capybara", "Wombat", "Armadillo", "Chameleon", "Iguana", "Sloth", "Tortoise", "Walrus", "Yak", "Flamingo"];
 
-function json(data, status = 200) {
-  return Response.json(data, { status });
-}
-
-function cookieValue(request, name) {
-  const cookies = request.headers.get("Cookie") ?? "";
-  for (const part of cookies.split(";")) {
-    const [key, ...value] = part.trim().split("=");
-    if (key === name) return decodeURIComponent(value.join("="));
-  }
-  return null;
-}
-
 function identityCookie(token, roomId, secure) {
   const parts = [
     `${IDENTITY_COOKIE}=${encodeURIComponent(token)}`,
@@ -71,10 +61,12 @@ function identityCookie(token, roomId, secure) {
 
 function withSecurityHeaders(response) {
   const next = new Response(response.body, response);
-  next.headers.set(
-    "Content-Security-Policy",
-    "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
-  );
+  if (!next.headers.has("Content-Security-Policy")) {
+    next.headers.set(
+      "Content-Security-Policy",
+      "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
+    );
+  }
   next.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
   next.headers.set("X-Content-Type-Options", "nosniff");
   next.headers.set("Referrer-Policy", "no-referrer");
@@ -159,6 +151,18 @@ function cleanItemTitles(values) {
   return titles;
 }
 
+function cleanIssueItems(values, siteUrl) {
+  const site = jiraSiteOrigin(siteUrl);
+  if (!site) throw new Error("That Jira site is not supported.");
+  if (!Array.isArray(values)) throw new Error("Items must be provided as a list.");
+  const items = values
+    .filter((value) => isIssueKey(value?.key))
+    .map(({ key, title }) => ({ title: cleanTitle(title) || key, key, url: issueUrl(site, key) }));
+  if (items.length === 0) throw new Error("Add at least one item.");
+  if (items.length > 100) throw new Error("Add no more than 100 items at a time.");
+  return items;
+}
+
 function cloneDeck(deckId) {
   const deck = getDeck(deckId);
   return { ...deck, cards: [...deck.cards] };
@@ -225,6 +229,24 @@ function requireFacilitator(participant, message) {
 function requireBetweenRounds(room, message) {
   if (room.currentRound && room.currentRound.phase !== "finalized") {
     throw new Error(message);
+  }
+}
+
+function lockVote(room, round, vote) {
+  vote.confirmed = true;
+  vote.votedAt = Date.now();
+  if (everyoneConfirmed(round, room.participants)) {
+    round.revealAllowed = true;
+    // Auto-reveal removes the facilitator's most repetitive click: once the
+    // last eligible voter confirms, turn the cards over immediately.
+    if (room.settings.autoRevealEnabled) revealRound(room, round);
+  }
+}
+
+function requireNotUnderVote(room, itemId) {
+  const round = room.currentRound;
+  if (round && round.phase !== "finalized" && round.itemId === itemId) {
+    throw new Error("That item is being voted on right now.");
   }
 }
 
@@ -311,6 +333,20 @@ export default {
         );
         safeLog("room_created", { roomId });
         return withSecurityHeaders(publicResponse);
+      }
+
+      if (url.pathname.startsWith("/api/jira/")) {
+        if (request.method !== "GET" && !validateOrigin(request, url, env)) {
+          safeLog("origin_rejected", { action: "jira" });
+          return withSecurityHeaders(json({ error: "Request origin is not allowed." }, 403));
+        }
+        const actorKey = `jira:${request.headers.get("CF-Connecting-IP") ?? "local"}`;
+        const { success } = await env.JOIN_RATE_LIMITER.limit({ key: actorKey });
+        if (!success) {
+          safeLog("rate_limited", { action: "jira" });
+          return withSecurityHeaders(json({ error: "Too many attempts. Try again shortly." }, 429));
+        }
+        return withSecurityHeaders(await handleJira(request, env, url));
       }
 
       const match = url.pathname.match(
@@ -422,6 +458,7 @@ export class PlanningRoom {
     room.settings.revealDelaySeconds ??= DEFAULT_REVEAL_DELAY_SECONDS;
     room.settings.autoRevealEnabled ??= false;
     room.settings.facilitatorVotes ??= true;
+    room.settings.confirmVotes ??= true;
     room.settings.reactionsEnabled ??= true;
     room.settings.reactionPalette ??= [...DEFAULT_REACTION_PALETTE];
     room.settings.reactionPalette = room.settings.reactionPalette.filter(
@@ -531,6 +568,7 @@ export class PlanningRoom {
         revealDelaySeconds: DEFAULT_REVEAL_DELAY_SECONDS,
         autoRevealEnabled: false,
         facilitatorVotes: true,
+        confirmVotes: true,
         reactionsEnabled: true,
         reactionPalette: [...DEFAULT_REACTION_PALETTE],
         reactionsMuted: false,
@@ -712,7 +750,7 @@ export class PlanningRoom {
       }
       // finalize is the only action that appends to history, so only then do we
       // pay to broadcast the full history alongside the state.
-      await this.broadcast(room, { includeHistory: event.type === "finalize" });
+      await this.broadcast(room, { includeHistory: event.type === "finalize" || event.type === "remove_item" });
     } catch (error) {
       socket.send(JSON.stringify({
         type: "error",
@@ -822,6 +860,9 @@ export class PlanningRoom {
         }
         if (event.facilitatorVotes !== undefined) {
           room.settings.facilitatorVotes = Boolean(event.facilitatorVotes);
+        }
+        if (event.confirmVotes !== undefined) {
+          room.settings.confirmVotes = Boolean(event.confirmVotes);
         }
         if (event.reactionsEnabled !== undefined) {
           room.settings.reactionsEnabled = Boolean(event.reactionsEnabled);
@@ -975,46 +1016,47 @@ export class PlanningRoom {
 
       case "add_items": {
         requireFacilitator(participant, FACILITATOR_ONLY.addItems);
-        requireBetweenRounds(room, "Items can only be changed between rounds.");
-        const existingTitles = new Set(
-          room.items.filter((item) => item.status === "pending").map((item) => item.title.toLowerCase()),
+        const identity = (item) => (item.key ?? item.title).toLowerCase();
+        const existing = new Set(room.items.filter((item) => item.status === "pending").map(identity));
+        const requested = event.items
+          ? cleanIssueItems(event.items, event.siteUrl)
+          : cleanItemTitles(event.titles).map((title) => ({ title }));
+        const availableSlots = ROOM_LIMITS.pendingItems - existing.size;
+        const uniqueNew = requested.filter((item, index, values) =>
+          !existing.has(identity(item)) &&
+          values.findIndex((value) => identity(value) === identity(item)) === index,
         );
-        const requestedTitles = cleanItemTitles(event.titles);
-        const availableSlots = ROOM_LIMITS.pendingItems - existingTitles.size;
-        const uniqueNewTitles = requestedTitles.filter((title, index, values) =>
-          !existingTitles.has(title.toLowerCase()) &&
-          values.findIndex((value) => value.toLowerCase() === title.toLowerCase()) === index,
-        );
-        if (uniqueNewTitles.length > availableSlots) {
+        if (uniqueNew.length > availableSlots) {
           throw new Error(LIMIT_MESSAGES.pendingItems);
         }
-        for (const title of uniqueNewTitles) {
-          if (existingTitles.has(title.toLowerCase())) continue;
+        for (const item of uniqueNew) {
           room.items.push({
             id: crypto.randomUUID(),
-            title,
+            ...item,
             status: "pending",
             createdAt: Date.now(),
           });
-          existingTitles.add(title.toLowerCase());
         }
         break;
       }
 
       case "remove_item": {
         requireFacilitator(participant, FACILITATOR_ONLY.removeItems);
-        requireBetweenRounds(room, "Items can only be changed between rounds.");
         const item = room.items.find(({ id }) => id === event.itemId);
-        if (!item || item.status !== "pending") throw new Error("That pending item was not found.");
+        if (!item) throw new Error("That item was not found.");
+        requireNotUnderVote(room, item.id);
         room.items = room.items.filter(({ id }) => id !== item.id);
+        if (item.status === "estimated") {
+          room.history = room.history.filter(({ itemId }) => itemId !== item.id);
+        }
         break;
       }
 
       case "update_item": {
         requireFacilitator(participant, FACILITATOR_ONLY.editItems);
-        requireBetweenRounds(room, "Items can only be changed between rounds.");
         const item = room.items.find(({ id }) => id === event.itemId);
         if (!item || item.status !== "pending") throw new Error("That pending item was not found.");
+        requireNotUnderVote(room, item.id);
         const title = cleanTitle(event.title);
         if (!title) throw new Error("Enter an item title.");
         const duplicate = room.items.some(
@@ -1030,7 +1072,6 @@ export class PlanningRoom {
 
       case "reorder_items": {
         requireFacilitator(participant, FACILITATOR_ONLY.reorderItems);
-        requireBetweenRounds(room, "Items can only be reordered between rounds.");
         const pendingItems = room.items.filter(({ status }) => status === "pending");
         const orderedIds = Array.isArray(event.itemIds) ? event.itemIds : [];
         if (
@@ -1134,7 +1175,9 @@ export class PlanningRoom {
         }
         const value = String(event.value);
         if (!deck.cards.includes(value)) throw new Error("That card is not in this deck.");
-        round.votes[participant.id] = { value, confirmed: false, votedAt: Date.now() };
+        const vote = { value, confirmed: false, votedAt: Date.now() };
+        round.votes[participant.id] = vote;
+        if (room.settings.confirmVotes === false) lockVote(room, round, vote);
         break;
       }
 
@@ -1144,14 +1187,7 @@ export class PlanningRoom {
         if (!round || round.phase !== "voting" || !vote) {
           throw new Error("Choose a card before confirming.");
         }
-        vote.confirmed = true;
-        vote.votedAt = Date.now();
-        if (everyoneConfirmed(round, room.participants)) {
-          round.revealAllowed = true;
-          // Auto-reveal removes the facilitator's most repetitive click: once the
-          // last eligible voter confirms, turn the cards over immediately.
-          if (room.settings.autoRevealEnabled) revealRound(room, round);
-        }
+        lockVote(room, round, vote);
         break;
       }
 

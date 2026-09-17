@@ -29,7 +29,7 @@ export function PrivacyPage() {
             explains, in plain language, what is stored, what is not, and how to remove it.
           </Trans>
         </p>
-        <p className="legal-meta"><Trans>Last updated: 5 July 2026</Trans></p>
+        <p className="legal-meta"><Trans>Last updated: 17 September 2026</Trans></p>
 
         <section>
           <h2><Trans>The short version</Trans></h2>
@@ -107,6 +107,44 @@ export function PrivacyPage() {
             </li>
           </ul>
           <p><Trans>You can clear any of this at any time from your browser’s site-data settings.</Trans></p>
+        </section>
+
+        <section>
+          <h2><Trans>If you connect Jira</Trans></h2>
+          <p>
+            <Trans>
+              Connecting Jira is optional, and only a facilitator importing issues ever does it. You sign
+              in on Atlassian’s own page, so Point Taken never sees your Atlassian password.
+            </Trans>
+          </p>
+          <ul>
+            <li>
+              <Trans>
+                Point Taken asks for read-only access to Jira issues (<code>read:jira-work</code>). It
+                cannot create, change, or comment on anything in Jira.
+              </Trans>
+            </li>
+            <li>
+              <Trans>
+                The access token Atlassian issues is kept in your browser, in <code>HttpOnly</code>,{" "}
+                <code>SameSite=Strict</code> cookies (<code>point_taken_jira</code>). It is not stored on
+                our servers or written to logs, it expires in about an hour, and Disconnect removes it
+                straight away.
+              </Trans>
+            </li>
+            <li>
+              <Trans>
+                Your searches pass through our server to Jira and the results go back to your browser.
+                Nothing from them is kept.
+              </Trans>
+            </li>
+            <li>
+              <Trans>
+                Only the issues you choose to import are saved in the room: the issue key, its title, and
+                a link to it. Everyone in the room can see them, and they are deleted with the room.
+              </Trans>
+            </li>
+          </ul>
         </section>
 
         <section>

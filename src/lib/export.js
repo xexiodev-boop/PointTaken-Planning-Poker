@@ -33,20 +33,26 @@ function downloadText(filename, content, type) {
 
 export function exportHistory(room, format) {
   const filename = room.name.toLowerCase().replaceAll(" ", "-");
+  const issues = new Map(room.items.filter((item) => item.key).map((item) => [item.id, item]));
 
   if (format === "csv") {
-    const rows = [[t`Item`, t`Final estimate`, t`Suggested estimate`, t`Agreement`, t`Voter`, t`Vote`, t`Confirmed`, t`Completed`]];
+    const header = [t`Item`, t`Final estimate`, t`Suggested estimate`, t`Agreement`, t`Voter`, t`Vote`, t`Confirmed`, t`Completed`];
+    const rows = [issues.size ? [t`Issue`, ...header, t`Link`] : header];
     room.history.slice().reverse().forEach((item) => {
-      item.votes.forEach((vote) => rows.push([
-        item.title,
-        item.finalValue,
-        item.suggestion?.value ?? "",
-        item.metrics ? `${item.metrics.consensusPercent}%` : "",
-        vote.participantName,
-        vote.value ?? "",
-        vote.confirmed ? t`Yes` : t`No`,
-        new Date(item.completedAt).toISOString(),
-      ]));
+      const issue = issues.get(item.itemId);
+      item.votes.forEach((vote) => {
+        const row = [
+          item.title,
+          item.finalValue,
+          item.suggestion?.value ?? "",
+          item.metrics ? `${item.metrics.consensusPercent}%` : "",
+          vote.participantName,
+          vote.value ?? "",
+          vote.confirmed ? t`Yes` : t`No`,
+          new Date(item.completedAt).toISOString(),
+        ];
+        rows.push(issues.size ? [issue?.key ?? "", ...row, issue?.url ?? ""] : row);
+      });
     });
     downloadText(
       `${filename}-estimates.csv`,
@@ -59,7 +65,8 @@ export function exportHistory(room, format) {
   const roomName = room.name;
   const lines = [`# ${t`${roomName} estimates`}`, ""];
   room.history.slice().reverse().forEach((item) => {
-    lines.push(`## ${item.title}`, "", `- ${t`Final estimate`}: **${item.finalValue}**`);
+    const issue = issues.get(item.itemId);
+    lines.push(`## ${issue ? `[${issue.key}](${issue.url}) ` : ""}${item.title}`, "", `- ${t`Final estimate`}: **${item.finalValue}**`);
     lines.push(`- ${t`Suggested estimate`}: ${item.suggestion?.value ?? t`None`}`);
     if (item.metrics) lines.push(`- ${t`Agreement`}: ${item.metrics.consensusPercent}%`);
     lines.push("", `| ${t`Participant`} | ${t`Vote`} |`, "| --- | --- |");

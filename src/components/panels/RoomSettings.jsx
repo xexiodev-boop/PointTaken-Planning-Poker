@@ -25,6 +25,7 @@ export function RoomSettings({ room, send, onClose, onManageItems, issuedRecover
   const [timer, setTimer] = useState(room.settings.revealDelaySeconds);
   const [autoReveal, setAutoReveal] = useState(room.settings.autoRevealEnabled);
   const [facilitatorVotes, setFacilitatorVotes] = useState(room.settings.facilitatorVotes);
+  const [confirmVotes, setConfirmVotes] = useState(room.settings.confirmVotes);
   const [reactionsEnabled, setReactionsEnabled] = useState(room.settings.reactionsEnabled);
   const [reactionPalette, setReactionPalette] = useState(room.settings.reactionPalette);
   const activeRound = room.currentRound && room.currentRound.phase !== "finalized";
@@ -64,6 +65,7 @@ export function RoomSettings({ room, send, onClose, onManageItems, issuedRecover
       revealDelaySeconds: Number(timer),
       autoRevealEnabled: autoReveal,
       facilitatorVotes,
+      confirmVotes,
       reactionsEnabled,
       reactionPalette,
     });
@@ -260,6 +262,22 @@ export function RoomSettings({ room, send, onClose, onManageItems, issuedRecover
                 checked={autoReveal}
                 disabled={editingDisabled}
                 onChange={(event) => setAutoReveal(event.target.checked)}
+                type="checkbox"
+              />
+              <span />
+            </label>
+          </section>
+
+          <section className="settings-group settings-row">
+            <div>
+              <h3><Trans>Confirm votes</Trans></h3>
+              <p><Trans>Ask each person to confirm their card before it counts. Turn this off to lock a vote as soon as a card is picked.</Trans></p>
+            </div>
+            <label className="switch-control">
+              <input
+                checked={confirmVotes}
+                disabled={editingDisabled}
+                onChange={(event) => setConfirmVotes(event.target.checked)}
                 type="checkbox"
               />
               <span />

@@ -4,6 +4,7 @@ import { i18n } from "@lingui/core";
 import { DECKS } from "../shared/decks.js";
 import { ROOM_LIMITS } from "../shared/limits.js";
 import { csvCell, exportHistory } from "../src/lib/export.js";
+import { buildJql } from "../src/lib/jira.js";
 import { SERVER_MESSAGES } from "../src/lib/serverMessages.js";
 import { FACILITATOR_ONLY, LIMIT_MESSAGES } from "../shared/messages.js";
 import {
@@ -14,6 +15,7 @@ import {
   ValidationError,
 } from "../worker/room-logic.js";
 import { chooseFacilitatorSuccessor, cleanName, PlanningRoom } from "../worker/index.js";
+import { handleJira } from "../worker/jira.js";
 
 const deck = { cards: ["1", "2", "3", "5", "8", "13", "?", "☕"] };
 
@@ -513,7 +515,9 @@ describe("history export", () => {
 
   const room = {
     name: "Team Room",
+    items: [{ id: "item-1", key: "WEB-7", url: "https://acme.atlassian.net/browse/WEB-7" }],
     history: [{
+      itemId: "item-1",
       title: "Login flow",
       finalValue: "5",
       suggestion: { value: "5" },
@@ -553,6 +557,179 @@ describe("history export", () => {
     vi.runAllTimers();
     expect(revoked).toEqual(["blob:test"]);
   });
+
+  it("adds the issue key and link when the room has Jira items", async () => {
+    stubBrowser();
+    exportHistory(room, "csv");
+    const csv = await URL.createObjectURL.mock.calls[0][0].text();
+    const [header, row] = csv.split("\n");
+    expect(header).toContain('"Issue","Item"');
+    expect(row.startsWith('"WEB-7","Login flow"')).toBe(true);
+    expect(row.endsWith('"https://acme.atlassian.net/browse/WEB-7"')).toBe(true);
+
+    exportHistory({ ...room, items: [] }, "csv");
+    expect(await URL.createObjectURL.mock.calls[1][0].text()).not.toContain("Issue");
+  });
+});
+
+describe("Jira items", () => {
+  const siteUrl = "https://acme.atlassian.net";
+
+  it("stores the issue key and a link built on the server", async () => {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const room = makeRoom([facilitator]);
+    await object.applyAction(room, facilitator, {
+      type: "add_items",
+      siteUrl,
+      items: [
+        { key: "WEB-1", title: "Fix login", url: "https://evil.example/browse/WEB-1" },
+        { key: "WEB-2", title: "Fix login" },
+        { key: "not a key", title: "Dropped" },
+      ],
+    });
+    expect(room.items.map(({ key, title, url }) => ({ key, title, url }))).toEqual([
+      { key: "WEB-1", title: "Fix login", url: "https://acme.atlassian.net/browse/WEB-1" },
+      { key: "WEB-2", title: "Fix login", url: "https://acme.atlassian.net/browse/WEB-2" },
+    ]);
+
+    await object.applyAction(room, facilitator, {
+      type: "add_items",
+      siteUrl,
+      items: [{ key: "WEB-1", title: "Renamed since" }, { key: "WEB-3", title: "New" }],
+    });
+    expect(room.items.map(({ key }) => key)).toEqual(["WEB-1", "WEB-2", "WEB-3"]);
+  });
+
+  it.each(["https://evil.example", "http://acme.atlassian.net", "https://atlassian.net.evil.example", ""])(
+    "refuses links to '%s'",
+    async (badSite) => {
+      const object = new PlanningRoom({});
+      const facilitator = person("Ana", "facilitator");
+      const room = makeRoom([facilitator]);
+      await expect(object.applyAction(room, facilitator, {
+        type: "add_items",
+        siteUrl: badSite,
+        items: [{ key: "WEB-1", title: "Fix login" }],
+      })).rejects.toThrow("That Jira site is not supported.");
+      expect(room.items).toEqual([]);
+    },
+  );
+
+  it("builds a bounded JQL search from the pickers", () => {
+    expect(buildJql("WEB", "backlog"))
+      .toBe('project = "WEB" AND statusCategory != Done AND sprint is EMPTY ORDER BY Rank ASC');
+    expect(buildJql('WE"B', "all_open"))
+      .toBe('project = "WEB" AND statusCategory != Done ORDER BY created DESC');
+  });
+});
+
+describe("Jira connection", () => {
+  const env = { JIRA_CLIENT_ID: "client-id", JIRA_CLIENT_SECRET: "client-secret" };
+  const cloudId = "11111111-2222-3333-4444-555555555555";
+
+  function call(path, { cookie, ...init } = {}, environment = env) {
+    const url = new URL(`https://pointtaken.team/api/jira${path}`);
+    const request = new Request(url, {
+      ...init,
+      headers: { ...(cookie ? { Cookie: cookie } : {}), ...init.headers },
+    });
+    return handleJira(request, environment, url);
+  }
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("stays hidden until the OAuth app is configured", async () => {
+    expect(await (await call("/status", {}, {})).json()).toMatchObject({ available: false, connected: false });
+    expect((await call("/connect", {}, {})).status).toBe(404);
+  });
+
+  it("sends the facilitator to Atlassian with a state bound to this browser", async () => {
+    const response = await call("/connect?lang=es");
+    const target = new URL(response.headers.get("Location"));
+    const stateCookie = response.headers.get("Set-Cookie");
+
+    expect(response.status).toBe(302);
+    expect(target.origin).toBe("https://auth.atlassian.com");
+    expect(target.searchParams.get("scope")).toBe("read:jira-work");
+    expect(target.searchParams.get("redirect_uri")).toBe("https://pointtaken.team/api/jira/callback");
+    expect(stateCookie).toContain(`point_taken_jira_state=${target.searchParams.get("state")}.es`);
+    expect(stateCookie).toContain("HttpOnly");
+    expect(stateCookie).toContain("SameSite=Lax");
+  });
+
+  it("refuses a callback whose state does not match, without spending the code", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const response = await call("/callback?code=abc&state=forged", { cookie: "point_taken_jira_state=real.en" });
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(response.headers.get("Set-Cookie")).not.toContain("point_taken_jira_0");
+  });
+
+  it("keeps the token in HttpOnly cookies and out of the page", async () => {
+    const token = "t".repeat(3500);
+    const fetchMock = vi.fn(async () => Response.json({ access_token: token, expires_in: 3600 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const response = await call("/callback?code=abc&state=real", { cookie: "point_taken_jira_state=real.en" });
+    const cookies = response.headers.getSetCookie();
+
+    expect(response.status).toBe(200);
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({
+      grant_type: "authorization_code",
+      client_secret: "client-secret",
+      code: "abc",
+    });
+    expect(cookies.find((value) => value.startsWith("point_taken_jira_0=")))
+      .toContain("Max-Age=3600; HttpOnly; SameSite=Strict; Secure");
+    expect(cookies.find((value) => value.startsWith("point_taken_jira_1="))).toContain("t".repeat(500));
+    expect(cookies.find((value) => value.startsWith("point_taken_jira_2="))).toContain("Max-Age=0");
+    expect(await response.text()).not.toContain(token.slice(0, 50));
+    expect(response.headers.get("Content-Security-Policy")).toMatch(/script-src 'nonce-[0-9a-f]+'/);
+  });
+
+  it("searches Jira with the cookie token and returns only keys and titles", async () => {
+    const fetchMock = vi.fn(async () => Response.json({
+      issues: [{ key: "WEB-1", fields: { summary: "Fix login", description: "private" } }],
+      nextPageToken: "next",
+    }));
+    vi.stubGlobal("fetch", fetchMock);
+    const response = await call("/search", {
+      method: "POST",
+      cookie: "point_taken_jira_0=abc; point_taken_jira_1=def",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cloudId, jql: "project = WEB" }),
+    });
+
+    const [target, init] = fetchMock.mock.calls[0];
+    expect(target).toBe(`https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/search/jql`);
+    expect(init.headers.Authorization).toBe("Bearer abcdef");
+    expect(await response.json()).toEqual({ issues: [{ key: "WEB-1", title: "Fix login" }], nextPageToken: "next" });
+  });
+
+  it("will not build an Atlassian URL from a malformed site id", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const response = await call("/search", {
+      method: "POST",
+      cookie: "point_taken_jira_0=abc",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cloudId: "../../oauth/token", jql: "project = WEB" }),
+    });
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("drops the cookies once Atlassian rejects the token", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 401 })));
+    const response = await call("/status", { cookie: "point_taken_jira_0=expired" });
+
+    expect(await response.json()).toMatchObject({ available: true, connected: false });
+    expect(response.headers.getSetCookie()[0]).toContain("point_taken_jira_0=; Path=/api/jira; Max-Age=0");
+  });
 });
 
 describe("server message catalog", () => {
@@ -564,4 +741,111 @@ describe("server message catalog", () => {
       expect(catalog).toContain(message);
     },
   );
+});
+
+describe("editing the queue during a round", () => {
+  async function roomWithQueue() {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const room = makeRoom([facilitator, person("Bo", "participant")]);
+    await object.applyAction(room, facilitator, { type: "add_items", titles: ["First", "Second"] });
+    const [first, second] = room.items;
+    await object.applyAction(room, facilitator, { type: "start_round", itemId: first.id });
+    return { object, facilitator, room, first, second };
+  }
+
+  it("lets the facilitator add and reorder items while a vote is running", async () => {
+    const { object, facilitator, room, first, second } = await roomWithQueue();
+
+    await object.applyAction(room, facilitator, { type: "add_items", titles: ["Third"] });
+    expect(room.items.map((item) => item.title)).toEqual(["First", "Second", "Third"]);
+
+    const third = room.items[2];
+    await object.applyAction(room, facilitator, {
+      type: "reorder_items",
+      itemIds: [third.id, first.id, second.id],
+    });
+    expect(room.items.map((item) => item.title)).toEqual(["Third", "First", "Second"]);
+    expect(room.currentRound.phase).toBe("voting");
+  });
+
+  it("lets other pending items be edited or removed, but protects the item under vote", async () => {
+    const { object, facilitator, room, first, second } = await roomWithQueue();
+
+    await object.applyAction(room, facilitator, { type: "update_item", itemId: second.id, title: "Second, refined" });
+    expect(room.items[1].title).toBe("Second, refined");
+    await object.applyAction(room, facilitator, { type: "remove_item", itemId: second.id });
+    expect(room.items.map((item) => item.title)).toEqual(["First"]);
+
+    await expect(object.applyAction(room, facilitator, { type: "update_item", itemId: first.id, title: "Renamed" }))
+      .rejects.toThrow("That item is being voted on right now.");
+    await expect(object.applyAction(room, facilitator, { type: "remove_item", itemId: first.id }))
+      .rejects.toThrow("That item is being voted on right now.");
+    expect(room.items[0].title).toBe("First");
+  });
+
+  it("frees the item once the round is finalized", async () => {
+    const { object, facilitator, room, first } = await roomWithQueue();
+    const voter = room.participants[1];
+    await castVote(object, room, facilitator, "3");
+    await castVote(object, room, voter, "3");
+    await object.applyAction(room, facilitator, { type: "reveal" });
+    await object.applyAction(room, facilitator, { type: "finalize", value: "3" });
+
+    expect(room.items[0]).toMatchObject({ id: first.id, status: "estimated" });
+    await expect(object.applyAction(room, facilitator, { type: "update_item", itemId: first.id, title: "Renamed" }))
+      .rejects.toThrow("That pending item was not found.");
+  });
+
+  it("removes an estimated item together with its saved result", async () => {
+    const { object, facilitator, room, first, second } = await roomWithQueue();
+    const voter = room.participants[1];
+    await castVote(object, room, facilitator, "3");
+    await castVote(object, room, voter, "3");
+    await object.applyAction(room, facilitator, { type: "reveal" });
+    await object.applyAction(room, facilitator, { type: "finalize", value: "3" });
+    expect(room.history).toHaveLength(1);
+
+    await object.applyAction(room, facilitator, { type: "remove_item", itemId: first.id });
+    expect(room.items.map((item) => item.id)).toEqual([second.id]);
+    expect(room.history).toHaveLength(0);
+
+    await expect(object.applyAction(room, facilitator, { type: "remove_item", itemId: first.id }))
+      .rejects.toThrow("That item was not found.");
+  });
+});
+
+describe("voting without confirmation", () => {
+  it("locks a card the moment it is picked when the setting is off", async () => {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const voter = person("Bo", "participant");
+    const room = makeRoom([facilitator, voter]);
+    room.settings.confirmVotes = false;
+    room.settings.autoRevealEnabled = true;
+
+    await object.applyAction(room, facilitator, { type: "start_round", title: "Login page" });
+    await object.applyAction(room, facilitator, { type: "select_vote", value: "5" });
+    expect(room.currentRound.votes[facilitator.id].confirmed).toBe(true);
+    expect(room.currentRound.phase).toBe("voting");
+
+    await object.applyAction(room, facilitator, { type: "select_vote", value: "8" });
+    expect(room.currentRound.votes[facilitator.id]).toMatchObject({ value: "8", confirmed: true });
+
+    await object.applyAction(room, voter, { type: "select_vote", value: "8" });
+    expect(room.currentRound.revealAllowed).toBe(true);
+    expect(room.currentRound.phase).toBe("revealed");
+  });
+
+  it("still waits for a confirmation by default", async () => {
+    const object = new PlanningRoom({});
+    const facilitator = person("Ana", "facilitator");
+    const room = makeRoom([facilitator]);
+    room.settings.confirmVotes = true;
+
+    await object.applyAction(room, facilitator, { type: "start_round", title: "Login page" });
+    await object.applyAction(room, facilitator, { type: "select_vote", value: "5" });
+    expect(room.currentRound.votes[facilitator.id].confirmed).toBe(false);
+    expect(room.currentRound.revealAllowed).toBe(false);
+  });
 });
