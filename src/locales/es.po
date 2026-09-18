@@ -24,12 +24,12 @@ msgid "{0, plural, one {# already estimated} other {# already estimated}}"
 msgstr "{0, plural, one {# ya estimado} other {# ya estimados}}"
 
 #. placeholder {0}: metrics.spread
-#: src/components/round/RoundStage.jsx:435
+#: src/components/round/RoundStage.jsx:437
 msgid "{0, plural, one {# deck step apart} other {# deck steps apart}}"
 msgstr "{0, plural, one {# posición de distancia en la baraja} other {# posiciones de distancia en la baraja}}"
 
 #. placeholder {0}: chosen.length
-#: src/components/panels/JiraImport.jsx:299
+#: src/components/panels/JiraImport.jsx:300
 msgid "{0, plural, one {# issue selected} other {# issues selected}}"
 msgstr "{0, plural, one {# incidencia seleccionada} other {# incidencias seleccionadas}}"
 
@@ -53,7 +53,7 @@ msgstr "{0, plural, one {# voto} other {# votos}}"
 msgid "{0}% agreement"
 msgstr "{0}% de acuerdo"
 
-#: src/components/round/RoundStage.jsx:278
+#: src/components/round/RoundStage.jsx:280
 msgid "{confirmedVotes, plural, one {Clear # confirmed vote and restart the timer?} other {Clear # confirmed votes and restart the timer?}}"
 msgstr "{confirmedVotes, plural, one {¿Borrar # voto confirmado y reiniciar el temporizador?} other {¿Borrar # votos confirmados y reiniciar el temporizador?}}"
 
@@ -65,7 +65,7 @@ msgstr "{days, plural, one {Caduca en # día} other {Caduca en # días}}"
 msgid "{from} was away, so {to} is now the facilitator."
 msgstr "{from} estaba ausente, así que ahora {to} es el facilitador."
 
-#: src/components/round/RoundStage.jsx:199
+#: src/components/round/RoundStage.jsx:201
 msgid "{missing, plural, one {# person is still deciding. Their card will appear as missing.} other {# people are still deciding. Their card will appear as missing.}}"
 msgstr "{missing, plural, one {# persona sigue decidiendo. Su carta aparecerá como ausente.} other {# personas siguen decidiendo. Sus cartas aparecerán como ausentes.}}"
 
@@ -85,11 +85,11 @@ msgstr "{pendingCount, plural, one {# pendiente} other {# pendientes}}"
 msgid "{roomName} estimates"
 msgstr "Estimaciones de {roomName}"
 
-#: src/components/panels/JiraImport.jsx:298
+#: src/components/panels/JiraImport.jsx:299
 msgid "{slotsLeft, plural, one {Only # more item fits in the queue} other {Only # more items fit in the queue}}"
 msgstr "{slotsLeft, plural, one {Solo cabe # elemento más en la cola} other {Solo caben # elementos más en la cola}}"
 
-#: src/components/round/RoundStage.jsx:226
+#: src/components/round/RoundStage.jsx:228
 msgid "{voted} of {eligibleCount}"
 msgstr "{voted} de {eligibleCount}"
 
@@ -189,7 +189,7 @@ msgstr "Añade algunos elementos y aparecerán aquí en orden de votación."
 msgid "Add an item to the queue"
 msgstr "Añade un elemento a la cola"
 
-#: src/components/round/RoundStage.jsx:154
+#: src/components/round/RoundStage.jsx:156
 msgid "Add an item to the queue to start voting."
 msgstr "Añade un elemento a la cola para empezar a votar."
 
@@ -222,7 +222,7 @@ msgid "Add the items to estimate"
 msgstr "Añade los elementos a estimar"
 
 #: src/components/panels/ItemManager.jsx:146
-#: src/components/panels/JiraImport.jsx:307
+#: src/components/panels/JiraImport.jsx:308
 msgid "Add to session"
 msgstr "Añadir a la sesión"
 
@@ -238,12 +238,12 @@ msgstr "Añade, revisa y elimina elementos de estimación"
 msgid "Agree"
 msgstr "De acuerdo"
 
-#: src/components/room/FacilitatorGuide.jsx:26
+#: src/components/room/FacilitatorGuide.jsx:29
 msgid "Agree and save"
 msgstr "Acordar y guardar"
 
 #: src/components/panels/History.jsx:112
-#: src/components/round/RoundStage.jsx:425
+#: src/components/round/RoundStage.jsx:427
 #: src/lib/export.js:39
 #: src/lib/export.js:71
 msgid "Agreement"
@@ -302,7 +302,7 @@ msgstr "Media, redondeada hacia arriba"
 msgid "Away"
 msgstr "Ausente"
 
-#: src/components/room/FacilitatorGuide.jsx:83
+#: src/components/room/FacilitatorGuide.jsx:92
 msgid "Back"
 msgstr "Atrás"
 
@@ -324,28 +324,28 @@ msgstr "Ver incidencias"
 
 #: src/components/panels/ItemManager.jsx:293
 #: src/components/panels/RoomSettings.jsx:439
-#: src/components/round/RoundStage.jsx:323
+#: src/components/round/RoundStage.jsx:325
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/components/round/RoundStage.jsx:298
-#: src/components/round/RoundStage.jsx:335
+#: src/components/round/RoundStage.jsx:300
+#: src/components/round/RoundStage.jsx:337
 msgid "Cancel round"
 msgstr "Cancelar ronda"
 
-#: src/components/round/RoundStage.jsx:296
+#: src/components/round/RoundStage.jsx:298
 msgid "Cancel this round?"
 msgstr "¿Cancelar esta ronda?"
 
-#: src/components/round/RoundStage.jsx:294
+#: src/components/round/RoundStage.jsx:296
 msgid "Cancel this round? Its votes and ad-hoc item will be discarded."
 msgstr "¿Cancelar esta ronda? Sus votos y su elemento improvisado se descartarán."
 
-#: src/components/round/RoundStage.jsx:293
+#: src/components/round/RoundStage.jsx:295
 msgid "Cancel this round? Its votes will be discarded and the item will remain pending."
 msgstr "¿Cancelar esta ronda? Sus votos se descartarán y el elemento seguirá pendiente."
 
-#: src/components/round/RoundStage.jsx:445
+#: src/components/round/RoundStage.jsx:447
 msgid "Cards counted"
 msgstr "Cartas contadas"
 
@@ -353,7 +353,7 @@ msgstr "Cartas contadas"
 msgid "Cards must be provided as a list."
 msgstr "Las cartas deben proporcionarse como una lista."
 
-#: src/components/round/RoundStage.jsx:369
+#: src/components/round/RoundStage.jsx:371
 msgid "Cards on the table"
 msgstr "Cartas sobre la mesa"
 
@@ -361,7 +361,7 @@ msgstr "Cartas sobre la mesa"
 msgid "Changes to this statement"
 msgstr "Cambios en esta declaración"
 
-#: src/components/round/RoundStage.jsx:251
+#: src/components/round/RoundStage.jsx:253
 msgid "Choose a card"
 msgstr "Elige una carta"
 
@@ -401,11 +401,11 @@ msgstr "Elige o introduce una estimación final."
 msgid "Choose who votes, observes, or facilitates the room."
 msgstr "Elige quién vota, observa o administra la sala."
 
-#: src/components/round/RoundStage.jsx:244
+#: src/components/round/RoundStage.jsx:246
 msgid "Choose your card below."
 msgstr "Elige tu carta abajo."
 
-#: src/components/round/RoundStage.jsx:276
+#: src/components/round/RoundStage.jsx:278
 msgid "Clear every card and ask the team to vote again?"
 msgstr "¿Borrar todas las cartas y pedir al equipo que vote de nuevo?"
 
@@ -417,24 +417,24 @@ msgstr "Borrar reacciones"
 msgid "Clear selection"
 msgstr "Quitar selección"
 
-#: src/components/round/RoundStage.jsx:284
+#: src/components/round/RoundStage.jsx:286
 msgid "Clear the current votes?"
 msgstr "¿Borrar los votos actuales?"
 
-#: src/components/round/RoundStage.jsx:286
-#: src/components/round/RoundStage.jsx:332
+#: src/components/round/RoundStage.jsx:288
+#: src/components/round/RoundStage.jsx:334
 msgid "Clear votes"
 msgstr "Borrar votos"
 
 #: src/components/room/FacilitatorGuide.jsx:15
-msgid "Click Invite people in the header and share the room link. Wait for everyone to appear in the People list."
-msgstr "Pulsa «Invitar personas» en la cabecera y comparte el enlace de la sala. Espera a que todos aparezcan en la lista de personas."
+#~ msgid "Click Invite people in the header and share the room link. Wait for everyone to appear in the People list."
+#~ msgstr "Pulsa «Invitar personas» en la cabecera y comparte el enlace de la sala. Espera a que todos aparezcan en la lista de personas."
 
 #: src/components/panels/History.jsx:98
 msgid "Close details"
 msgstr "Cerrar detalles"
 
-#: src/components/room/FacilitatorGuide.jsx:56
+#: src/components/room/FacilitatorGuide.jsx:59
 msgid "Close guide"
 msgstr "Cerrar guía"
 
@@ -488,7 +488,7 @@ msgstr "Confirmar votos"
 msgid "Confirmed"
 msgstr "Confirmado"
 
-#: src/components/round/RoundStage.jsx:447
+#: src/components/round/RoundStage.jsx:449
 msgid "Confirmed votes"
 msgstr "Votos confirmados"
 
@@ -520,8 +520,9 @@ msgstr "Continuar"
 msgid "Copied"
 msgstr "Copiado"
 
+#: src/components/room/FacilitatorGuide.jsx:17
 #: src/components/room/Room.jsx:216
-#: src/components/round/RoundStage.jsx:106
+#: src/components/round/RoundStage.jsx:108
 msgid "Copy invite link"
 msgstr "Copiar enlace de invitación"
 
@@ -537,6 +538,10 @@ msgstr "Cópialo ahora. Reemplaza cualquier enlace que hayas guardado antes y no
 #: src/components/room/Room.jsx:247
 msgid "Copy recovery link"
 msgstr "Copiar enlace de recuperación"
+
+#: src/components/room/FacilitatorGuide.jsx:16
+msgid "Copy the room link and send it to your team. Wait for everyone to appear in the People list."
+msgstr "Copia el enlace de la sala y envíaselo a tu equipo. Espera a que todos aparezcan en la lista de personas."
 
 #: src/components/panels/RoomSettings.jsx:112
 #: src/components/room/Room.jsx:243
@@ -585,7 +590,7 @@ msgstr "¿Eliminar esta sala permanentemente?"
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/components/room/FacilitatorGuide.jsx:27
+#: src/components/room/FacilitatorGuide.jsx:30
 msgid "Discuss the revealed cards, choose the final estimate, and click Save estimate. Then move to the next item."
 msgstr "Comenta las cartas reveladas con el equipo, elige la estimación final y pulsa «Guardar estimación». Después pasa al siguiente elemento."
 
@@ -656,7 +661,7 @@ msgstr "Editar"
 msgid "Edit {0}"
 msgstr "Editar {0}"
 
-#: src/components/round/RoundStage.jsx:329
+#: src/components/round/RoundStage.jsx:331
 msgid "Edit title"
 msgstr "Editar título"
 
@@ -676,7 +681,7 @@ msgstr "Escribe una búsqueda de Jira."
 msgid "Enter a task title."
 msgstr "Introduce un título para la tarea."
 
-#: src/components/round/RoundStage.jsx:404
+#: src/components/round/RoundStage.jsx:406
 msgid "Enter a value"
 msgstr "Introduce un valor"
 
@@ -684,7 +689,7 @@ msgstr "Introduce un valor"
 msgid "Enter an item title."
 msgstr "Introduce un título para el elemento."
 
-#: src/components/round/RoundStage.jsx:42
+#: src/components/round/RoundStage.jsx:44
 msgid "Estimate saved"
 msgstr "Estimación guardada"
 
@@ -745,7 +750,7 @@ msgstr "El rol de facilitador solo se puede traspasar entre rondas."
 msgid "Facilitator recovery link"
 msgstr "Enlace de recuperación de facilitador"
 
-#: src/components/room/FacilitatorGuide.jsx:53
+#: src/components/room/FacilitatorGuide.jsx:56
 msgid "Facilitator tutorial"
 msgstr "Tutorial del facilitador"
 
@@ -758,7 +763,7 @@ msgid "Fibonacci"
 msgstr "Fibonacci"
 
 #: src/components/panels/History.jsx:104
-#: src/components/round/RoundStage.jsx:400
+#: src/components/round/RoundStage.jsx:402
 #: src/lib/export.js:39
 #: src/lib/export.js:69
 msgid "Final estimate"
@@ -781,7 +786,7 @@ msgstr "Encuentra la estimación que tu equipo pueda respaldar."
 msgid "Finding the room again…"
 msgstr "Buscando la sala de nuevo…"
 
-#: src/components/room/FacilitatorGuide.jsx:90
+#: src/components/room/FacilitatorGuide.jsx:99
 msgid "Finish"
 msgstr "Terminar"
 
@@ -805,7 +810,7 @@ msgstr "Termina primero la ronda actual."
 msgid "Finished tasks will collect here."
 msgstr "Las tareas terminadas se irán acumulando aquí."
 
-#: src/components/round/RoundStage.jsx:145
+#: src/components/round/RoundStage.jsx:147
 msgid "First estimate"
 msgstr "Primera estimación"
 
@@ -821,7 +826,7 @@ msgstr "Gratis · privacidad ante todo · sin cuentas"
 msgid "Free, and provided “as is”"
 msgstr "Gratis, y ofrecido «tal cual»"
 
-#: src/components/round/RoundStage.jsx:427
+#: src/components/round/RoundStage.jsx:429
 msgid "Full consensus"
 msgstr "Consenso total"
 
@@ -882,7 +887,7 @@ msgstr "Borra de inmediato la sala y todos sus datos."
 msgid "Import from Jira"
 msgstr "Importar desde Jira"
 
-#: src/components/panels/JiraImport.jsx:284
+#: src/components/panels/JiraImport.jsx:285
 msgid "In queue"
 msgstr "En la cola"
 
@@ -890,7 +895,7 @@ msgstr "En la cola"
 msgid "Invalid room identity."
 msgstr "Identidad de sala no válida."
 
-#: src/components/round/RoundStage.jsx:106
+#: src/components/round/RoundStage.jsx:108
 msgid "Invite link copied"
 msgstr "Enlace de invitación copiado"
 
@@ -902,12 +907,12 @@ msgstr "Invitar personas"
 msgid "Invite someone with the room link and they’ll appear here."
 msgstr "Invita a alguien con el enlace de la sala y aparecerá aquí."
 
-#: src/components/room/FacilitatorGuide.jsx:14
+#: src/components/room/FacilitatorGuide.jsx:15
 #: src/components/room/Room.jsx:205
 msgid "Invite your team"
 msgstr "Invita a tu equipo"
 
-#: src/components/round/RoundStage.jsx:100
+#: src/components/round/RoundStage.jsx:102
 msgid "Invite your team, or wait for them to join. You can also turn the facilitator back into a voter in room settings."
 msgstr "Invita a tu equipo o espera a que se una. También puedes volver a contar al facilitador como votante en los ajustes de la sala."
 
@@ -997,7 +1002,7 @@ msgstr "Seguir editando"
 msgid "Language"
 msgstr "Idioma"
 
-#: src/components/round/RoundStage.jsx:427
+#: src/components/round/RoundStage.jsx:429
 msgid "Largest voting group"
 msgstr "Grupo de voto mayoritario"
 
@@ -1025,6 +1030,7 @@ msgstr "Permite señalar acuerdo, dudas, pausas o ganas de hablar."
 msgid "Link"
 msgstr "Enlace"
 
+#: src/components/room/FacilitatorGuide.jsx:80
 #: src/components/room/Room.jsx:168
 msgid "Link copied"
 msgstr "Enlace copiado"
@@ -1033,7 +1039,7 @@ msgstr "Enlace copiado"
 msgid "Live voting"
 msgstr "Votación en vivo"
 
-#: src/components/panels/JiraImport.jsx:292
+#: src/components/panels/JiraImport.jsx:293
 msgid "Load more issues"
 msgstr "Cargar más incidencias"
 
@@ -1084,7 +1090,7 @@ msgstr "Deja esta sesión en solo lectura hasta que caduque."
 
 #: src/components/panels/PeopleList.jsx:27
 #: src/components/panels/UpNext.jsx:18
-#: src/components/round/RoundStage.jsx:120
+#: src/components/round/RoundStage.jsx:122
 msgid "Manage"
 msgstr "Gestionar"
 
@@ -1128,7 +1134,7 @@ msgstr "Nuevo elemento"
 msgid "New participants cannot join. Existing participants can reconnect."
 msgstr "No pueden unirse nuevos participantes. Los actuales pueden reconectarse."
 
-#: src/components/room/FacilitatorGuide.jsx:90
+#: src/components/room/FacilitatorGuide.jsx:99
 msgid "Next"
 msgstr "Siguiente"
 
@@ -1160,7 +1166,7 @@ msgstr "Sin analítica, sin publicidad, sin rastreadores de terceros, y nada se 
 msgid "No issues match that search."
 msgstr "Ninguna incidencia coincide con esa búsqueda."
 
-#: src/components/round/RoundStage.jsx:139
+#: src/components/round/RoundStage.jsx:141
 msgid "No items are waiting to be estimated."
 msgstr "No hay elementos esperando estimación."
 
@@ -1168,11 +1174,11 @@ msgstr "No hay elementos esperando estimación."
 msgid "No location data, contacts, or device fingerprinting."
 msgstr "Sin datos de ubicación, contactos ni huella digital del dispositivo."
 
-#: src/components/round/RoundStage.jsx:441
+#: src/components/round/RoundStage.jsx:443
 msgid "No numeric spread"
 msgstr "Sin dispersión numérica"
 
-#: src/components/round/RoundStage.jsx:420
+#: src/components/round/RoundStage.jsx:422
 msgid "No range"
 msgstr "Sin rango"
 
@@ -1184,7 +1190,7 @@ msgstr "Aún no has buscado"
 msgid "No sign-up. No email, password, or profile is ever required."
 msgstr "Sin registro. Nunca se pide correo, contraseña ni perfil."
 
-#: src/components/round/RoundStage.jsx:383
+#: src/components/round/RoundStage.jsx:385
 msgid "No signal"
 msgstr "Sin señal"
 
@@ -1201,7 +1207,7 @@ msgstr "En la app no se cargan scripts, incrustaciones ni rastreadores de tercer
 msgid "No vote"
 msgstr "Sin voto"
 
-#: src/components/round/RoundStage.jsx:97
+#: src/components/round/RoundStage.jsx:99
 msgid "Nobody to vote"
 msgstr "Nadie para votar"
 
@@ -1218,7 +1224,7 @@ msgstr "No encontrado"
 msgid "Nothing else is queued yet."
 msgstr "Aún no hay nada más en la cola."
 
-#: src/components/round/RoundStage.jsx:221
+#: src/components/round/RoundStage.jsx:223
 msgid "Now estimating"
 msgstr "Estimando ahora"
 
@@ -1390,7 +1396,7 @@ msgstr "Pega una lista de tu backlog o escribe aquí el trabajo."
 msgid "Pause reactions"
 msgstr "Pausar reacciones"
 
-#: src/components/round/RoundStage.jsx:117
+#: src/components/round/RoundStage.jsx:119
 msgid "Pending items"
 msgstr "Elementos pendientes"
 
@@ -1402,7 +1408,7 @@ msgstr "Personas"
 msgid "Pick a project, or write your own Jira search."
 msgstr "Elige un proyecto o escribe tu propia búsqueda de Jira."
 
-#: src/components/room/FacilitatorGuide.jsx:19
+#: src/components/room/FacilitatorGuide.jsx:22
 msgid "Pick an item from the pending list, or add one right there, then click Start voting."
 msgstr "Elige un elemento de la lista de pendientes, o añade uno ahí mismo, y pulsa «Empezar votación»."
 
@@ -1515,7 +1521,7 @@ msgstr "Las reacciones están pausadas."
 msgid "Reactions paused"
 msgstr "Reacciones pausadas"
 
-#: src/components/round/RoundStage.jsx:145
+#: src/components/round/RoundStage.jsx:147
 msgid "Ready for another?"
 msgstr "¿Listos para otra?"
 
@@ -1523,7 +1529,7 @@ msgstr "¿Listos para otra?"
 msgid "Ready to lock it in?"
 msgstr "¿Lo dejamos fijado?"
 
-#: src/components/round/RoundStage.jsx:233
+#: src/components/round/RoundStage.jsx:235
 msgid "Ready to reveal"
 msgstr "Listo para revelar"
 
@@ -1590,7 +1596,7 @@ msgstr "El origen de la petición no está permitido."
 msgid "Reset deck"
 msgstr "Restablecer baraja"
 
-#: src/components/round/RoundStage.jsx:282
+#: src/components/round/RoundStage.jsx:284
 msgid "Restart this round and its reveal timer?"
 msgstr "¿Reiniciar esta ronda y su temporizador de revelado?"
 
@@ -1598,12 +1604,12 @@ msgstr "¿Reiniciar esta ronda y su temporizador de revelado?"
 msgid "Resume reactions"
 msgstr "Reanudar reacciones"
 
-#: src/components/round/RoundStage.jsx:203
-#: src/components/round/RoundStage.jsx:237
+#: src/components/round/RoundStage.jsx:205
+#: src/components/round/RoundStage.jsx:239
 msgid "Reveal cards"
 msgstr "Revelar cartas"
 
-#: src/components/round/RoundStage.jsx:198
+#: src/components/round/RoundStage.jsx:200
 msgid "Reveal cards early?"
 msgstr "¿Revelar las cartas antes de tiempo?"
 
@@ -1611,7 +1617,7 @@ msgstr "¿Revelar las cartas antes de tiempo?"
 msgid "Reveal reminder"
 msgstr "Recordatorio de revelado"
 
-#: src/components/round/RoundStage.jsx:232
+#: src/components/round/RoundStage.jsx:234
 msgid "Reveal suggested in {remaining}s"
 msgstr "Revelado sugerido en {remaining}s"
 
@@ -1644,7 +1650,7 @@ msgstr "La sala ya existe."
 msgid "Room closed"
 msgstr "Sala cerrada"
 
-#: src/components/round/RoundStage.jsx:42
+#: src/components/round/RoundStage.jsx:44
 msgid "Room is ready"
 msgstr "La sala está lista"
 
@@ -1681,16 +1687,16 @@ msgstr "Haz una búsqueda y las incidencias que coincidan aparecerán aquí."
 msgid "Run a session"
 msgstr "Dirige una sesión"
 
-#: src/components/room/FacilitatorGuide.jsx:54
+#: src/components/room/FacilitatorGuide.jsx:57
 msgid "Run your first planning session"
 msgstr "Dirige tu primera sesión de planificación"
 
 #: src/components/panels/ItemManager.jsx:285
-#: src/components/round/RoundStage.jsx:314
+#: src/components/round/RoundStage.jsx:316
 msgid "Save"
 msgstr "Guardar"
 
-#: src/components/round/RoundStage.jsx:408
+#: src/components/round/RoundStage.jsx:410
 msgid "Save estimate"
 msgstr "Guardar estimación"
 
@@ -1722,7 +1728,7 @@ msgstr "Seleccionar todo"
 msgid "Select one card to continue"
 msgstr "Selecciona una carta para continuar"
 
-#: src/components/round/RoundStage.jsx:149
+#: src/components/round/RoundStage.jsx:151
 msgid "Selected from the item list"
 msgstr "Seleccionado de la lista de elementos"
 
@@ -1770,28 +1776,28 @@ msgstr "Algo ha ido mal."
 msgid "Something went wrong. Please try again."
 msgstr "Algo ha ido mal. Inténtalo de nuevo."
 
-#: src/components/round/RoundStage.jsx:384
+#: src/components/round/RoundStage.jsx:386
 msgid "Split vote · higher tied value shown"
 msgstr "Voto dividido · se muestra el valor empatado más alto"
 
-#: src/components/round/RoundStage.jsx:284
+#: src/components/round/RoundStage.jsx:286
 msgid "Start another ballot?"
 msgstr "¿Empezar otra votación?"
 
-#: src/components/room/FacilitatorGuide.jsx:18
+#: src/components/room/FacilitatorGuide.jsx:21
 msgid "Start the vote"
 msgstr "Empieza la votación"
 
-#: src/components/round/RoundStage.jsx:159
+#: src/components/round/RoundStage.jsx:161
 msgid "Start voting"
 msgstr "Empezar votación"
 
-#: src/components/room/FacilitatorGuide.jsx:59
+#: src/components/room/FacilitatorGuide.jsx:62
 msgid "Step {stepNumber} of {stepCount}"
 msgstr "Paso {stepNumber} de {stepCount}"
 
 #: src/components/panels/RoomSettings.jsx:220
-#: src/components/round/RoundStage.jsx:382
+#: src/components/round/RoundStage.jsx:384
 #: src/lib/export.js:39
 #: src/lib/export.js:70
 msgid "Suggested estimate"
@@ -1895,7 +1901,8 @@ msgstr "El facilitador eliminó esta sala, junto con sus votos y su historial. C
 
 #: src/components/room/Room.jsx:164
 #: src/components/room/Room.jsx:212
-#: src/components/room/Room.jsx:330
+#: src/components/room/Room.jsx:321
+#: src/components/room/Room.jsx:336
 msgid "The invite link could not be copied. Copy it from the address bar instead."
 msgstr "No se pudo copiar el enlace de invitación. Cópialo desde la barra de direcciones."
 
@@ -1911,7 +1918,7 @@ msgstr "Puede que el enlace esté incompleto o mal escrito. Pide a quien te invi
 msgid "The link may be out of date or mistyped. Nothing to estimate here."
 msgstr "Puede que el enlace esté desactualizado o mal escrito. Aquí no hay nada que estimar."
 
-#: src/components/round/RoundStage.jsx:46
+#: src/components/round/RoundStage.jsx:48
 msgid "The next task will appear here."
 msgstr "La siguiente tarea aparecerá aquí."
 
@@ -1923,7 +1930,7 @@ msgstr "El único dato personal que manejamos es el nombre que eliges mostrar; u
 msgid "The pending item order is no longer current."
 msgstr "El orden de elementos pendientes ya no está actualizado."
 
-#: src/components/room/FacilitatorGuide.jsx:23
+#: src/components/room/FacilitatorGuide.jsx:26
 msgid "The People list shows who has voted. When the team is ready, click Reveal cards."
 msgstr "La lista de personas muestra quién ha votado. Cuando el equipo esté listo, pulsa «Revelar cartas»."
 
@@ -1943,7 +1950,7 @@ msgstr "La sala envió una actualización ilegible. Reconectar puede ayudar."
 msgid "The short version"
 msgstr "La versión corta"
 
-#: src/components/round/RoundStage.jsx:98
+#: src/components/round/RoundStage.jsx:100
 msgid "There are no voters yet"
 msgstr "Todavía no hay nadie que pueda votar"
 
@@ -1971,7 +1978,7 @@ msgstr "No hay nada que registrar. Al crear o unirte a una sala escribes un nomb
 msgid "They’ll be disconnected and their room identity will stop working."
 msgstr "Se le desconectará y su identidad en la sala dejará de funcionar."
 
-#: src/components/round/RoundStage.jsx:47
+#: src/components/round/RoundStage.jsx:49
 msgid "They’ll bring the first task to the table."
 msgstr "Traerá la primera tarea a la mesa."
 
@@ -2105,8 +2112,8 @@ msgstr "Usa la estimación enviada más prudente."
 msgid "Vote"
 msgstr "Voto"
 
-#: src/components/round/RoundStage.jsx:286
-#: src/components/round/RoundStage.jsx:332
+#: src/components/round/RoundStage.jsx:288
+#: src/components/round/RoundStage.jsx:334
 msgid "Vote again"
 msgstr "Votar de nuevo"
 
@@ -2119,7 +2126,7 @@ msgid "Vote locked"
 msgstr "Voto fijado"
 
 #: src/components/panels/History.jsx:116
-#: src/components/round/RoundStage.jsx:430
+#: src/components/round/RoundStage.jsx:432
 msgid "Vote range"
 msgstr "Rango de votos"
 
@@ -2131,7 +2138,7 @@ msgstr "Votante"
 msgid "Votes during a round and the finalized estimates in the room’s history."
 msgstr "Los votos durante una ronda y las estimaciones finalizadas en el historial de la sala."
 
-#: src/components/round/RoundStage.jsx:227
+#: src/components/round/RoundStage.jsx:229
 msgid "votes locked"
 msgstr "votos fijados"
 
@@ -2147,11 +2154,11 @@ msgstr "La votación no está abierta."
 msgid "Voting now"
 msgstr "En votación"
 
-#: src/components/room/FacilitatorGuide.jsx:22
+#: src/components/room/FacilitatorGuide.jsx:25
 msgid "Wait for the votes"
 msgstr "Espera los votos"
 
-#: src/components/round/RoundStage.jsx:43
+#: src/components/round/RoundStage.jsx:45
 msgid "Waiting for the facilitator"
 msgstr "Esperando al facilitador"
 
@@ -2159,7 +2166,7 @@ msgstr "Esperando al facilitador"
 #~ msgid "We’ll add a short suffix to your name so everyone stays distinct."
 #~ msgstr "Añadiremos un pequeño sufijo a tu nombre para que nadie se confunda."
 
-#: src/components/round/RoundStage.jsx:146
+#: src/components/round/RoundStage.jsx:148
 msgid "What are we sizing?"
 msgstr "¿Qué vamos a estimar?"
 
@@ -2290,6 +2297,6 @@ msgstr "Tu identidad en la sala ya no es válida."
 msgid "Your searches pass through our server to Jira and the results go back to your browser. Nothing from them is kept."
 msgstr "Tus búsquedas pasan por nuestro servidor hacia Jira y los resultados vuelven a tu navegador. No se conserva nada de ellas."
 
-#: src/components/round/RoundStage.jsx:243
+#: src/components/round/RoundStage.jsx:245
 msgid "Your vote is locked. You can still choose another card."
 msgstr "Tu voto está fijado. Aún puedes elegir otra carta."

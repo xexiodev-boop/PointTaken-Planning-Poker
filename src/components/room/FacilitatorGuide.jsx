@@ -1,5 +1,5 @@
 import { msg } from "@lingui/core/macro";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight, Check, Copy, X } from "lucide-react";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 import { useModal } from "../../hooks/useModal.js";
@@ -9,10 +9,13 @@ const FACILITATOR_GUIDE_STEPS = [
     title: msg`Add the items to estimate`,
     text: msg`Open the item manager and enter one item per line. Arrange them in the order you want to discuss them.`,
     action: msg`Open item manager`,
+    actionKind: "items",
   },
   {
     title: msg`Invite your team`,
-    text: msg`Click Invite people in the header and share the room link. Wait for everyone to appear in the People list.`,
+    text: msg`Copy the room link and send it to your team. Wait for everyone to appear in the People list.`,
+    action: msg`Copy invite link`,
+    actionKind: "invite",
   },
   {
     title: msg`Start the vote`,
@@ -28,7 +31,7 @@ const FACILITATOR_GUIDE_STEPS = [
   },
 ];
 
-export function FacilitatorGuide({ onClose, onManageItems }) {
+export function FacilitatorGuide({ onClose, onManageItems, onCopyInvite, inviteCopied }) {
   const { t, i18n } = useLingui();
   const [stepIndex, setStepIndex] = useState(0);
   const step = FACILITATOR_GUIDE_STEPS[stepIndex];
@@ -67,9 +70,15 @@ export function FacilitatorGuide({ onClose, onManageItems }) {
           <span className="tutorial-number">{String(stepIndex + 1).padStart(2, "0")}</span>
           <h3>{i18n._(step.title)}</h3>
           <p>{i18n._(step.text)}</p>
-          {step.action && (
+          {step.actionKind === "items" && (
             <button className="tutorial-action" onClick={onManageItems} type="button">
               {i18n._(step.action)} <ArrowRight size={15} aria-hidden="true" />
+            </button>
+          )}
+          {step.actionKind === "invite" && (
+            <button className="tutorial-action" onClick={onCopyInvite} type="button">
+              {inviteCopied ? <Trans>Link copied</Trans> : i18n._(step.action)}
+              {inviteCopied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}
             </button>
           )}
         </section>

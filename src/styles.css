@@ -1199,7 +1199,7 @@ legend { margin-bottom: 6px; }
 .tutorial-number { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 11px; color: var(--green-dark); background: #e6efe1; font-size: 11px; font-weight: 800; letter-spacing: .06em; }
 .tutorial-step h3 { margin: 18px 0 8px; font: 800 clamp(24px, 4vw, 34px)/1.12 "Manrope"; letter-spacing: -.045em; }
 .tutorial-step p { max-width: 590px; margin: 0; color: var(--muted); font-size: 15px; line-height: 1.65; }
-.tutorial-action { margin-top: 22px; padding: 10px 13px; border: 1px solid #c8d7c4; border-radius: 9px; color: var(--green-dark); background: #f2f7ef; font-size: 11px; font-weight: 800; cursor: pointer; }
+.tutorial-action { display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; padding: 10px 13px; border: 1px solid #c8d7c4; border-radius: 9px; color: var(--green-dark); background: #f2f7ef; font-size: 11px; font-weight: 800; cursor: pointer; }
 .tutorial-action:hover { border-color: var(--green); background: #e8f1e4; }
 .facilitator-guide > footer { padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid var(--line); background: var(--paper); }
 .facilitator-guide footer button { min-width: 88px; padding: 10px 16px; }

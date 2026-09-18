@@ -315,6 +315,12 @@ export function Room({
             setGuideOpen(false);
             setItemsOpen(true);
           }}
+          onCopyInvite={() => copyLink(
+            inviteLink,
+            "guide",
+            t`The invite link could not be copied. Copy it from the address bar instead.`,
+          )}
+          inviteCopied={copiedTarget === "guide"}
         />
       )}
 

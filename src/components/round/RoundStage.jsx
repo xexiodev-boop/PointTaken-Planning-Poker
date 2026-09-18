@@ -25,9 +25,11 @@ export function RoundStage({ room, send, onManageItems, onCopyInvite, inviteCopi
   if (!round || round.phase === "finalized") {
     return (
       <div className="round-stage empty-stage">
-        <div className="table-orbit">
-          <span>?</span><span>3</span><span>8</span>
-        </div>
+        {!isFacilitator && (
+          <div className="table-orbit">
+            <span>?</span><span>3</span><span>8</span>
+          </div>
+        )}
         {isFacilitator ? (
           <StartRound
             room={room}
