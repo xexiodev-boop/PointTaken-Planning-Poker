@@ -268,7 +268,7 @@ export function JiraImport({ room, send, jira, onClose }) {
               {results && results.issues.length > 0 && (
                 <>
                   <ul>
-                    {results.issues.map(({ key, title }) => {
+                    {results.issues.map(({ key, title, type }) => {
                       const queued = queuedKeys.has(key);
                       return (
                         <li key={key}>
@@ -281,6 +281,7 @@ export function JiraImport({ room, send, jira, onClose }) {
                             />
                             <b>{key}</b>
                             <span>{title}</span>
+                            {type && <small>{type}</small>}
                             {queued && <em><Trans>In queue</Trans></em>}
                           </label>
                         </li>

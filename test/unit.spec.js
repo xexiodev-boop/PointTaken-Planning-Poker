@@ -691,9 +691,9 @@ describe("Jira connection", () => {
     expect(response.headers.get("Content-Security-Policy")).toMatch(/script-src 'nonce-[0-9a-f]+'/);
   });
 
-  it("searches Jira with the cookie token and returns only keys and titles", async () => {
+  it("searches Jira with the cookie token and returns only key, title and type", async () => {
     const fetchMock = vi.fn(async () => Response.json({
-      issues: [{ key: "WEB-1", fields: { summary: "Fix login", description: "private" } }],
+      issues: [{ key: "WEB-1", fields: { summary: "Fix login", issuetype: { name: "Story" }, description: "private" } }],
       nextPageToken: "next",
     }));
     vi.stubGlobal("fetch", fetchMock);
@@ -707,7 +707,11 @@ describe("Jira connection", () => {
     const [target, init] = fetchMock.mock.calls[0];
     expect(target).toBe(`https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/search/jql`);
     expect(init.headers.Authorization).toBe("Bearer abcdef");
-    expect(await response.json()).toEqual({ issues: [{ key: "WEB-1", title: "Fix login" }], nextPageToken: "next" });
+    expect(JSON.parse(init.body).fields).toEqual(["summary", "issuetype"]);
+    expect(await response.json()).toEqual({
+      issues: [{ key: "WEB-1", title: "Fix login", type: "Story" }],
+      nextPageToken: "next",
+    });
   });
 
   it("will not build an Atlassian URL from a malformed site id", async () => {

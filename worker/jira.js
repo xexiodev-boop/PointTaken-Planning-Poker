@@ -241,7 +241,7 @@ async function search(request, token, secure) {
     body: JSON.stringify({
       jql,
       maxResults: JIRA_SEARCH_PAGE_SIZE,
-      fields: ["summary"],
+      fields: ["summary", "issuetype"],
       ...(pageToken ? { nextPageToken: pageToken } : {}),
     }),
   });
@@ -250,6 +250,7 @@ async function search(request, token, secure) {
   const issues = (Array.isArray(data.issues) ? data.issues : []).map((issue) => ({
     key: String(issue.key),
     title: String(issue.fields?.summary ?? ""),
+    type: String(issue.fields?.issuetype?.name ?? "").slice(0, 40),
   }));
   return json({ issues, nextPageToken: data.nextPageToken ?? null });
 }
